@@ -4,6 +4,10 @@ This package allows you to host courses with lessons and lectures.
 ## Laravel Nova
 This package includes integration with Laravel Nova, however you must purchase your own license, and install the root Nova directory in this project.
 
+![alt text](https://raw.githubusercontent.com/icweb/skills/master/public/github_1.png)
+
+![alt text](https://raw.githubusercontent.com/icweb/skills/master/public/github_2.png)
+
 ## Installation
 Download the project
 ```
