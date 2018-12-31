@@ -48,6 +48,7 @@ class Lecture extends Resource
                 'Article'   => 'Article',
                 'Download'  => 'Download',
                 'Quiz'      => 'Quiz',
+                'Video'     => 'Video',
             ])->sortable(),
             Text::make('Title', 'title')->sortable(),
             BelongsTo::make('Author', 'author', User::class)->exceptOnForms()->sortable(),

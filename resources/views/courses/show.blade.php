@@ -40,6 +40,8 @@
                                                 <em class="fa fa-play-circle"></em>
                                             @elseif($lecture->lecture->type === 'Download')
                                                 <em class="fa fa-download"></em>
+                                            @elseif($lecture->lecture->type === 'Video')
+                                                <em class="fa fa-video-camera"></em>
                                             @else
                                                 <em class="fa fa-file-o"></em>
                                             @endif
