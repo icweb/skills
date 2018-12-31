@@ -60,6 +60,7 @@ class CreateTables extends Migration
             $table->enum('type', ['Quiz', 'Article', 'Download', 'Video'])->default('Article');
             $table->string('title');
             $table->string('slug')->unique();
+            $table->longText('body')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

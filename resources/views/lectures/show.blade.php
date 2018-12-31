@@ -15,6 +15,9 @@
                     <h2 style="margin-bottom:0">{{ $lecture->title }}</h2>
                 </div>
                 <div class="card-body">
+                    {!! $lecture->body !!}
+                </div>
+                <div class="card-body">
                     <form action="{{ route('lectures.complete', [$course, $lesson, $lecture]) }}" method="post">
                         @csrf
                         @if($lecture->type === 'Quiz')

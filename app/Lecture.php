@@ -15,6 +15,7 @@ class Lecture extends Model
         'type',
         'title',
         'slug',
+        'body',
     ];
 
     protected $dates = [
