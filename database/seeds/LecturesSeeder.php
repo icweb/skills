@@ -25,7 +25,7 @@ class LecturesSeeder extends Seeder
                 'title' => 'PHP Control Structures Quiz',
                 'type'  => 'Quiz',
                 'slug'  => 'php-control-structures-quiz',
-                'body' => $faker->text(5000)
+                'body' => $faker->text(500)
             ],
             [
                 'title' => 'HTML Tags',
@@ -37,7 +37,7 @@ class LecturesSeeder extends Seeder
                 'title' => 'HTML Tags Quiz',
                 'type'  => 'Quiz',
                 'slug'  => 'html-tags-quiz',
-                'body' => $faker->text(5000)
+                'body' => $faker->text(500)
             ],
             [
                 'title' => 'JavaScript Termination Points',
@@ -49,7 +49,7 @@ class LecturesSeeder extends Seeder
                 'title' => 'JavaScript Termination Points Quiz',
                 'type'  => 'Quiz',
                 'slug'  => 'js-termination-points-quiz',
-                'body' => $faker->text(5000)
+                'body' => $faker->text(500)
             ],
             [
                 'title' => 'CSS Selectors',
@@ -61,7 +61,7 @@ class LecturesSeeder extends Seeder
                 'title' => 'CSS Selectors',
                 'type'  => 'Quiz',
                 'slug'  => 'css-selectors-quiz',
-                'body' => $faker->text(5000)
+                'body' => $faker->text(500)
             ]
         ];
 
