@@ -135,6 +135,25 @@ class CreateTables extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        Schema::create('questions', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('author_id');
+            $table->unsignedInteger('lecture_id');
+            $table->unsignedInteger('answer_id')->nullable();
+            $table->string('title');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('answers', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('author_id');
+            $table->unsignedInteger('question_id');
+            $table->string('title');
+            $table->timestamps();
+            $table->softDeletes();
+        });
     }
 
     /**

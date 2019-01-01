@@ -66,4 +66,9 @@ class Lecture extends Model
     {
         return $this->hasMany(LectureUser::class, 'lecture_id');
     }
+
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
+    }
 }

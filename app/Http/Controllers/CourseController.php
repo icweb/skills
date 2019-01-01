@@ -28,7 +28,7 @@ class CourseController extends Controller
      */
     public function create()
     {
-        //
+        return view('courses.create');
     }
 
     /**
@@ -39,7 +39,15 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $course = Course::create([
+            'title'             => $request->input('title'),
+            'slug'              => $request->input('slug'),
+            'recertify_interval'=> $request->input('recertify_interval'),
+            'short_description' => $request->input('short_description'),
+            'long_description'  => $request->input('long_description'),
+        ]);
+
+        return view('courses.show', $course);
     }
 
     /**

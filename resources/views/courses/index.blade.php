@@ -26,6 +26,16 @@
                         </div>
                     </div>
                 @endforeach
+                <div class="col-sm-6 col-md-4">
+                    <div class="card" style="margin-bottom:30px;height:300px;max-height:300px;">
+                        <a href="{{ route('courses.create') }}">
+                            <div class="card-body text-center" style="padding-top:100px;">
+                                <em class="fa fa-plus fa-5x"></em><br>
+                                <h4>Add Course</h4>
+                            </div>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
