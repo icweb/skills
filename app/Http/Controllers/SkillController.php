@@ -6,6 +6,7 @@ use App\CourseUser;
 use App\LectureUser;
 use App\Skill;
 use App\SkillUser;
+use App\User;
 use Illuminate\Http\Request;
 
 class SkillController extends Controller
@@ -13,9 +14,10 @@ class SkillController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param User $user
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(User $user)
     {
         $skills = Skill::all();
 
@@ -40,6 +42,7 @@ class SkillController extends Controller
             ->get();
 
         return view('skills.index', [
+            'user'                      => $user,
             'skills'                    => $skills,
             'mine'                      => $my_skills,
             'upcoming_receritifcations' => $upcoming_receritifcations,

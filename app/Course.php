@@ -56,6 +56,44 @@ class Course extends Model
         return $final_status;
     }
 
+    public function completionTime()
+    {
+        $lesson_ids = $this->assignedLessons()
+            ->select('lesson_id')
+            ->get()
+            ->pluck('lesson_id')
+            ->toArray();
+
+        $lecture_ids = LectureLesson::select('lecture_id')
+            ->whereIn('lesson_id', $lesson_ids)
+            ->get()
+            ->pluck('lecture_id')
+            ->toArray();
+
+        $lectures = Lecture::whereIn('id', $lecture_ids)->get();
+
+        $total_seconds = 0;
+
+        foreach($lectures as $lecture)
+        {
+            $total_seconds += $lecture->completion_time;
+        }
+
+        $total_minutes = round($total_seconds / 60);
+        $total_hours = round($total_minutes / 60);
+
+        if($total_minutes >= 60)
+        {
+            return $total_hours . ' hours';
+        }
+        else
+        {
+            return $total_minutes . ' minutes';
+        }
+
+
+    }
+
     public function skills()
     {
         $lesson_ids = CourseLesson::select('lesson_id')->where('course_id', $this->id)->get()->pluck('lesson_id')->toArray();

@@ -4,6 +4,14 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
+            @if($course->isCompleted())
+                <div class="card bg-success text-white mb-30">
+                    <div class="card-body">
+                        <h4><em class="fa fa-check"></em> Course Completed</h4>
+                        You completed this course
+                    </div>
+                </div>
+            @endif
             <div class="card" style="margin-bottom:30px;">
                 <div class="card-body">
                     <h2 style="margin-bottom:10px;">{{ $course->title }}</h2>
@@ -46,10 +54,10 @@
                                                 <em class="fa fa-file-o"></em>
                                             @endif
                                         </td>
-                                        <td style="width:100px;">
+                                        <td style="width:100px;" class="{{ $lecture->lecture->isCompleted() ? 'completed-lecture' : '' }}">
                                             {{ $lecture->lecture->type }}
                                         </td>
-                                        <td>
+                                        <td class="{{ $lecture->lecture->isCompleted() ? 'completed-lecture' : '' }}">
                                             <a href="{{ route('lectures.show', [$course, $lesson->lesson, $lecture->lecture]) }}">{{ $lecture->lecture->title }}</a>
                                         </td>
                                         <td class="text-right">

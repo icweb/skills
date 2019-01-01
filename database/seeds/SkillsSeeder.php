@@ -48,6 +48,11 @@ class SkillsSeeder extends Seeder
                 'title' => 'iOS',
                 'color' => '#AB47BC',
                 'slug'  => 'ios',
+            ],
+            [
+                'title' => 'HCSIS',
+                'color' => '#448AFF',
+                'slug'  => 'hcsis',
             ]
         ];
 

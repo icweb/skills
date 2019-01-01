@@ -16,6 +16,7 @@ class Lecture extends Model
         'title',
         'slug',
         'body',
+        'completion_time',
     ];
 
     protected $dates = [
@@ -36,6 +37,16 @@ class Lecture extends Model
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    public function isCompleted()
+    {
+        $lecture_user = $this->assignedUsers()
+            ->where('user_id', auth()->user()->id)
+            ->orderBy('id', 'desc')
+            ->first();
+
+        return isset($lecture_user->completed_at);
     }
 
     public static function types()

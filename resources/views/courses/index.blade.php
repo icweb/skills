@@ -9,7 +9,7 @@
                 <div class="row">
                     @foreach($my_courses as $my_course)
                         <div class="col-md-6 col-lg-4">
-                            <div class="card my-course-card">
+                            <div class="card course-card">
                                 <div class="bg-success course-success-badge">
                                     <em class="fa fa-star"></em>
                                     <div class="badge-arrow-up"></div>
@@ -17,7 +17,13 @@
                                 <div class="card-body">
                                     <h4 class="course-card-title">{{ $my_course->course->title }}</h4>
                                     <p class="course-card-description">{{ $my_course->course->short_description }}</p>
+                                    <div class="course_skills">
+                                        @foreach($my_course->course->skills() as $skill)
+                                            <span style="color:{{ $skill->color }}" class="skill-badge"><em class="fa fa-circle-o"></em> {{ $skill->title }}</span>
+                                        @endforeach
+                                    </div>
                                     <a href="{{ route('courses.show', $my_course->course) }}" class="btn btn-success">Complete</a>
+                                    <div class="pull-right btn btn-default btn-xs card-completion">{{ $my_course->course->completionTime() }}</div>
                                 </div>
                             </div>
                         </div>
@@ -50,6 +56,7 @@
                                     @endforeach
                                 </div>
                                 <a href="{{ route('courses.show', $course) }}" class="btn btn-primary">View Course</a>
+                                <div class="pull-right btn btn-default btn-xs card-completion">{{ $course->completionTime() }}</div>
                             </div>
                         </div>
                     </div>

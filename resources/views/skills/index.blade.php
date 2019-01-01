@@ -3,10 +3,13 @@
 @section('content')
 <div class="container">
     <div class="row">
+        <div class="col-12">
+            <h2 class="mb-40">{{ $user->name }}'s Skills</h2>
+        </div>
         @if(count($mine))
             <div class="col-md-8">
                 <div class="card" style="margin-bottom:20px;">
-                    <div class="card-header">My Skills</div>
+                    <div class="card-header">Skills Chart</div>
                     <div class="card-body">
                         <canvas id="skillsDoughnutChart" width="800" height="450"></canvas>
                     </div>
@@ -14,7 +17,7 @@
             </div>
             <div class="col-md-4">
                 <div class="card" style="margin-bottom:20px;">
-                    <div class="card-header">My Skills</div>
+                    <div class="card-header">Breakdown</div>
                     <div>
                        <table class="table no-mb">
                            <tbody>
@@ -28,6 +31,11 @@
                        </table>
                     </div>
                 </div>
+            </div>
+        @else
+            <div class="col-12">
+                <h4 class="mt-40">No Skills Found</h4>
+                Check back after you've completed your first course.
             </div>
         @endif
         @if(count($late_receritifcations))

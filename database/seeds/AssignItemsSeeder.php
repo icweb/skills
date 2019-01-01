@@ -166,6 +166,10 @@ class AssignItemsSeeder extends Seeder
                 'skill_id'  => 7,
                 'lesson_id' => 6,
             ],
+            [
+                'skill_id'  => 8,
+                'lesson_id' => 6,
+            ],
         ];
 
         foreach($lesson_skills as $record)
@@ -175,7 +179,7 @@ class AssignItemsSeeder extends Seeder
 
         foreach(\App\User::all() as $record)
         {
-            for($x = 1; $x < 5; $x++)
+            for($x = 5; $x < 6; $x++)
             {
                 \App\CourseUser::create([
                     'course_id' => $x,

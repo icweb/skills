@@ -19,7 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/skills', 'SkillController@index')->name('skills.index');
+Route::get('/skills/{user}', 'SkillController@index')->name('skills.index');
 
 Route::get('/courses', 'CourseController@index')->name('courses.index');
 Route::post('/courses/insert', 'CourseController@store')->name('courses.store');

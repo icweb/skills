@@ -57,6 +57,7 @@ class CreateTables extends Migration
         Schema::create('lectures', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('author_id');
+            $table->unsignedInteger('completion_time')->default(0);
             $table->enum('type', ['Quiz', 'Article', 'Download', 'Video'])->default('Article');
             $table->string('title');
             $table->string('slug')->unique();

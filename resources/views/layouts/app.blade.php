@@ -28,8 +28,8 @@
 
         .course-success-badge {
             width: 30px;
-            height: 70px;
-            padding: 23px 3px 3px 3px;
+            height: 50px;
+            padding: 10px 3px 3px 3px;
             position: absolute;
             right: 15px;
             text-align: center;
@@ -59,6 +59,10 @@
             margin-bottom: 10px
         }
 
+        .mb-30 {
+            margin-bottom: 30px
+        }
+
         .mb-40 {
             margin-bottom: 40px
         }
@@ -80,25 +84,37 @@
         }
 
         .course-card-title {
-            height:50px;
+            height:40px;
         }
 
         .course-card-description {
-            height: 100px;
+            height: 70px;
             overflow: hidden;
         }
 
         .course_skills {
-            height: 30px;
-            margin-bottom: 10px;
+            height: 50px;
+            margin-bottom: 20px;
         }
 
         .skill-badge {
             margin-right: 5px;
+            display: inline-block;
         }
 
         .half-opacity {
             opacity: .5;
+        }
+
+        .card-completion {
+            color: #BDBDBD;
+            font-weight: 500;
+        }
+
+        .completed-lecture,
+        .completed-lecture * {
+            text-decoration: line-through;
+            color: #38c172 !important;
         }
     </style>
 
@@ -117,8 +133,10 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item"><a class="nav-link" href="{{ route('courses.index') }}">Courses</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('skills.index') }}">Skills</a></li>
+                        @auth
+                            <li class="nav-item"><a class="nav-link" href="{{ route('courses.index') }}">Courses</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('skills.index', auth()->user()) }}">Skills</a></li>
+                        @endauth
                     </ul>
 
                     <!-- Right Side Of Navbar -->
