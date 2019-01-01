@@ -62,6 +62,72 @@ class LecturesSeeder extends Seeder
                 'type'  => 'Quiz',
                 'slug'  => 'css-selectors-quiz',
                 'body' => $faker->text(500)
+            ],
+            [
+                'title' => 'Prerequisites',
+                'type'  => 'Article',
+                'slug'  => 'onboarding-prerequisites',
+                'body' => $faker->text(500)
+            ],
+            [
+                'title' => 'Creating the Active Directory Account',
+                'type'  => 'Article',
+                'slug'  => 'onboarding-active-directory',
+                'body' => $faker->text(500)
+            ],
+            [
+                'title' => 'Generating the Password Sheet & Welcome Letter',
+                'type'  => 'Article',
+                'slug'  => 'onboarding-password-sheet',
+                'body' => $faker->text(500)
+            ],
+            [
+                'title' => 'Creating External Accounts',
+                'type'  => 'Article',
+                'slug'  => 'onboarding-external-accounts',
+                'body' => $faker->text(500)
+            ],
+            [
+                'title' => 'Creating IDD Specific Accounts',
+                'type'  => 'Article',
+                'slug'  => 'onboarding-idd-specific-accounts',
+                'body' => $faker->text(500)
+            ],
+            [
+                'title' => 'Creating IT Specific Accounts',
+                'type'  => 'Article',
+                'slug'  => 'onboarding-it-specific-accounts',
+                'body' => $faker->text(500)
+            ],
+            [
+                'title' => 'Creating HR Specific Accounts',
+                'type'  => 'Article',
+                'slug'  => 'onboarding-hr-specific-accounts',
+                'body' => $faker->text(500)
+            ],
+            [
+                'title' => 'Deploy a Windows 10 Laptop',
+                'type'  => 'Article',
+                'slug'  => 'onboarding-deploy-windows-laptop',
+                'body' => $faker->text(500)
+            ],
+            [
+                'title' => 'Deploy a Windows 10 Desktop',
+                'type'  => 'Article',
+                'slug'  => 'onboarding-deploy-windows-desktop',
+                'body' => $faker->text(500)
+            ],
+            [
+                'title' => 'Deploy an Apple iPhone',
+                'type'  => 'Article',
+                'slug'  => 'onboarding-deploy-apple-iphone',
+                'body' => $faker->text(500)
+            ],
+            [
+                'title' => 'Deploy a Mobile Printer',
+                'type'  => 'Article',
+                'slug'  => 'onboarding-deploy-mobile-printer',
+                'body' => $faker->text(500)
             ]
         ];
 

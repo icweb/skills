@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Course;
+use App\CourseUser;
+use App\Http\Requests\CreatesCourses;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -15,9 +17,11 @@ class CourseController extends Controller
     public function index()
     {
         $courses = Course::all();
+        $my_courses = CourseUser::mine()->whereNull('completed_at')->get();
 
         return view('courses.index', [
-            'courses' => $courses
+            'courses'       => $courses,
+            'my_courses'    => $my_courses
         ]);
     }
 
@@ -37,7 +41,7 @@ class CourseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreatesCourses $request)
     {
         $course = Course::create([
             'title'             => $request->input('title'),
@@ -47,7 +51,7 @@ class CourseController extends Controller
             'long_description'  => $request->input('long_description'),
         ]);
 
-        return view('courses.show', $course);
+        return redirect()->route('courses.show', $course);
     }
 
     /**

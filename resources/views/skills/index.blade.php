@@ -3,58 +3,87 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8">
-            <div class="card" style="margin-bottom:20px;">
-                <div class="card-header">My Skills</div>
-                <div class="card-body">
-                    <canvas id="skillsDoughnutChart" width="800" height="450"></canvas>
+        @if(count($mine))
+            <div class="col-md-8">
+                <div class="card" style="margin-bottom:20px;">
+                    <div class="card-header">My Skills</div>
+                    <div class="card-body">
+                        <canvas id="skillsDoughnutChart" width="800" height="450"></canvas>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card" style="margin-bottom:30px;">
-                <div class="card-header">My Skills</div>
-                <div>
-                   <table class="table" style="margin-bottom:0">
-                       <tbody>
-                           @foreach($mine as $item)
-                               <tr>
-                                   <td>{{ $item->skill->title }}</td>
-                                   <td>{{ round(($item->skill_count / count($mine)) * 100) }}%</td>
-                               </tr>
-                           @endforeach
-                       </tbody>
-                   </table>
+            <div class="col-md-4">
+                <div class="card" style="margin-bottom:20px;">
+                    <div class="card-header">My Skills</div>
+                    <div>
+                       <table class="table no-mb">
+                           <tbody>
+                               @foreach($mine as $item)
+                                   <tr>
+                                       <td>{{ $item->skill->title }}</td>
+                                       <td>{{ round(($item->skill_count / count($mine)) * 100) }}%</td>
+                                   </tr>
+                               @endforeach
+                           </tbody>
+                       </table>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    Upcoming Recertifications
-                </div>
-                <div>
-                    <table class="table" style="margin-bottom:0">
-                        <thead>
+        @endif
+        @if(count($late_receritifcations))
+            <div class="col-12" style="margin-bottom: 20px">
+                <div class="card">
+                    <div class="card-header bg-danger text-white">
+                        Late Recertifications
+                    </div>
+                    <div>
+                        <table class="table no-mb">
+                            <thead>
                             <tr>
                                 <th>Course</th>
                                 <th>Due</th>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($recertifications as $recertification)
+                            </thead>
+                            <tbody>
+                            @foreach($late_receritifcations as $late_recertification)
                                 <tr>
-                                    <td><a href="{{ route('courses.show', $recertification->course) }}">{{ $recertification->course->title }}</a></td>
-                                    <td>{{ $recertification->recertify_at->format('Y-m-d') }}</td>
+                                    <td><a href="{{ route('courses.show', $late_recertification->course) }}">{{ $late_recertification->course->title }}</a></td>
+                                    <td>{{ $late_recertification->recertify_at->format('Y-m-d') }}</td>
                                 </tr>
                             @endforeach
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
+        @endif
+        @if(count($upcoming_receritifcations))
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            Upcoming Recertifications
+                        </div>
+                        <div>
+                            <table class="table no-mb">
+                                <thead>
+                                <tr>
+                                    <th>Course</th>
+                                    <th>Due</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($upcoming_receritifcations as $upcoming_recertification)
+                                    <tr>
+                                        <td><a href="{{ route('courses.show', $upcoming_recertification->course) }}">{{ $upcoming_recertification->course->title }}</a></td>
+                                        <td>{{ $upcoming_recertification->recertify_at->format('Y-m-d') }}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+        @endif
     </div>
 </div>
 @endsection

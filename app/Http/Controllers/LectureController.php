@@ -123,12 +123,47 @@ class LectureController extends Controller
 
         if($course->isCompleted())
         {
-            $course->assignedUsers()
-                ->create([
-                    'completed_at'  => time(),
-                    'user_id'       => auth()->user()->id,
-                    'recertify_at'  => strtotime(' + ' . $course->recertify_interval . ' Days')
-                ]);
+            // Find out if the user has completed this course before
+            $existing_record = $course->assignedUsers()
+                ->where(['user_id' => auth()->user()->id])
+                ->orderBy('id', 'desc')
+                ->limit(1)
+                ->get();
+
+            if(count($existing_record))
+            {
+                if(isset($existing_record[0]->completed_at))
+                {
+                    // This is a recertification so delete the old record
+                    $existing_record[0]->delete();
+
+                    $course->assignedUsers()
+                        ->create([
+                            'completed_at'  => time(),
+                            'user_id'       => auth()->user()->id,
+                            'recertify_at'  => strtotime(' + ' . $course->recertify_interval . ' Days')
+                        ]);
+                }
+                else
+                {
+                    // This course was assigned to the user
+                    $existing_record[0]->update([
+                        'completed_at'  => time(),
+                        'recertify_at'  => strtotime(' + ' . $course->recertify_interval . ' Days')
+                    ]);
+                }
+            }
+            else
+            {
+                // The user wasn't assigned to this course but
+                // we'll let them complete it
+                $course->assignedUsers()
+                    ->create([
+                        'completed_at'  => time(),
+                        'user_id'       => auth()->user()->id,
+                        'recertify_at'  => strtotime(' + ' . $course->recertify_interval . ' Days')
+                    ]);
+            }
         }
 
         return redirect()->route('courses.show', $course);

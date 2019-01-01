@@ -30,6 +30,19 @@ class AssignItemsSeeder extends Seeder
                 'course_id' => 4,
                 'lesson_id' => 4,
             ],
+
+            [
+                'course_id' => 5,
+                'lesson_id' => 5,
+            ],
+            [
+                'course_id' => 5,
+                'lesson_id' => 6,
+            ],
+            [
+                'course_id' => 5,
+                'lesson_id' => 7,
+            ],
         ];
 
         foreach($course_lessons as $record)
@@ -70,6 +83,53 @@ class AssignItemsSeeder extends Seeder
                 'lesson_id'     => 4,
                 'lecture_id'    => 8,
             ],
+
+
+            [
+                'lesson_id'     => 5,
+                'lecture_id'    => 9,
+            ],
+            [
+                'lesson_id'     => 6,
+                'lecture_id'    => 10,
+            ],
+            [
+                'lesson_id'     => 6,
+                'lecture_id'    => 11,
+            ],
+            [
+                'lesson_id'     => 6,
+                'lecture_id'    => 12,
+            ],
+            [
+                'lesson_id'     => 6,
+                'lecture_id'    => 13,
+            ],
+            [
+                'lesson_id'     => 6,
+                'lecture_id'    => 14,
+            ],
+            [
+                'lesson_id'     => 6,
+                'lecture_id'    => 15,
+            ],
+
+            [
+                'lesson_id'     => 7,
+                'lecture_id'    => 16,
+            ],
+            [
+                'lesson_id'     => 7,
+                'lecture_id'    => 17,
+            ],
+            [
+                'lesson_id'     => 7,
+                'lecture_id'    => 18,
+            ],
+            [
+                'lesson_id'     => 7,
+                'lecture_id'    => 19,
+            ],
         ];
 
         foreach($lesson_lectures as $record)
@@ -93,6 +153,18 @@ class AssignItemsSeeder extends Seeder
             [
                 'skill_id'  => 4,
                 'lesson_id' => 4,
+            ],
+            [
+                'skill_id'  => 5,
+                'lesson_id' => 6,
+            ],
+            [
+                'skill_id'  => 6,
+                'lesson_id' => 6,
+            ],
+            [
+                'skill_id'  => 7,
+                'lesson_id' => 6,
             ],
         ];
 

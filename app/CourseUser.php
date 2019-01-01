@@ -37,6 +37,11 @@ class CourseUser extends Model
         });
     }
 
+    public function scopeMine($query)
+    {
+        return $query->where('user_id', auth()->user()->id);
+    }
+
     public function author()
     {
         return $this->belongsTo(User::class);

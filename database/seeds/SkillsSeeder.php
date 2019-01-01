@@ -33,6 +33,21 @@ class SkillsSeeder extends Seeder
                 'title' => 'CSS',
                 'color' => '#D32F2F',
                 'slug'  => 'css',
+            ],
+            [
+                'title' => 'Active Directory',
+                'color' => '#26A69A',
+                'slug'  => 'active-directory',
+            ],
+            [
+                'title' => 'Windows 10',
+                'color' => '#FF5722',
+                'slug'  => 'windows-10',
+            ],
+            [
+                'title' => 'iOS',
+                'color' => '#AB47BC',
+                'slug'  => 'ios',
             ]
         ];
 

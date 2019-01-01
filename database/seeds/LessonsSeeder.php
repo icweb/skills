@@ -29,6 +29,18 @@ class LessonsSeeder extends Seeder
             [
                 'title' => 'CSS Syntax',
                 'slug'  => 'css-syntax',
+            ],
+            [
+                'title' => 'Getting Things Ready',
+                'slug'  => 'getting-things-ready',
+            ],
+            [
+                'title' => 'Creating Accounts',
+                'slug'  => 'creating-accounts',
+            ],
+            [
+                'title' => 'Deploying Devices',
+                'slug'  => 'deploying-devices',
             ]
         ];
 

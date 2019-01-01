@@ -17,7 +17,7 @@
                 </div>
             </div>
             @foreach($course->assignedLessons as $lesson)
-                <div class="card">
+                <div class="card mb-40">
                     @if($lesson->lesson->isCompleted(false))
                         <div class="card-header bg-success text-white">
                             <em class="fa fa-check"></em> {{ $lesson->lesson->title }}
@@ -31,7 +31,7 @@
                         </div>
                     @endif
                     <div>
-                        <table class="table" style="margin-bottom:0">
+                        <table class="table no-mb">
                             <tbody>
                                 @foreach($lesson->lesson->assignedLectures as $lecture)
                                     <tr>
@@ -46,7 +46,7 @@
                                                 <em class="fa fa-file-o"></em>
                                             @endif
                                         </td>
-                                        <td>
+                                        <td style="width:100px;">
                                             {{ $lecture->lecture->type }}
                                         </td>
                                         <td>
@@ -54,9 +54,17 @@
                                         </td>
                                         <td class="text-right">
                                             @if(count($lecture->lecture->completionHistory()) > 0)
-                                               <span class="text-success">
-                                                    Completed {{ $lecture->lecture->completionHistory()[0]->completed_at->format('Y-m-d') }}
-                                               </span>
+
+                                                   @if(strtotime($lecture->lecture->completionHistory()[0]->recertify_at) > time())
+                                                        <span class="text-danger">
+                                                            Recertify due {{ $lecture->lecture->completionHistory()[0]->recertify_at->format('Y-m-d') }}
+                                                        </span>
+                                                   @else
+                                                        <span class="text-success">
+                                                            Completed {{ $lecture->lecture->completionHistory()[0]->completed_at->format('Y-m-d') }}
+                                                        </span>
+                                                   @endif
+
                                             @endif
                                         </td>
                                     </tr>

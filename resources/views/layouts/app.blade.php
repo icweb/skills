@@ -21,6 +21,87 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
 
+    <style type="text/css">
+        ul {
+            margin-bottom: 0 !important;
+        }
+
+        .course-success-badge {
+            width: 30px;
+            height: 70px;
+            padding: 23px 3px 3px 3px;
+            position: absolute;
+            right: 15px;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .badge-arrow-up {
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 15px solid white;
+            position:absolute;
+            bottom: 0;
+            right: 1px;
+        }
+
+        .no-mb {
+            margin-bottom: 0;
+        }
+
+        .mt-40 {
+            margin-top: 40px
+        }
+
+        .mb-10 {
+            margin-bottom: 10px
+        }
+
+        .mb-40 {
+            margin-bottom: 40px
+        }
+
+        .pt-100 {
+            padding-top: 100px;
+        }
+
+        .my-course-card {
+            margin-bottom: 30px;
+            height: 270px;
+            max-height: 270px;
+        }
+
+        .course-card {
+            margin-bottom: 30px;
+            height: 300px;
+            max-height: 300px;
+        }
+
+        .course-card-title {
+            height:50px;
+        }
+
+        .course-card-description {
+            height: 100px;
+            overflow: hidden;
+        }
+
+        .course_skills {
+            height: 30px;
+            margin-bottom: 10px;
+        }
+
+        .skill-badge {
+            margin-right: 5px;
+        }
+
+        .half-opacity {
+            opacity: .5;
+        }
+    </style>
+
 </head>
 <body>
     <div id="app">

@@ -25,17 +25,25 @@ class SkillController extends Controller
             ->groupBy('skill_id')
             ->get();
 
-        $my_receritifcations = CourseUser::selectRaw("MAX(course_id) as course_id, MAX(recertify_at) as recertify_at")
+        $upcoming_receritifcations = CourseUser::selectRaw("MAX(course_id) as course_id, MAX(recertify_at) as recertify_at")
             ->with('course')
             ->where(['user_id' => auth()->user()->id])
             ->whereBetween('recertify_at', [date('Y-m-d', time()), date('Y-m-d', strtotime('+ 30 Days'))])
             ->groupBy('course_id')
             ->get();
 
+        $late_receritifcations = CourseUser::selectRaw("MAX(course_id) as course_id, MAX(recertify_at) as recertify_at")
+            ->with('course')
+            ->where(['user_id' => auth()->user()->id])
+            ->where('recertify_at', '<=', date('Y-m-d', time()))
+            ->groupBy('course_id')
+            ->get();
+
         return view('skills.index', [
-            'skills'            => $skills,
-            'mine'              => $my_skills,
-            'recertifications'  => $my_receritifcations
+            'skills'                    => $skills,
+            'mine'                      => $my_skills,
+            'upcoming_receritifcations' => $upcoming_receritifcations,
+            'late_receritifcations'     => $late_receritifcations,
         ]);
     }
 
