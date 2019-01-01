@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Course;
-use App\CourseUser;
-use App\Lecture;
 use App\Lesson;
+use App\Course;
+use App\Lecture;
 use App\SkillUser;
 use Illuminate\Http\Request;
+use App\Http\Requests\CreatesLectures;
 
 class LectureController extends Controller
 {
@@ -24,22 +24,40 @@ class LectureController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param Course $course
+     * @param Lesson $lesson
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Course $course, Lesson $lesson)
     {
-        //
+        $lecture_types = Lecture::types();
+
+        return view('lectures.create', [
+            'course'        => $course,
+            'lesson'        => $lesson,
+            'lecture_types' => $lecture_types
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Course $course
+     * @param Lesson $lesson
+     * @param  CreatesLectures  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreatesLectures $request, Course $course, Lesson $lesson)
     {
-        //
+        $lecture = Lecture::create([
+            'title'     => $request->input('title'),
+            'slug'      => $request->input('slug'),
+            'type'      => $request->input('type'),
+        ]);
+
+        $lesson->assignedLectures()->create(['lecture_id' => $lecture->id]);
+
+        return redirect()->away(route('courses.show', $course) . '#editLessons');
     }
 
     /**

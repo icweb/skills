@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Course;
 use App\CourseUser;
-use App\Http\Requests\CreatesCourses;
+use App\Http\Requests\EditsCourses;
 use Illuminate\Http\Request;
+use App\Http\Requests\CreatesCourses;
 
 class CourseController extends Controller
 {
@@ -38,7 +39,7 @@ class CourseController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  CreatesCourses  $request
      * @return \Illuminate\Http\Response
      */
     public function store(CreatesCourses $request)
@@ -51,7 +52,7 @@ class CourseController extends Controller
             'long_description'  => $request->input('long_description'),
         ]);
 
-        return redirect()->route('courses.show', $course);
+        return redirect()->away(route('courses.show', $course) . '#editLessons');
     }
 
     /**
@@ -83,13 +84,21 @@ class CourseController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param EditsCourses  $request
      * @param  \App\Course  $course
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Course $course)
+    public function update(EditsCourses $request, Course $course)
     {
-        //
+        $course->update([
+            'title'             => $request->input('title'),
+            'slug'              => $request->input('slug'),
+            'recertify_interval'=> $request->input('recertify_interval'),
+            'short_description' => $request->input('short_description'),
+            'long_description'  => $request->input('long_description'),
+        ]);
+
+        return redirect()->route('courses.show', $course);
     }
 
     /**

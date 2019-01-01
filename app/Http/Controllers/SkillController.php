@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\CourseUser;
-use App\LectureUser;
+use App\User;
 use App\Skill;
 use App\SkillUser;
-use App\User;
+use App\CourseUser;
 use Illuminate\Http\Request;
 
 class SkillController extends Controller

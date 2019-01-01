@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Add Course</div>
+                <div class="card-header bg-success text-white">Add Course</div>
                 @if ($errors->any())
                     <div class="alert alert-danger" style="border-radius: 0">
                         <ul>
@@ -39,7 +39,8 @@
                             <textarea type="text" class="form-control" name="long_description" id="courseLongDescription" cols="30" rows="10">{{ old('long_description') }}</textarea>
                         </div>
                         <div class="text-right">
-                            <button type="submit" class="btn btn-success btn-lg">Save & Continue</button>
+                            <a href="{{ route('courses.index') }}" class="btn btn-default btn-lg">Cancel</a>
+                            <button type="submit" class="btn btn-success btn-lg"><em class="fa fa-save"></em> Save</button>
                         </div>
                     </form>
                 </div>

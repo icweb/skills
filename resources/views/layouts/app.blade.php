@@ -116,6 +116,22 @@
             text-decoration: line-through;
             color: #38c172 !important;
         }
+
+        .show-on-lessons-edit {
+            display: none;
+        }
+
+        .hide-on-lessons-edit {
+            display: block;
+        }
+
+        .show-on-course-edit {
+            display: none;
+        }
+
+        .hide-on-course-edit {
+            display: block;
+        }
     </style>
 
 </head>
