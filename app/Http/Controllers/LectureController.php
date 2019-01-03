@@ -32,11 +32,13 @@ class LectureController extends Controller
     public function create(Course $course, Lesson $lesson)
     {
         $lecture_types = Lecture::types();
+        $existing_lectures = Lecture::orderBy('title', 'asc')->get();
 
         return view('lectures.create', [
-            'course'        => $course,
-            'lesson'        => $lesson,
-            'lecture_types' => $lecture_types
+            'course'            => $course,
+            'lesson'            => $lesson,
+            'lecture_types'     => $lecture_types,
+            'existing_lectures' => $existing_lectures
         ]);
     }
 
@@ -50,12 +52,19 @@ class LectureController extends Controller
      */
     public function store(CreatesLectures $request, Course $course, Lesson $lesson)
     {
-        $lecture = Lecture::create([
-            'title'                 => $request->input('title'),
-            'slug'                  => $request->input('slug'),
-            'type'                  => $request->input('type'),
-            'completion_time'       => $request->input('completion_time'),
-        ]);
+        if($request->input('creation') === 'new')
+        {
+            $lecture = Lecture::create([
+                'title'                 => $request->input('title'),
+                'slug'                  => $request->input('slug'),
+                'type'                  => $request->input('type'),
+                'completion_time'       => $request->input('completion_time'),
+            ]);
+        }
+        else
+        {
+            $lecture = Lecture::findOrFail($request->input('existing_lecture'));
+        }
 
         $lesson->assignedLectures()->create(['lecture_id' => $lecture->id]);
 

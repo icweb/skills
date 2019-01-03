@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CourseLesson;
 use App\Http\Requests\EditsLessons;
 use App\Skill;
 use App\Course;
@@ -30,10 +31,12 @@ class LessonController extends Controller
     public function create(Course $course)
     {
         $skills = Skill::orderBy('title', 'asc')->get();
+        $existing_lessons = Lesson::orderBy('title')->get();
 
         return view('lessons.create', [
-            'course' => $course,
-            'skills' => $skills
+            'course'            => $course,
+            'skills'            => $skills,
+            'existing_lessons'  => $existing_lessons
         ]);
     }
 
@@ -46,10 +49,17 @@ class LessonController extends Controller
      */
     public function store(CreatesLessons $request, Course $course)
     {
-        $lesson = Lesson::create([
-            'title' => $request->input('title'),
-            'slug'  => $request->input('slug'),
-        ]);
+        if($request->input('creation') === 'new')
+        {
+            $lesson = Lesson::create([
+                'title' => $request->input('title'),
+                'slug'  => $request->input('slug'),
+            ]);
+        }
+        else
+        {
+            $lesson = Lesson::findOrFail($request->input('existing_lesson'));
+        }
 
         $course->assignedLessons()->create(['lesson_id' => $lesson->id]);
 
@@ -134,11 +144,23 @@ class LessonController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Lesson  $lesson
+     * @param  Request $request
+     * @param  \App\Course $course
+     * @param  \App\Lesson $lesson
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Lesson $lesson)
+    public function destroy(Request $request, Course $course, Lesson $lesson)
     {
-        //
+        if($request->input('delete_type') === 'soft')
+        {
+            $course->assignedLessons()->where('id', $lesson->id)->delete();
+        }
+        else
+        {
+            CourseLesson::where('lesson_id', $lesson->id)->delete();
+            $lesson->delete();
+        }
+
+        return redirect()->away(route('courses.show', $course) . '#editLessons');
     }
 }

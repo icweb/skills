@@ -24,8 +24,10 @@ class CreatesLessons extends FormRequest
     public function rules()
     {
         return [
-            'title'                 => ['required', 'string'],
-            'slug'                  => ['required', 'unique:lessons,slug'],
+            'creation'              => ['required', 'in:new,existing'],
+            'existing_lesson'       => ['required_if:creation,existing', 'string'],
+            'title'                 => ['required_if:creation,new'],
+            'slug'                  => ['required_if:creation,new', 'unique:lessons,slug'],
             'associated_skills_*'   => ['nullable', 'in:on'],
         ];
     }

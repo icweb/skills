@@ -67,7 +67,7 @@
 
         </div>
         <div class="col-11">
-            <div class="mb-30 show-on-lessons-edit">
+            <div class="mb-30 show-on-lessons-edit text-center">
                 <a href="{{ route('lessons.create', [$course]) }}" class="btn btn-success"><em class="fa fa-plus"></em> Add Lesson</a>
             </div>
             @foreach($course->assignedLessons as $assigned_lesson)

@@ -34,6 +34,7 @@ Route::post('/courses/{course}/update', 'CourseController@update')->name('course
 Route::get('/courses/{course}/lessons/create', 'LessonController@create')->name('lessons.create');
 Route::post('/courses/{course}/lessons/insert', 'LessonController@store')->name('lessons.store');
 Route::get('/courses/{course}/lessons/{lesson}', 'LessonController@show')->name('lessons.show');
+Route::post('/courses/{course}/lessons/{lesson}/delete', 'LessonController@destroy')->name('lessons.delete');
 Route::get('/courses/{course}/lessons/{lesson}/edit', 'LessonController@edit')->name('lessons.edit');
 Route::post('/courses/{course}/lessons/{lesson}/update', 'LessonController@update')->name('lessons.update');
 
