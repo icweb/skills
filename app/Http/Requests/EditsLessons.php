@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreatesLectures extends FormRequest
+class EditsLessons extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,9 @@ class CreatesLectures extends FormRequest
     public function rules()
     {
         return [
-            'title'             => ['required', 'string'],
-            'slug'              => ['required', 'unique:lectures,slug'],
-            'type'              => ['required', 'string'],
-            'completion_time'   => ['required', 'integer'],
+            'title'                 => ['required', 'string'],
+            'slug'                  => ['required', 'unique:lessons,slug,' . $this->route('lesson')->id],
+            'associated_skills_*'   => ['nullable', 'in:on'],
         ];
     }
 }

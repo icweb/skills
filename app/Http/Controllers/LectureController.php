@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EditsLectures;
 use App\Lesson;
 use App\Course;
 use App\Lecture;
@@ -50,9 +51,10 @@ class LectureController extends Controller
     public function store(CreatesLectures $request, Course $course, Lesson $lesson)
     {
         $lecture = Lecture::create([
-            'title'     => $request->input('title'),
-            'slug'      => $request->input('slug'),
-            'type'      => $request->input('type'),
+            'title'                 => $request->input('title'),
+            'slug'                  => $request->input('slug'),
+            'type'                  => $request->input('type'),
+            'completion_time'       => $request->input('completion_time'),
         ]);
 
         $lesson->assignedLectures()->create(['lecture_id' => $lecture->id]);
@@ -81,24 +83,42 @@ class LectureController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
+     * @param  \App\Course  $course
+     * @param  \App\Lesson  $lesson
      * @param  \App\Lecture  $lecture
      * @return \Illuminate\Http\Response
      */
-    public function edit(Lecture $lecture)
+    public function edit(Course $course, Lesson $lesson, Lecture $lecture)
     {
-        //
+        $lecture_types = Lecture::types();
+
+        return view('lectures.edit', [
+            'course'        => $course,
+            'lesson'        => $lesson,
+            'lecture'       => $lecture,
+            'lecture_types' => $lecture_types
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Lecture  $lecture
+     * @param  EditsLectures $request
+     * @param  \App\Course $course
+     * @param  \App\Lesson $lesson
+     * @param  \App\Lecture $lecture
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Lecture $lecture)
+    public function update(EditsLectures $request, Course $course, Lesson $lesson, Lecture $lecture)
     {
-        //
+        $lecture->update([
+            'title'                 => $request->input('title'),
+            'slug'                  => $request->input('slug'),
+            'type'                  => $request->input('type'),
+            'completion_time'       => $request->input('completion_time'),
+        ]);
+
+        return redirect()->away(route('courses.show', $course) . '#editLessons');
     }
 
     /**

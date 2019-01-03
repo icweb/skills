@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EditsLessons;
 use App\Skill;
 use App\Course;
 use App\Lesson;
@@ -71,35 +72,63 @@ class LessonController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param  \App\Course  $course
      * @param  \App\Lesson  $lesson
      * @return \Illuminate\Http\Response
      */
-    public function show(Lesson $lesson)
+    public function show(Course $course, Lesson $lesson)
     {
-        //
+        return view('lessons.show', [
+            'course' => $course,
+            'lesson' => $lesson
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
+     * @param  \App\Course $course
      * @param  \App\Lesson  $lesson
      * @return \Illuminate\Http\Response
      */
-    public function edit(Lesson $lesson)
+    public function edit(Course $course, Lesson $lesson)
     {
-        //
+        $skills = Skill::orderBy('title', 'asc')->get();
+
+        return view('lessons.edit', [
+            'course' => $course,
+            'lesson' => $lesson,
+            'skills' => $skills
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Lesson  $lesson
+     * @param  EditsLessons $request
+     * @param  \App\Course $course
+     * @param  \App\Lesson $lesson
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Lesson $lesson)
+    public function update(EditsLessons $request, Course $course, Lesson $lesson)
     {
-        //
+        $lesson->update([
+            'title' => $request->input('title'),
+            'slug'  => $request->input('slug'),
+        ]);
+
+        $lesson->assignedSkills()->delete();
+
+        foreach($request->all() as $key => $val)
+        {
+            if(substr($key, 0, 18) === 'associated_skills_')
+            {
+                $skill_id = explode('_', $key);
+                $lesson->assignedSkills()->create(['skill_id' => $skill_id[2]]);
+            }
+        }
+
+        return redirect()->away(route('courses.show', $course) . '#editLessons');
     }
 
     /**

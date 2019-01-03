@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header bg-success text-white">Add Lecture</div>
+                <div class="card-header bg-warning">Edit Lecture</div>
                 @if ($errors->any())
                     <div class="alert alert-danger" style="border-radius: 0">
                         <ul>
@@ -16,25 +16,25 @@
                     </div>
                 @endif
                 <div class="card-body">
-                    <form action="{{ route('lectures.store', [$course, $lesson]) }}" method="post">
+                    <form action="{{ route('lectures.update', [$course, $lesson, $lecture]) }}" method="post">
                         @csrf
                         <div class="form-group">
                             <label for="lectureTitle">Lecture Title <small class="small text-danger">*</small></label>
-                            <input type="text" class="form-control" name="title" id="lectureTitle" value="{{ old('title') }}">
+                            <input type="text" class="form-control" name="title" id="lectureTitle" value="{{ old('title', $lecture->title) }}">
                         </div>
                         <div class="form-group">
                             <label for="lectureSlug">URL Slug <small class="small text-danger">*</small></label>
-                            <input type="text" class="form-control" name="slug" id="lectureSlug" value="{{ old('slug') }}">
+                            <input type="text" class="form-control" name="slug" id="lectureSlug" value="{{ old('slug', $lecture->slug) }}">
                         </div>
                         <div class="form-group">
                             <label for="lectureCompletionTime">Completion Time <small class="small text-danger">*</small></label>
-                            <input type="number" class="form-control" name="completion_time" id="lectureCompletionTime" value="{{ old('completion_time') }}">
+                            <input type="number" class="form-control" name="completion_time" id="lectureCompletionTime" value="{{ old('completion_time', $lecture->completion_time) }}">
                         </div>
                         <div class="form-group">
                             <label for="lectureType">Type <small class="small text-danger">*</small></label>
                             <select name="type" id="lectureType" class="form-control">
                                 @foreach($lecture_types as $lecture_type)
-                                    @if(old('type') === $lecture_type)
+                                    @if(old('type', $lecture->type) === $lecture_type)
                                         <option value="{{ $lecture_type }}" selected>{{ $lecture_type }}</option>
                                     @else
                                         <option value="{{ $lecture_type }}">{{ $lecture_type }}</option>

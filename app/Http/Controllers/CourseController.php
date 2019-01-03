@@ -78,7 +78,9 @@ class CourseController extends Controller
      */
     public function edit(Course $course)
     {
-        //
+        return view('courses.edit', [
+            'course' => $course
+        ]);
     }
 
     /**
@@ -98,7 +100,7 @@ class CourseController extends Controller
             'long_description'  => $request->input('long_description'),
         ]);
 
-        return redirect()->route('courses.show', $course);
+        return redirect()->away(route('courses.show', $course) . '#editLessons');
     }
 
     /**

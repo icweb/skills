@@ -52,23 +52,35 @@
         }
 
         .mt-40 {
-            margin-top: 40px
+            margin-top: 40px;
         }
 
         .mb-10 {
-            margin-bottom: 10px
+            margin-bottom: 10px;
         }
 
         .mb-30 {
-            margin-bottom: 30px
+            margin-bottom: 30px;
         }
 
         .mb-40 {
-            margin-bottom: 40px
+            margin-bottom: 40px;
+        }
+
+        .mb-60 {
+            margin-bottom: 60px;
+        }
+
+        .mr-10 {
+            margin-right: 10px;
         }
 
         .pt-100 {
             padding-top: 100px;
+        }
+
+        .pr-10 {
+            padding-right: 10px;
         }
 
         .my-course-card {

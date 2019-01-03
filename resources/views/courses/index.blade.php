@@ -18,9 +18,7 @@
                                     <h4 class="course-card-title">{{ $my_course->course->title }}</h4>
                                     <p class="course-card-description">{{ $my_course->course->short_description }}</p>
                                     <div class="course_skills">
-                                        @foreach($my_course->course->skills() as $skill)
-                                            <span style="color:{{ $skill->color }}" class="skill-badge"><em class="fa fa-circle-o"></em> {{ $skill->title }}</span>
-                                        @endforeach
+                                        @include('partials.section-skills', ['skills' => $my_course->course->skills()])
                                     </div>
                                     <a href="{{ route('courses.show', $my_course->course) }}" class="btn btn-success">Complete</a>
                                     <div class="pull-right btn btn-default btn-xs card-completion">{{ $my_course->course->completionTime() }}</div>

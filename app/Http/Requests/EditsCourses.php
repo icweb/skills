@@ -7,11 +7,6 @@ use Illuminate\Http\Request;
 
 class EditsCourses extends FormRequest
 {
-    public function __construct()
-    {
-        $this->redirect = url()->previous() . '#editCourse';
-    }
-
     /**
      * Determine if the user is authorized to make this request.
      *

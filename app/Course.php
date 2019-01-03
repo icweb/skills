@@ -81,14 +81,32 @@ class Course extends Model
 
         $total_minutes = round($total_seconds / 60);
         $total_hours = round($total_minutes / 60);
+        $total_days = round($total_hours / 24);
+        $total_years = round($total_days / 365);
 
+        if($total_seconds === 0)
+        {
+            return '';
+        }
+        else if($total_days >= 365)
+        {
+            return $total_years . ($total_years === 1 ? ' years' : ' year');
+        }
+        else if($total_hours >= 24)
+        {
+            return $total_days . ($total_days === 1 ? ' days' : ' day');
+        }
         if($total_minutes >= 60)
         {
-            return $total_hours . ' hours';
+            return $total_hours . ($total_hours === 1 ? ' hours' : ' hour');
+        }
+        else if($total_minutes >= 1)
+        {
+            return $total_minutes . ($total_minutes === 1 ? ' minutes' : ' minute');
         }
         else
         {
-            return $total_minutes . ' minutes';
+            return $total_seconds . ($total_seconds === 1 ? ' seconds' : ' second');
         }
 
 
