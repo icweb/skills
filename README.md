@@ -2,7 +2,7 @@
 This project allows you to host courses with lessons and lectures. Skills Tracker will also track the date a course has been completed, and offers the ability to set a "re-certification" date.
 
 ## Laravel Nova (optional)
-This package includes integration with Laravel Nova, however you must purchase your own license, and install the root Nova directory in this project.
+This package includes integration with Laravel Nova, however you must purchase your own license, and install the root Nova directory in this project. Laravel Nova integration is optional.
 
 ## Screenshots
 ![alt text](https://raw.githubusercontent.com/icweb/skills/master/public/github_1.png)
@@ -35,7 +35,7 @@ Generate the application key
 php artisan key:generate
 ```
 
-Update the .ENV file to reflect your database connection. Be sure to create a local database named  ``` skills ```
+Update the ``` .env ``` file to reflect your database connection. Don't forget to create a local database named  ``` skills ```
 ```
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -67,10 +67,10 @@ Password: secret
 This section covers the basic hierarchy of the Skills tracker to provide a better understanding when just starting out.
 
 ```
-Course (Beginners PHP)
-|-- Lesson (Loops)
-|---- Lecture (How to create a For loop)
-|------ Skill (PHP Loops)
+Course
+|-- Lesson
+|---- Lecture
+|------ Skill
 
 ```
 
@@ -83,24 +83,25 @@ Beginners PHP
 ```
 
 ## Courses
-A course is the main shell of Skill tracker. A course can contain many lessons, each lesson can contain main lectures, and each lecture can have many skills.
+A course is the main shell of Skills tracker. A course can contain many lessons, each lesson can contain main lectures, and each lecture can have many skills.
 
 #### Create Course
 1. Click "Add Course" from the "Courses" page.
-2. Complete all required fields marked with a red asterisk. (explanation provided below)
+2. Complete all required fields as explained below.
 3. Select the "Save" button to save your changes.
 
-### Create Course Fields
-| Field | Required | Description |
-|------------------------------|----------|----------------------------------------------------------------------------------------------------------------|
-| Course Title | Yes | The title of the course. |
-| URL Slug | Yes | A unique, URL safe string of letters. |
-| Recertify Interval (in days) | Yes | The days a user will have to re-take this course. Enter "0" if you don't want the user to re-take this course. |
-| Short Description | Yes | A short description of the course under 250 characters. |
-| Long Description | Yes | A long description of the course under 5000 characters. |
+#### Create Course Fields
+| Field | Required | Type | Description |
+|------------------------------|----------|---------|----------------------------------------------------------------------------------------------------------------|
+| Course Title | Yes | Text | The title of the course. |
+| URL Slug | Yes | Text | A unique, URL safe string of letters. |
+| Recertify Interval (in days) | Yes | Integer | The days a user will have to re-take this course. Enter "0" if you don't want the user to re-take this course. |
+| Short Description | Yes | Text | A short description of the course under 250 characters. |
+| Long Description | Yes | Text | A long description of the course under 5000 characters. |
 
 ## TODO
 - Add ability to add course content
+- Add CRUD for Skills
 - Move skills to a lecture level instead of a lesson level - Then the charts can be based on time
 - Continue to component-ize blade files
 - Add ability to delete course
@@ -109,3 +110,6 @@ A course is the main shell of Skill tracker. A course can contain many lessons, 
 - Add character limits to UI on body fields
 - Add validation for slug fields
 - Add checkbox field to 'Create Course form' to import sample lessons (Will need to adjust database to mark lessons and lectures and samples)
+- Create foreign keys on database
+- Finish README with all CRUD documentation for Skills, Courses, Lessons, and Lectures
+- Update screenshots on README
