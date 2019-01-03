@@ -1,9 +1,10 @@
 # Laravel Skills Tracker
-This package allows you to host courses with lessons and lectures.
+This project allows you to host courses with lessons and lectures. Skills Tracker will also track the date a course has been completed, and offers the ability to set a "re-certification" date.
 
-## Laravel Nova
+## Laravel Nova (optional)
 This package includes integration with Laravel Nova, however you must purchase your own license, and install the root Nova directory in this project.
 
+## Screenshots
 ![alt text](https://raw.githubusercontent.com/icweb/skills/master/public/github_1.png)
 
 ![alt text](https://raw.githubusercontent.com/icweb/skills/master/public/github_2.png)
@@ -34,7 +35,7 @@ Generate the application key
 php artisan key:generate
 ```
 
-Update the .ENV file to reflect your database connection
+Update the .ENV file to reflect your database connection. Be sure to create a local database named  ``` skills ```
 ```
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -56,7 +57,7 @@ sudo chmod -R 777 bootstrap
 sudo chmod -R 777 storage
 ```
 
-If you choose to seed the database, you can log into the application with the following credentials
+If you chose to seed the database, you can log into the application with the following credentials
 ```
 Username: admin@admin.com
 Password: secret
