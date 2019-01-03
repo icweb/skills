@@ -144,6 +144,27 @@
         .hide-on-course-edit {
             display: block;
         }
+
+        .manage-course-panel {
+            margin-top: -30px;
+        }
+
+        .navbar {
+            z-index: 2;
+        }
+
+        .text-orange {
+            color: #F9A825;
+        }
+
+        .text-warning {
+            color: #F9A825;
+        }
+
+        .btn-warning {
+            background-color: #F9A825;
+            color: #ffffff;
+        }
     </style>
 
 </head>

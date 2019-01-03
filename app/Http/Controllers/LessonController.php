@@ -31,7 +31,7 @@ class LessonController extends Controller
     public function create(Course $course)
     {
         $skills = Skill::orderBy('title', 'asc')->get();
-        $existing_lessons = Lesson::orderBy('title')->get();
+        $existing_lessons = Lesson::whereNotIn('id', $course->assignedLessons()->get()->pluck('lesson_id')->toArray())->orderBy('title')->get();
 
         return view('lessons.create', [
             'course'            => $course,
@@ -153,7 +153,7 @@ class LessonController extends Controller
     {
         if($request->input('delete_type') === 'soft')
         {
-            $course->assignedLessons()->where('id', $lesson->id)->delete();
+            $course->assignedLessons()->where('lesson_id', $lesson->id)->delete();
         }
         else
         {

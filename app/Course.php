@@ -90,23 +90,23 @@ class Course extends Model
         }
         else if($total_days >= 365)
         {
-            return $total_years . ($total_years === 1 ? ' years' : ' year');
+            return $total_years . ($total_years === 1 ? ' year' : ' years');
         }
         else if($total_hours >= 24)
         {
-            return $total_days . ($total_days === 1 ? ' days' : ' day');
+            return $total_days . ($total_days === 1 ? ' day' : ' days');
         }
         if($total_minutes >= 60)
         {
-            return $total_hours . ($total_hours === 1 ? ' hours' : ' hour');
+            return $total_hours . ($total_hours === 1 ? ' hour' : ' hours');
         }
         else if($total_minutes >= 1)
         {
-            return $total_minutes . ($total_minutes === 1 ? ' minutes' : ' minute');
+            return $total_minutes . ($total_minutes === 1 ? ' minute' : ' minutes');
         }
         else
         {
-            return $total_seconds . ($total_seconds === 1 ? ' seconds' : ' second');
+            return $total_seconds . ($total_seconds === 1 ? ' second' : ' seconds');
         }
 
 

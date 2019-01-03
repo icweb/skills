@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EditsLectures;
+use App\LectureLesson;
 use App\Lesson;
 use App\Course;
 use App\Lecture;
@@ -133,12 +134,25 @@ class LectureController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param  Request  $request
+     * @param  \App\Course  $course
+     * @param  \App\Lesson  $lesson
      * @param  \App\Lecture  $lecture
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Lecture $lecture)
+    public function destroy(Request $request, Course $course, Lesson $lesson, Lecture $lecture)
     {
-        //
+        if($request->input('delete_type') === 'soft')
+        {
+            $lesson->assignedLectures()->where('lecture_id', $lecture->id)->delete();
+        }
+        else
+        {
+            LectureLesson::where('lecture_id', $lecture->id)->delete();
+            $lecture->delete();
+        }
+
+        return redirect()->away(route('courses.show', $course) . '#editLessons');
     }
 
     /**

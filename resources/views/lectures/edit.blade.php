@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="card">
+            <div class="card mb-30">
                 <div class="card-header bg-warning">Edit Lecture</div>
                 @if ($errors->any())
                     <div class="alert alert-danger" style="border-radius: 0">
@@ -44,12 +44,34 @@
                         </div>
                         <div class="text-right">
                             <a href="{{ route('courses.show', [$course]) }}#editLessons" class="btn btn-default btn-lg">Cancel</a>
-                            <button type="submit" class="btn btn-success btn-lg"><em class="fa fa-save"></em> Save</button>
+                            <button type="submit" class="btn btn-warning btn-lg"><em class="fa fa-save"></em> Save</button>
                         </div>
                     </form>
                 </div>
             </div>
+            @include('partials.panel-delete', [
+                'title' => 'Lecture',
+                'body'  => 'You can delete this lecture from only this lesson, or from all lessons in all courses.',
+                'modal' => 'deleteLectureModal'
+            ])
         </div>
     </div>
 </div>
+@include('partials.modal-delete', [
+    'title'     => 'Lecture',
+    'id'        => 'deleteLectureModal',
+    'form'      => route('lectures.delete', [$course, $lesson, $lecture]),
+    'message'   => 'Do you want to delete this lecture from only this lesson, or from all lessons in all courses?',
+    'table'      => true,
+    'table_data' => [
+        'soft' => [
+            'title'     => 'This Lesson',
+            'message'   => 'This is the safest option. Selecting this action will remove the lecture from this lesson, but keep it available for reassignment.'
+        ],
+        'hard' => [
+            'title'     => 'All Lessons',
+            'message'   => 'Selecting this action will remove the lecture from all lessons and courses.'
+        ]
+    ]
+])
 @endsection

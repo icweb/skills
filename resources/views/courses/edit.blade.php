@@ -40,7 +40,7 @@
                         </div>
                         <div class="text-right">
                             <a href="{{ route('courses.show', $course) }}#editLessons" class="btn btn-default btn-lg">Cancel</a>
-                            <button type="submit" class="btn btn-success btn-lg"><em class="fa fa-save"></em> Save</button>
+                            <button type="submit" class="btn btn-warning btn-lg"><em class="fa fa-save"></em> Save</button>
                         </div>
                     </form>
                 </div>

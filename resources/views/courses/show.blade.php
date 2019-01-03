@@ -4,28 +4,28 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-12">
-            <div class="card" style="margin-bottom:30px;">
+            <div class="card manage-course-panel mb-30">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-4 hide-on-lessons-edit">
-                            <button type="button" class="btn btn-block btn-default text-primary" id="editLessonsButton">
+                        <div class="col hide-on-lessons-edit">
+                            <button type="button" class="btn btn-block btn-default text-orange" id="editLessonsButton">
                                 <em class="fa fa-edit fa-2x"></em><br>
                                 <h5 class="mb-0">Edit</h5>
                             </button>
                         </div>
-                        <div class="col-sm-4 show-on-lessons-edit">
-                            <button type="button" class="btn btn-block btn-default text-primary" id="previewLessonsButton">
+                        <div class="col show-on-lessons-edit">
+                            <button type="button" class="btn btn-block btn-default text-success" id="previewLessonsButton">
                                 <em class="fa fa-eye fa-2x"></em><br>
                                 <h5 class="mb-0">Preview</h5>
                             </button>
                         </div>
-                        <div class="col-sm-4">
-                            <button type="button" class="btn btn-block btn-default" id="manageCourseButton">
-                                <em class="fa fa-users fa-2x"></em><br>
+                        <div class="col">
+                            <button type="button" class="btn btn-block btn-default text-primary" id="manageCourseButton">
+                                <em class="fa fa-cog fa-2x"></em><br>
                                 <h5 class="mb-0">Manage</h5>
                             </button>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col">
                             <button type="button" class="btn btn-block btn-default text-danger" id="deleteCourseButton">
                                 <em class="fa fa-trash-o fa-2x"></em><br>
                                 <h5 class="mb-0">Delete</h5>

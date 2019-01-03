@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Course;
 use App\CourseUser;
 use App\Http\Requests\EditsCourses;
+use App\Lecture;
+use App\Lesson;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreatesCourses;
 
@@ -51,6 +53,34 @@ class CourseController extends Controller
             'short_description' => $request->input('short_description'),
             'long_description'  => $request->input('long_description'),
         ]);
+
+//        $lesson = Lesson::create([
+//            'title' => 'Sample Lesson',
+//            'slug'  => 'sample-lesson-' . $request->input('slug')
+//        ]);
+//
+//        $course->assignedLessons()->create(['lesson_id' => $lesson->id]);
+//
+//        $lectures = [
+//            [
+//                'title'             => 'Creating your first lesson',
+//                'slug'              => 'sample-lecture-' . '-' . random_int(100000,999999),
+//                'type'              => 'Article',
+//                'completion_time'   => 60,
+//            ],
+//            [
+//                'title'             => 'Creating your first lecture',
+//                'slug'              => 'sample-lecture-' . '-' . random_int(100000,999999),
+//                'type'              => 'Article',
+//                'completion_time'   => 60,
+//            ]
+//        ];
+//
+//        foreach($lectures as $lecture)
+//        {
+//            $new_lecture = Lecture::create($lecture);
+//            $lesson->assignedLectures()->create(['lecture_id' => $new_lecture->id]);
+//        }
 
         return redirect()->away(route('courses.show', $course) . '#editLessons');
     }
