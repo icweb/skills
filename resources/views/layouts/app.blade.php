@@ -165,6 +165,11 @@
             background-color: #F9A825;
             color: #ffffff;
         }
+
+        .bg-warning {
+            background-color: #F9A825 !important;
+            color: #ffffff;
+        }
     </style>
 
 </head>
