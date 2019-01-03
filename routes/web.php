@@ -11,16 +11,6 @@
 |
 */
 
-// TODO Move skills to a lecture level instead of a lesson level - Then the charts can be based on time
-// TODO Continue to component-ize blade files
-// TODO Add ability to delete course
-// TODO Add field tooltips describing what should be entered
-// TODO Add WYSIWYG editors
-// TODO Add ability to add course content
-// TODO Add character limits to UI on body fields
-// TODO Add validation for slug fields
-// TODO Add option to Create Course form to import sample lessons (Will need to adjust database to mark lessons and lectures and samples)
-
 Route::get('/', function () {
     return view('welcome');
 });

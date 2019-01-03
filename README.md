@@ -62,3 +62,14 @@ If you chose to seed the database, you can log into the application with the fol
 Username: admin@admin.com
 Password: secret
 ```
+
+## TODO
+- Add ability to add course content
+- Move skills to a lecture level instead of a lesson level - Then the charts can be based on time
+- Continue to component-ize blade files
+- Add ability to delete course
+- Add field tooltips describing what should be entered
+- Add WYSIWYG editors
+- Add character limits to UI on body fields
+- Add validation for slug fields
+- Add checkbox field to 'Create Course form' to import sample lessons (Will need to adjust database to mark lessons and lectures and samples)
