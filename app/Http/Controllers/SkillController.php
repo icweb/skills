@@ -20,7 +20,7 @@ class SkillController extends Controller
     {
         $skills = Skill::all();
 
-        $my_skills = SkillUser::selectRaw('COUNT(user_id) as skill_count, skill_id')
+        $my_skills = SkillUser::selectRaw('COUNT(user_id) as skill_count, skill_id, SUM(time_earned) as time_earned')
             ->with('skill')
             ->where(['user_id' => auth()->user()->id])
             ->groupBy('skill_id')

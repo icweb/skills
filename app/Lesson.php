@@ -60,11 +60,6 @@ class Lesson extends Model
         return $final_status;
     }
 
-    public function hasSkill($skill_id)
-    {
-        return $this->assignedSkills()->where('skill_id', $skill_id)->get()->count() > 0;
-    }
-
     public function author()
     {
         return $this->belongsTo(User::class);
@@ -83,10 +78,5 @@ class Lesson extends Model
     public function assignedUsers()
     {
         return $this->hasMany(LessonUser::class, 'lesson_id');
-    }
-
-    public function assignedSkills()
-    {
-        return $this->hasMany(LessonSkill::class, 'lesson_id');
     }
 }

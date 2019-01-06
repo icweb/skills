@@ -30,8 +30,7 @@ class CreatesLessons extends FormRequest
                 $this->route('course')->assignedLessons()->get()->pluck('lesson_id')->toArray())
             ],
             'title'                 => ['required_if:creation,new'],
-            'slug'                  => ['required_if:creation,new', 'unique:lessons,slug'],
-            'associated_skills_*'   => ['nullable', 'in:on'],
+            'slug'                  => ['required_if:creation,new', 'unique:lessons,slug']
         ];
     }
 }

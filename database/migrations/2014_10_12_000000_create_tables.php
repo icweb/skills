@@ -66,6 +66,19 @@ class CreateTables extends Migration
             $table->softDeletes();
         });
 
+        Schema::create('files', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('lecture_id');
+            $table->unsignedInteger('author_id');
+            $table->unsignedInteger('size')->nullable();
+            $table->string('title');
+            $table->string('extension');
+            $table->string('full_name');
+            $table->string('path');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
         // A list of lessons a course should be assigned
         Schema::create('course_lesson', function (Blueprint $table) {
             $table->increments('id');
@@ -119,10 +132,10 @@ class CreateTables extends Migration
         });
 
         // A list of skills you can earn by completing each lesson
-        Schema::create('lesson_skill', function (Blueprint $table) {
+        Schema::create('lecture_skill', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('author_id');
-            $table->unsignedInteger('lesson_id');
+            $table->unsignedInteger('lecture_id');
             $table->unsignedInteger('skill_id');
             $table->timestamps();
             $table->softDeletes();
@@ -133,6 +146,7 @@ class CreateTables extends Migration
             $table->increments('id');
             $table->unsignedInteger('skill_id');
             $table->unsignedInteger('user_id');
+            $table->unsignedInteger('time_earned');
             $table->timestamps();
             $table->softDeletes();
         });

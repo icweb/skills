@@ -19,6 +19,9 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+// Library CRUD
+Route::get('/library', 'LibraryController@index')->name('library.index');
+
 // Skills CRUD
 Route::get('/skills/{user}', 'SkillController@index')->name('skills.index');
 
@@ -46,3 +49,7 @@ Route::post('/courses/{course}/lessons/{lesson}/lectures/{lecture}/delete', 'Lec
 Route::get('/courses/{course}/lessons/{lesson}/lectures/{lecture}/edit', 'LectureController@edit')->name('lectures.edit');
 Route::post('/courses/{course}/lessons/{lesson}/lectures/{lecture}/update', 'LectureController@update')->name('lectures.update');
 Route::post('/courses/{course}/lessons/{lesson}/lectures/{lecture}/complete', 'LectureController@complete')->name('lectures.complete');
+
+// Questions & Answers CRUD
+Route::post('/courses/{course}/lessons/{lesson}/lectures/{lecture}/questions/insert', 'QuestionController@store')->name('questions.store');
+Route::post('/courses/{course}/lessons/{lesson}/lectures/{lecture}/questions/{question}/answers/insert', 'AnswerController@store')->name('answers.store');

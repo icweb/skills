@@ -30,12 +30,10 @@ class LessonController extends Controller
      */
     public function create(Course $course)
     {
-        $skills = Skill::orderBy('title', 'asc')->get();
         $existing_lessons = Lesson::whereNotIn('id', $course->assignedLessons()->get()->pluck('lesson_id')->toArray())->orderBy('title')->get();
 
         return view('lessons.create', [
             'course'            => $course,
-            'skills'            => $skills,
             'existing_lessons'  => $existing_lessons
         ]);
     }
@@ -62,19 +60,6 @@ class LessonController extends Controller
         }
 
         $course->assignedLessons()->create(['lesson_id' => $lesson->id]);
-
-        foreach($request->all() as $key => $val)
-        {
-            if(substr($key, 0, 18) === 'associated_skills_')
-            {
-                $skill_id = explode('_', $key);
-
-                if(count($lesson->assignedSkills()->where('skill_id', $skill_id[2])->get()) < 1)
-                {
-                    $lesson->assignedSkills()->create(['skill_id' => $skill_id[2]]);
-                }
-            }
-        }
 
         return redirect()->away(route('courses.show', $course) . '#editLessons');
     }
@@ -103,12 +88,9 @@ class LessonController extends Controller
      */
     public function edit(Course $course, Lesson $lesson)
     {
-        $skills = Skill::orderBy('title', 'asc')->get();
-
         return view('lessons.edit', [
             'course' => $course,
-            'lesson' => $lesson,
-            'skills' => $skills
+            'lesson' => $lesson
         ]);
     }
 
@@ -126,17 +108,6 @@ class LessonController extends Controller
             'title' => $request->input('title'),
             'slug'  => $request->input('slug'),
         ]);
-
-        $lesson->assignedSkills()->delete();
-
-        foreach($request->all() as $key => $val)
-        {
-            if(substr($key, 0, 18) === 'associated_skills_')
-            {
-                $skill_id = explode('_', $key);
-                $lesson->assignedSkills()->create(['skill_id' => $skill_id[2]]);
-            }
-        }
 
         return redirect()->away(route('courses.show', $course) . '#editLessons');
     }

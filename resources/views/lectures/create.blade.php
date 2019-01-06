@@ -52,6 +52,12 @@
                                 <input type="number" class="form-control" name="completion_time" id="lectureCompletionTime" value="{{ old('completion_time') }}">
                             </div>
                             <div class="form-group">
+                                <label>Associated Skills</label><br>
+                                @foreach($skills as $skill)
+                                    <input type="checkbox" name="associated_skills_{{ $skill->id }}" {{ old('associated_skills_' . $skill->id) === 'on' ? 'checked' : '' }}> {{ $skill->title }} <br>
+                                @endforeach
+                            </div>
+                            <div class="form-group">
                                 <label for="lectureType">Type <small class="small text-danger">*</small></label>
                                 <select name="type" id="lectureType" class="form-control">
                                     @foreach($lecture_types as $lecture_type)
@@ -66,7 +72,7 @@
                         </div>
                         <div class="text-right">
                             <a href="{{ route('courses.show', [$course]) }}#editLessons" class="btn btn-default btn-lg">Cancel</a>
-                            <button type="submit" class="btn btn-success btn-lg"><em class="fa fa-save"></em> Save</button>
+                            <button type="submit" class="btn btn-success btn-lg"><em class="fa fa-save"></em> Save & Continue</button>
                         </div>
                     </form>
                 </div>

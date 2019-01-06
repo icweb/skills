@@ -24,7 +24,7 @@
                                @foreach($mine as $item)
                                    <tr>
                                        <td>{{ $item->skill->title }}</td>
-                                       <td>{{ round(($item->skill_count / count($mine)) * 100) }}%</td>
+                                       <td>{{ ($item->time_earned / 60) }} minutes</td>
                                    </tr>
                                @endforeach
                            </tbody>
@@ -108,7 +108,7 @@
                     datasets: [{
                         data: [
                             @foreach($mine as $item)
-                                {{ round(($item->skill_count / count($mine)) * 100) }},
+                                {{ $item->time_earned }},
                             @endforeach
                         ],
                         backgroundColor: [
@@ -129,7 +129,7 @@
                             title: function (tooltipItem, data) { return data.labels[tooltipItem[0].index]; },
                             label: function (tooltipItem, data) {
                                 var amount = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-                                return amount + '%';
+                                return amount / 60 + ' minutes';
                             },
                             //footer: function(tooltipItem, data) { return 'Total: 100 planos.'; }
                         }

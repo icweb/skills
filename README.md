@@ -66,6 +66,8 @@ Password: secret
 ## Hierarchy
 This section covers the basic hierarchy of the Skills tracker to provide a better understanding when just starting out.
 
+A course can contain many lessons, each lesson can contain main lectures, and each lecture can have many skills. A lecture can be either an Article, Quiz, or Download.
+
 ```
 Course
 |-- Lesson
@@ -83,7 +85,7 @@ Beginners PHP
 ```
 
 ## Courses
-A course is the main shell of Skills tracker. A course can contain many lessons, each lesson can contain main lectures, and each lecture can have many skills.
+A course is the main shell of Skills tracker. 
 
 #### Create Course
 1. Click "Add Course" from the "Courses" page.
@@ -100,16 +102,20 @@ A course is the main shell of Skills tracker. A course can contain many lessons,
 | Long Description | Yes | Text | A long description of the course under 5000 characters. |
 
 ## TODO
-- Add ability to add course content
+- Add ability to grade tests and keep history records of quiz scores, even if questions change
 - Add CRUD for Skills
-- Move skills to a lecture level instead of a lesson level - Then the charts can be based on time
-- Continue to component-ize blade files
+- Add "Library" section to that provides lectures in searchable format
 - Add ability to delete course
 - Add field tooltips describing what should be entered
 - Add WYSIWYG editors
 - Add character limits to UI on body fields
 - Add validation for slug fields
 - Add checkbox field to 'Create Course form' to import sample lessons (Will need to adjust database to mark lessons and lectures and samples)
+- Add ability for user to choose if a lesson should be deemed "completed" when all lectures are completed, or selected lectures (i.e. Quiz)
 - Create foreign keys on database
+- Continue to component-ize blade files
 - Finish README with all CRUD documentation for Skills, Courses, Lessons, and Lectures
 - Update screenshots on README
+- Add breadcrumbs to lecture page instead of link at the top
+- Comments & Doc Blocks
+- Add front end validation to forms

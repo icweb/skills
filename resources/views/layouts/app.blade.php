@@ -71,6 +71,10 @@
             margin-bottom: 60px;
         }
 
+        .mr-5 {
+            margin-right: 5px !important;
+        }
+
         .mr-10 {
             margin-right: 10px;
         }
@@ -190,6 +194,7 @@
                         @auth
                             <li class="nav-item"><a class="nav-link" href="{{ route('courses.index') }}">Courses</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ route('skills.index', auth()->user()) }}">Skills</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('library.index') }}">Library</a></li>
                         @endauth
                     </ul>
 

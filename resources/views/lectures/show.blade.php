@@ -16,35 +16,45 @@
                         <h5 style="margin-bottom:10px"><a href="{{ route('courses.show', $course) }}">{{ $course->title }} <em class="fa fa-angle-right"></em> {{ $lesson->title }}</a></h5>
                         <h2 class="no-mb">{{ $lecture->title }}</h2>
                     </div>
-                    <div class="card-body">
-                        {!! $lecture->body !!}
-                    </div>
-                    @if($lecture->type === 'Quiz')
-                        <div class="card-body">
-                            <?php $count = 1; ?>
-                            @foreach($lecture->questions as $question)
-                                <hr>
-                                <div style="margin-bottom:20px;">
-                                    <div class="small">Question {{ $count }}</div>
-                                    <div>
-                                        {!! $question->title !!}
-                                    </div>
-                                    <br>
-                                    @foreach($question->answers as $answer)
-                                        <div class="form-group">
-                                            <input type="radio" name="q{{ $question->id }}" id="q{{ $question->id }}a{{ $answer->id }}"> {{ $answer->title }}
+                </div>
+                    <div class="card mb-30">
+                        @if($lecture->type === 'Quiz')
+                            <div class="card-body">
+                                <?php $count = 1; ?>
+                                @foreach($lecture->questions as $question)
+                                    <hr>
+                                    <div style="margin-bottom:20px;">
+                                        <div class="small">Question {{ $count }}</div>
+                                        <div>
+                                            {!! $question->title !!}
                                         </div>
-                                    @endforeach
-                                </div>
-                                <?php $count += 1; ?>
-                            @endforeach
-                        </div>
-                    @endif
+                                        <br>
+                                        @foreach($question->answers as $answer)
+                                            <div class="form-group">
+                                                <input type="radio" name="q{{ $question->id }}" id="q{{ $question->id }}a{{ $answer->id }}"> {{ $answer->title }}
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <?php $count += 1; ?>
+                                @endforeach
+                            </div>
+                        @elseif($lecture->type === 'Article')
+                            <div class="card-body">
+                                {!! $lecture->body !!}
+                            </div>
+                        @elseif($lecture->type === 'Download')
+                            <div class="alert alert-warning mb-0">
+                                <h4><em class="fa fa-download"></em> Downloadable Content</h4>
+                                This item will be marked completed after your click the "Download File" buton.
+                            </div>
+                        @endif
+                    </div>
+                <div class="card mb-30">
                     <div class="card-body">
                         @if($lecture->type === 'Quiz')
                             <button type="submit" class="btn btn-success btn-lg">Submit Quiz</button>
                         @elseif($lecture->type === 'Download')
-                            <button type="submit" class="btn btn-success btn-lg">Download</button>
+                            <button type="submit" class="btn btn-success btn-lg">Download File</button>
                         @else
                             <button type="submit" class="btn btn-success btn-lg">Mark as Complete</button>
                         @endif

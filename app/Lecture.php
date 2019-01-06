@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class Lecture extends Model
 {
@@ -17,6 +18,7 @@ class Lecture extends Model
         'slug',
         'body',
         'completion_time',
+        'file_id',
     ];
 
     protected $dates = [
@@ -63,6 +65,20 @@ class Lecture extends Model
             ->get();
     }
 
+    public function removeFileIfExists()
+    {
+        if(isset($this->file->id))
+        {
+            Storage::delete($this->file->path);
+            $this->file->forceDelete();
+        }
+    }
+
+    public function hasSkill($skill_id)
+    {
+        return $this->assignedSkills()->where('skill_id', $skill_id)->get()->count() > 0;
+    }
+
     public function author()
     {
         return $this->belongsTo(User::class);
@@ -81,5 +97,15 @@ class Lecture extends Model
     public function questions()
     {
         return $this->hasMany(Question::class);
+    }
+
+    public function file()
+    {
+        return $this->hasOne(File::class);
+    }
+
+    public function assignedSkills()
+    {
+        return $this->hasMany(LectureSkill::class, 'lecture_id');
     }
 }

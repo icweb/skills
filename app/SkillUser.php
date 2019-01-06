@@ -16,6 +16,7 @@ class SkillUser extends Model
     protected $fillable = [
         'skill_id',
         'user_id',
+        'time_earned',
     ];
 
     protected $dates = [

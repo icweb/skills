@@ -24,10 +24,12 @@ class EditsLectures extends FormRequest
     public function rules()
     {
         return [
-            'title'             => ['required', 'string'],
-            'slug'              => ['required', 'unique:lectures,slug,' . $this->route('lecture')->id],
-            'type'              => ['required', 'string'],
-            'completion_time'   => ['required', 'integer'],
+            'title'                 => ['required', 'string'],
+            'slug'                  => ['required', 'unique:lectures,slug,' . $this->route('lecture')->id],
+            'type'                  => ['required', 'string'],
+            'completion_time'       => ['required', 'integer'],
+            'article_body'          => ['required_if:type,Article'],
+            'associated_skills_*'   => ['nullable', 'in:on'],
         ];
     }
 }

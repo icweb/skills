@@ -24,12 +24,13 @@ class CreatesLectures extends FormRequest
     public function rules()
     {
         return [
-            'creation'          => ['required', 'in:new,existing'],
-            'existing_lecture'  => ['required_if:creation,existing'],
-            'title'             => ['required_if:creation,new'],
-            'slug'              => ['required_if:creation,new', 'unique:lectures,slug'],
-            'type'              => ['required_if:creation,new'],
-            'completion_time'   => ['required_if:creation,new'],
+            'creation'              => ['required', 'in:new,existing'],
+            'existing_lecture'      => ['required_if:creation,existing'],
+            'title'                 => ['required_if:creation,new'],
+            'slug'                  => ['required_if:creation,new', 'unique:lectures,slug'],
+            'type'                  => ['required_if:creation,new'],
+            'completion_time'       => ['required_if:creation,new'],
+            'associated_skills_*'   => ['nullable', 'in:on'],
         ];
     }
 }

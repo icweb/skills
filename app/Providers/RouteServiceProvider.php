@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Answer;
 use App\Course;
 use App\Lecture;
 use App\Lesson;
+use App\Question;
 use App\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -31,6 +33,8 @@ class RouteServiceProvider extends ServiceProvider
         Route::model('lesson', Lesson::class);
         Route::model('lecture', Lecture::class);
         Route::model('user', User::class);
+        Route::model('question', Question::class);
+        Route::model('answer', Answer::class);
 
         parent::boot();
     }

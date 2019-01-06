@@ -5,16 +5,17 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Question extends Model
+class LectureSkill extends Model
 {
     use SoftDeletes;
+
+    protected $table = 'lecture_skill';
 
     protected $dateFormat = 'Y-m-d H:i:s';
 
     protected $fillable = [
-        'title',
         'lecture_id',
-        'answer_id',
+        'skill_id',
     ];
 
     protected $dates = [
@@ -25,7 +26,7 @@ class Question extends Model
     {
         parent::__construct($attributes);
 
-        parent::creating(function(Question $record){
+        parent::creating(function(LectureSkill $record){
 
             $record->author_id = auth()->user()->id;
 
@@ -37,18 +38,13 @@ class Question extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function rightAnswer()
-    {
-        return $this->hasOne(Answer::class, 'id', 'answer_id');
-    }
-
-    public function answers()
-    {
-        return $this->hasMany(Answer::class);
-    }
-
     public function lecture()
     {
         return $this->belongsTo(Lecture::class);
+    }
+
+    public function skill()
+    {
+        return $this->belongsTo(Skill::class);
     }
 }

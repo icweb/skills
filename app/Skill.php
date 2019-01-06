@@ -47,8 +47,8 @@ class Skill extends Model
         return $this->hasMany(SkillUser::class, 'skill_id', 'id');
     }
 
-    public function assignedLessons()
+    public function assignedLectures()
     {
-        return $this->hasMany(LessonSkill::class, 'skill_id', 'id');
+        return $this->hasMany(LectureSkill::class, 'skill_id', 'id');
     }
 }

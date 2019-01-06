@@ -115,7 +115,8 @@ class Course extends Model
     public function skills()
     {
         $lesson_ids = CourseLesson::select('lesson_id')->where('course_id', $this->id)->get()->pluck('lesson_id')->toArray();
-        $skill_ids = LessonSkill::select('skill_id')->whereIn('lesson_id', $lesson_ids)->get()->pluck('skill_id')->toArray();
+        $lecture_ids = LectureLesson::select('lecture_id')->whereIn('lesson_id', $lesson_ids)->get()->pluck('lecture_id')->toArray();
+        $skill_ids = LectureSkill::select('skill_id')->whereIn('lecture_id', $lecture_ids)->get()->pluck('skill_id')->toArray();
 
         return Skill::whereIn('id', $skill_ids)->get();
     }

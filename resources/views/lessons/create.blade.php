@@ -47,12 +47,6 @@
                                 <label for="lessonSlug">URL Slug <small class="small text-danger">*</small></label>
                                 <input type="text" class="form-control" name="slug" id="lessonSlug" value="{{ old('slug') }}">
                             </div>
-                            <div class="form-group">
-                                <label>Associated Skills</label><br>
-                                @foreach($skills as $skill)
-                                    <input type="checkbox" name="associated_skills_{{ $skill->id }}" {{ old('associated_skills_' . $skill->id) === 'on' ? 'checked' : '' }}> {{ $skill->title }} <br>
-                                @endforeach
-                            </div>
                         </div>
                         <div class="text-right">
                             <a href="{{ route('courses.show', [$course]) }}#editLessons" class="btn btn-default btn-lg">Cancel</a>
