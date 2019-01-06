@@ -21,6 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 // Library CRUD
 Route::get('/library', 'LibraryController@index')->name('library.index');
+Route::post('/library/search', 'LibraryController@search')->name('library.search');
 
 // Skills CRUD
 Route::get('/skills/{user}', 'SkillController@index')->name('skills.index');

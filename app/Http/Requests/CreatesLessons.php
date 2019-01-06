@@ -25,12 +25,12 @@ class CreatesLessons extends FormRequest
     public function rules()
     {
         return [
-            'creation'              => ['required', 'in:new,existing'],
-            'existing_lesson'       => ['required_if:creation,existing', 'string', Rule::notIn(
+            'creation_type'         => ['required', 'in:new,existing'],
+            'existing_lesson'       => ['required_if:creation_type,existing', 'string', Rule::notIn(
                 $this->route('course')->assignedLessons()->get()->pluck('lesson_id')->toArray())
             ],
-            'title'                 => ['required_if:creation,new'],
-            'slug'                  => ['required_if:creation,new', 'unique:lessons,slug']
+            'title'                 => ['required_if:creation_type,new'],
+            'slug'                  => ['required_if:creation_type,new', 'unique:lessons,slug']
         ];
     }
 }

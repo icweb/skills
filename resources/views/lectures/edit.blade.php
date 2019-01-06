@@ -27,6 +27,18 @@
                             <input type="text" class="form-control" name="slug" id="lectureSlug" value="{{ old('slug', $lecture->slug) }}">
                         </div>
                         <div class="form-group">
+                            <label for="lectureShowInSearch">Show in Library? <small class="small text-danger">*</small></label>
+                            <select name="show_in_search" id="lectureShowInSearch" class="form-control">
+                                @if(old('show_in_search', $lecture->show_in_search) === '1')
+                                    <option value="1" selected>Yes</option>
+                                    <option value="0">No</option>
+                                @else
+                                    <option value="1">Yes</option>
+                                    <option value="0" selected>No</option>
+                                @endif
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="lectureCompletionTime">Completion Time <small class="small text-danger">*</small></label>
                             <input type="number" class="form-control" name="completion_time" id="lectureCompletionTime" value="{{ old('completion_time', $lecture->completion_time) }}">
                         </div>

@@ -48,13 +48,14 @@ class LectureController extends Controller
      */
     public function store(CreatesLectures $request, Course $course, Lesson $lesson)
     {
-        if($request->input('creation') === 'new')
+        if($request->input('creation_type') === 'new')
         {
             $lecture = Lecture::create([
                 'title'                 => $request->input('title'),
                 'slug'                  => $request->input('slug'),
                 'type'                  => $request->input('type'),
                 'completion_time'       => $request->input('completion_time'),
+                'show_in_search'        => $request->input('show_in_search'),
             ]);
         }
         else
@@ -138,6 +139,7 @@ class LectureController extends Controller
             'slug'                  => $request->input('slug'),
             'type'                  => $request->input('type'),
             'completion_time'       => $request->input('completion_time'),
+            'show_in_search'        => $request->input('show_in_search'),
         ]);
 
         $lecture->assignedSkills()->delete();

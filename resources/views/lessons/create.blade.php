@@ -20,8 +20,8 @@
                         @csrf
                         <div class="form-group">
                             <label for="">Creation Type <small class="small text-danger">*</small></label><br>
-                            <input type="radio" name="creation" value="new" checked> Create New Lesson <br>
-                            <input type="radio" name="creation" value="existing" {{ old('creation') === 'existing' ? 'checked' : '' }}> Use Existing Lesson <br>
+                            <input type="radio" name="creation_type" value="new" checked> Create New Lesson <br>
+                            <input type="radio" name="creation_type" value="existing" {{ old('creation_type') === 'existing' ? 'checked' : '' }}> Use Existing Lesson <br>
                         </div>
                         <div id="existingLessonGroup" style="display:none">
                             <div class="form-group">
@@ -67,7 +67,7 @@
 
             toggleCreationField: function(){
 
-                var value = $('[name="creation"]:checked').val();
+                var value = $('[name="creation_type"]:checked').val();
 
                 if(value === 'new')
                 {
@@ -84,7 +84,7 @@
 
             created: function(){
 
-                $('[name="creation"]').on('change', Lesson.toggleCreationField);
+                $('[name="creation_type"]').on('change', Lesson.toggleCreationField);
 
                 Lesson.toggleCreationField();
 

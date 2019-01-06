@@ -38,12 +38,12 @@
 
                                 @if(strtotime($lecture->lecture->completionHistory()[0]->recertify_at) > time())
                                     <span class="text-danger">
-                                                            Recertify due {{ $lecture->lecture->completionHistory()[0]->recertify_at->format('Y-m-d') }}
-                                                        </span>
+                                        Recertify due {{ $lecture->lecture->completionHistory()[0]->recertify_at->format('Y-m-d') }}
+                                    </span>
                                 @else
                                     <span class="text-success">
-                                                            Completed {{ $lecture->lecture->completionHistory()[0]->completed_at->format('Y-m-d') }}
-                                                        </span>
+                                        Completed {{ $lecture->lecture->completionHistory()[0]->completed_at->format('Y-m-d') }}
+                                    </span>
                                 @endif
 
                             @endif

@@ -15,6 +15,8 @@ class Skill extends Model
         'title',
         'color',
         'slug',
+        'description',
+        'icon',
     ];
 
     protected $dates = [

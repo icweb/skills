@@ -47,7 +47,7 @@ class LessonController extends Controller
      */
     public function store(CreatesLessons $request, Course $course)
     {
-        if($request->input('creation') === 'new')
+        if($request->input('creation_type') === 'new')
         {
             $lesson = Lesson::create([
                 'title' => $request->input('title'),

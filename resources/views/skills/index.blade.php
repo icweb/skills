@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <h2 class="mb-40">{{ $user->name }}'s Skills</h2>
+            <h2 class="mb-40 mt-40">{{ $user->name }}'s Skills</h2>
         </div>
         @if(count($mine))
             <div class="col-md-8">

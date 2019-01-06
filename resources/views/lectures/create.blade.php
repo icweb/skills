@@ -20,8 +20,8 @@
                         @csrf
                         <div class="form-group">
                             <label for="">Creation Type <small class="small text-danger">*</small></label><br>
-                            <input type="radio" name="creation" value="new" checked> Create New Lecture <br>
-                            <input type="radio" name="creation" value="existing" {{ old('creation') === 'existing' ? 'checked' : '' }}> Use Existing Lecture <br>
+                            <input type="radio" name="creation_type" value="new" checked> Create New Lecture <br>
+                            <input type="radio" name="creation_type" value="existing" {{ old('creation_type') === 'existing' ? 'checked' : '' }}> Use Existing Lecture <br>
                         </div>
                         <div id="existingLectureGroup" style="display:none">
                             <div class="form-group">
@@ -46,6 +46,18 @@
                             <div class="form-group">
                                 <label for="lectureSlug">URL Slug <small class="small text-danger">*</small></label>
                                 <input type="text" class="form-control" name="slug" id="lectureSlug" value="{{ old('slug') }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="lectureShowInSearch">Show in Library? <small class="small text-danger">*</small></label>
+                                <select name="show_in_search" id="lectureShowInSearch" class="form-control">
+                                    @if(old('show_in_search', '1') === '1')
+                                        <option value="1" selected>Yes</option>
+                                        <option value="0">No</option>
+                                    @else
+                                        <option value="1">Yes</option>
+                                        <option value="0" selected>No</option>
+                                    @endif
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="lectureCompletionTime">Completion Time <small class="small text-danger">*</small></label>
@@ -89,7 +101,7 @@
 
             toggleCreationField: function(){
 
-                var value = $('[name="creation"]:checked').val();
+                var value = $('[name="creation_type"]:checked').val();
 
                 if(value === 'new')
                 {
@@ -106,7 +118,7 @@
 
             created: function(){
 
-                $('[name="creation"]').on('change', Lecture.toggleCreationField);
+                $('[name="creation_type"]').on('change', Lecture.toggleCreationField);
 
                 Lecture.toggleCreationField();
 

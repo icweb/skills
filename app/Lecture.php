@@ -19,6 +19,7 @@ class Lecture extends Model
         'body',
         'completion_time',
         'file_id',
+        'show_in_search',
     ];
 
     protected $dates = [
@@ -41,6 +42,11 @@ class Lecture extends Model
         return 'slug';
     }
 
+    public function scopeVisible($query)
+    {
+        return $query->where('show_in_search', 1);
+    }
+
     public function isCompleted()
     {
         $lecture_user = $this->assignedUsers()
@@ -51,9 +57,20 @@ class Lecture extends Model
         return isset($lecture_user->completed_at);
     }
 
-    public static function types()
+    public static function types($withIcons = false)
     {
-        return ['Quiz', 'Article', 'Download'];
+        if($withIcons)
+        {
+            return [
+                'Quiz'      => 'play-circle',
+                'Article'   => 'file-o',
+                'Download'  => 'download',
+            ];
+        }
+        else
+        {
+            return ['Quiz', 'Article', 'Download'];
+        }
     }
 
     public function completionHistory()
