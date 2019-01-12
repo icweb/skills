@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Answer;
 use App\Http\Requests\EditsLectures;
 use App\LectureLesson;
+use App\LectureUser;
 use App\Lesson;
 use App\Course;
 use App\Lecture;
@@ -91,11 +92,32 @@ class LectureController extends Controller
      */
     public function show(Course $course, Lesson $lesson, Lecture $lecture)
     {
+        $certified_users = $lecture
+            ->assignedUsers()
+            ->selectRaw('user_id, MAX(completed_at) as completed_at, MAX(id) as id')
+            ->orderBy('id', 'desc')
+            ->groupBy('user_id')
+            ->get();
+
+//        $lesson_lecture = $lesson->assignedLectures()->where(['lecture_id' => $lecture->id])->first();
+//
+//        $next_position = LectureLesson::where('position', '<', $lesson_lecture->position)->max('position');
+//        $previous_position = LectureLesson::where('position', '>', $lesson_lecture->position)->min('position');
+//
+//        $next = LectureLesson::where(['position' => $next_position, 'lesson_id' => $lesson_lecture->lesson_id])->first();
+//        $previous = LectureLesson::where(['position' => $previous_position, 'lesson_id' => $lesson_lecture->lesson_id])->first();
+//
+//        dd([
+//            'next'      => $next_position,
+//            'previous'  => $previous_position,
+//        ]);
+
         return view('lectures.show', [
-            'course'        => $course,
-            'lesson'        => $lesson,
-            'lecture'       => $lecture,
-            'lecture_user'  => $lecture->assignedUsers()->mine()->orderBy('id', 'desc')->get()
+            'course'            => $course,
+            'lesson'            => $lesson,
+            'lecture'           => $lecture,
+            'certified_users'   => $certified_users,
+            'lecture_user'      => $lecture->assignedUsers()->mine()->orderBy('id', 'desc')->get()
         ]);
     }
 
@@ -364,13 +386,25 @@ class LectureController extends Controller
             }
         }
 
-        if($lecture->type === 'Download')
+        // Assignment
+        $lesson_lecture = $lesson->assignedLectures()->where(['lecture_id' => $lecture->id])->first();
+
+        if(isset($lesson_lecture->next()->next->id))
         {
-            return response()->download(storage_path('app/' . $lecture->file->path));
+            return redirect()->route('lectures.show', [$course, $lesson, $lesson_lecture->next()->next]);
         }
         else
         {
-            return redirect()->route('courses.show', $course);
+            return redirect()->route('courses.show', [$course]);
         }
+
+//        if($lecture->type === 'Download')
+//        {
+//            return response()->download(storage_path('app/' . $lecture->file->path));
+//        }
+//        else
+//        {
+//            return redirect()->route('courses.show', $course);
+//        }
     }
 }

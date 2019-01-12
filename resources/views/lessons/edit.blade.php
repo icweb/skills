@@ -20,11 +20,11 @@
                         @csrf
                         <div class="form-group">
                             <label for="lessonTitle">Lesson Title <small class="small text-danger">*</small></label>
-                            <input type="text" class="form-control" name="title" id="lessonTitle" value="{{ old('title', $lesson->title) }}">
+                            <input type="text" class="form-control" name="title" id="lessonTitle" value="{{ old('title', $lesson->title) }}" required>
                         </div>
                         <div class="form-group">
                             <label for="lessonSlug">URL Slug <small class="small text-danger">*</small></label>
-                            <input type="text" class="form-control" name="slug" id="lessonSlug" value="{{ old('slug', $lesson->slug) }}">
+                            <input type="text" class="form-control" name="slug" id="lessonSlug" value="{{ old('slug', $lesson->slug) }}" required>
                         </div>
                         <div class="form-group">
                             <label>Associated Skills</label><br>

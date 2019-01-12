@@ -20,8 +20,8 @@
                         @csrf
                         <div class="form-group">
                             <label for="">Creation Type <small class="small text-danger">*</small></label><br>
-                            <input type="radio" name="creation_type" value="new" checked> Create New Lesson <br>
-                            <input type="radio" name="creation_type" value="existing" {{ old('creation_type') === 'existing' ? 'checked' : '' }}> Use Existing Lesson <br>
+                            <input type="radio" name="creation_type" value="new" checked required> Create New Lesson <br>
+                            <input type="radio" name="creation_type" value="existing" {{ old('creation_type') === 'existing' ? 'checked' : '' }} required> Use Existing Lesson <br>
                         </div>
                         <div id="existingLessonGroup" style="display:none">
                             <div class="form-group">

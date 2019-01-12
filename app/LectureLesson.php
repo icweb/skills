@@ -33,6 +33,20 @@ class LectureLesson extends Model
         });
     }
 
+    public function next()
+    {
+        $next_position = LectureLesson::where('position', '>', $this->position)->min('position');
+        $previous_position = LectureLesson::where('position', '<', $this->position)->max('position');
+
+        $next = LectureLesson::where(['position' => $next_position, 'lesson_id' => $this->lesson_id])->first();
+        $previous = LectureLesson::where(['position' => $previous_position, 'lesson_id' => $this->lesson_id])->first();
+
+        return (object) [
+            'next'      => isset($next) ? $next->lecture : '',
+            'previous'  => isset($previous) ? $previous->lecture : '',
+        ];
+    }
+
     public function author()
     {
         return $this->belongsTo(User::class);

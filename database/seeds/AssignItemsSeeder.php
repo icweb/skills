@@ -17,31 +17,38 @@ class AssignItemsSeeder extends Seeder
             [
                 'course_id' => 1,
                 'lesson_id' => 1,
+                'position'  => 1,
             ],
             [
                 'course_id' => 2,
                 'lesson_id' => 2,
+                'position'  => 1,
             ],
             [
                 'course_id' => 3,
                 'lesson_id' => 3,
+                'position'  => 1,
             ],
             [
                 'course_id' => 4,
                 'lesson_id' => 4,
+                'position'  => 1,
             ],
 
             [
                 'course_id' => 5,
                 'lesson_id' => 5,
+                'position'  => 1,
             ],
             [
                 'course_id' => 5,
                 'lesson_id' => 6,
+                'position'  => 2,
             ],
             [
                 'course_id' => 5,
                 'lesson_id' => 7,
+                'position'  => 3,
             ],
         ];
 
@@ -54,81 +61,100 @@ class AssignItemsSeeder extends Seeder
             [
                 'lesson_id'     => 1,
                 'lecture_id'    => 1,
+                'position'      => 1,
             ],
             [
                 'lesson_id'     => 1,
                 'lecture_id'    => 2,
+                'position'      => 2,
             ],
             [
                 'lesson_id'     => 2,
                 'lecture_id'    => 3,
+                'position'      => 1,
             ],
             [
                 'lesson_id'     => 2,
                 'lecture_id'    => 4,
+                'position'      => 2,
             ],
             [
                 'lesson_id'     => 3,
                 'lecture_id'    => 5,
+                'position'      => 1,
             ],
             [
                 'lesson_id'     => 3,
                 'lecture_id'    => 6,
+                'position'      => 2,
             ],
             [
                 'lesson_id'     => 4,
                 'lecture_id'    => 7,
+                'position'      => 1,
             ],
             [
                 'lesson_id'     => 4,
                 'lecture_id'    => 8,
+                'position'      => 2,
             ],
 
 
             [
                 'lesson_id'     => 5,
                 'lecture_id'    => 9,
+                'position'      => 1,
             ],
             [
                 'lesson_id'     => 6,
                 'lecture_id'    => 10,
+                'position'      => 1,
             ],
             [
                 'lesson_id'     => 6,
                 'lecture_id'    => 11,
+                'position'      => 2,
             ],
             [
                 'lesson_id'     => 6,
                 'lecture_id'    => 12,
+                'position'      => 3,
             ],
             [
                 'lesson_id'     => 6,
                 'lecture_id'    => 13,
+                'position'      => 4,
             ],
             [
                 'lesson_id'     => 6,
                 'lecture_id'    => 14,
+                'position'      => 5,
             ],
             [
                 'lesson_id'     => 6,
                 'lecture_id'    => 15,
+                'position'      => 6,
             ],
 
             [
                 'lesson_id'     => 7,
                 'lecture_id'    => 16,
+                'position'      => 1,
             ],
             [
                 'lesson_id'     => 7,
                 'lecture_id'    => 17,
+                'position'      => 2,
             ],
             [
                 'lesson_id'     => 7,
                 'lecture_id'    => 18,
+                'position'      => 3,
             ],
             [
                 'lesson_id'     => 7,
                 'lecture_id'    => 19,
+                'position'      => 3,
             ],
         ];
 
@@ -200,12 +226,27 @@ class AssignItemsSeeder extends Seeder
 
         foreach(\App\User::all() as $record)
         {
-            for($x = 5; $x < 6; $x++)
+//            for($x = 5; $x < 6; $x++)
+//            {
+//                \App\CourseUser::create([
+//                    'course_id' => $x,
+//                    'user_id' => $record->id
+//                ]);
+//            }
+
+            foreach(\App\Course::all() as $course)
             {
-                \App\CourseUser::create([
-                    'course_id' => $x,
-                    'user_id' => $record->id
-                ]);
+                $course->assignedUsers()->create(['user_id' => $record->id, 'completed_at' => time()]);
+
+                foreach($course->assignedLessons as $lesson)
+                {
+                    $lesson->lesson->assignedUsers()->create(['user_id' => $record->id, 'completed_at' => time()]);
+
+                    foreach($lesson->lesson->assignedLectures as $lecture)
+                    {
+                        $lecture->lecture->assignedUsers()->create(['user_id' => $record->id, 'completed_at' => time()]);
+                    }
+                }
             }
         }
     }

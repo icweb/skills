@@ -52,6 +52,7 @@ class CourseController extends Controller
             'recertify_interval'=> $request->input('recertify_interval'),
             'short_description' => $request->input('short_description'),
             'long_description'  => $request->input('long_description'),
+            'color'             => $request->input('color'),
         ]);
 
 //        $lesson = Lesson::create([
@@ -128,6 +129,7 @@ class CourseController extends Controller
             'recertify_interval'=> $request->input('recertify_interval'),
             'short_description' => $request->input('short_description'),
             'long_description'  => $request->input('long_description'),
+            'color'             => $request->input('color'),
         ]);
 
         return redirect()->away(route('courses.show', $course) . '#editLessons');

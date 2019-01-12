@@ -65,7 +65,7 @@
                                     {{ $lecture->type }}
                                 </td>
                                 <td>
-                                    <a href="#">{{ $lecture->title }}</a>
+                                    <a href="{{ route('library.show', $lecture) }}" target="_blank">{{ $lecture->title }}</a>
                                 </td>
                                 <td class="text-right">
                                     <div>

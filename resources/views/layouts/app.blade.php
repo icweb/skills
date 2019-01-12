@@ -51,6 +51,10 @@
             margin-bottom: 0;
         }
 
+        .mt-10 {
+            margin-top: 10px;
+        }
+
         .mt-40 {
             margin-top: 40px;
         }
@@ -178,6 +182,11 @@
             background-color: #F9A825 !important;
             color: #ffffff;
         }
+
+        .text-black
+        {
+            color: #000000 !important;
+        }
     </style>
 
 </head>
@@ -238,7 +247,7 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-4" style="padding-top:0 !important;">
             @yield('content')
         </main>
     </div>

@@ -24,6 +24,7 @@ class CreatesCourses extends FormRequest
     public function rules()
     {
         return [
+            'color'             => ['required', 'string'],
             'title'             => ['required', 'string'],
             'slug'              => ['required', 'unique:courses,slug'],
             'recertify_interval'=> ['required', 'integer'],

@@ -32,6 +32,7 @@ class CreatesLectures extends FormRequest
             'completion_time'       => ['required_if:creation_type,new'],
             'associated_skills_*'   => ['nullable', 'in:on'],
             'show_in_search'        => ['required', 'boolean'],
+            'allow_print'           => ['required', 'boolean'],
         ];
     }
 }

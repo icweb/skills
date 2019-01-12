@@ -104,7 +104,8 @@ A course is the main shell of Skills tracker.
 ## TODO
 - Add ability to grade tests and keep history records of quiz scores, even if questions change
 - Add CRUD for Skills
-- Add "Library" section to that provides lectures in searchable format
+- Add front end interface for viewing favorites
+- Download file button doesn't work when accessing from library
 - Add ability to delete course
 - Add field tooltips describing what should be entered
 - Add WYSIWYG editors

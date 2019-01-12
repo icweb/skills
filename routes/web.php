@@ -21,6 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 // Library CRUD
 Route::get('/library', 'LibraryController@index')->name('library.index');
+Route::get('/library/{lecture}', 'LibraryController@show')->name('library.show');
 Route::post('/library/search', 'LibraryController@search')->name('library.search');
 
 // Skills CRUD
@@ -54,3 +55,7 @@ Route::post('/courses/{course}/lessons/{lesson}/lectures/{lecture}/complete', 'L
 // Questions & Answers CRUD
 Route::post('/courses/{course}/lessons/{lesson}/lectures/{lecture}/questions/insert', 'QuestionController@store')->name('questions.store');
 Route::post('/courses/{course}/lessons/{lesson}/lectures/{lecture}/questions/{question}/answers/insert', 'AnswerController@store')->name('answers.store');
+
+// Favorites CRUD
+Route::post('/courses/{course}/lessons/{lesson}/lectures/{lecture}/favorites', 'FavoriteController@store')->name('favorites.store');
+Route::post('/lectures/{lecture}/favorites', 'FavoriteController@storeWithoutCourse')->name('favorites.store-wo-course');

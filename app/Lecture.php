@@ -20,6 +20,7 @@ class Lecture extends Model
         'completion_time',
         'file_id',
         'show_in_search',
+        'allow_print',
     ];
 
     protected $dates = [
@@ -55,6 +56,12 @@ class Lecture extends Model
             ->first();
 
         return isset($lecture_user->completed_at);
+    }
+
+    public function isFavorite()
+    {
+        $lecture_favorites = LectureFavorite::where(['user_id' => auth()->user()->id, 'lecture_id' => $this->id])->get();
+        return count($lecture_favorites);
     }
 
     public static function types($withIcons = false)

@@ -41,6 +41,7 @@ class CreateTables extends Migration
             $table->unsignedInteger('recertify_interval')->default(0);
             $table->string('title');
             $table->string('slug')->unique();
+            $table->string('color')->default('#000000');
             $table->longText('short_description');
             $table->longText('long_description');
             $table->timestamps();
@@ -60,6 +61,7 @@ class CreateTables extends Migration
             $table->increments('id');
             $table->unsignedInteger('author_id');
             $table->unsignedInteger('show_in_search')->default(1);
+            $table->unsignedInteger('allow_print')->default(1);
             $table->unsignedInteger('completion_time')->default(0);
             $table->enum('type', ['Quiz', 'Article', 'Download', 'Video'])->default('Article');
             $table->string('title');
@@ -88,6 +90,7 @@ class CreateTables extends Migration
             $table->unsignedInteger('author_id');
             $table->unsignedInteger('course_id');
             $table->unsignedInteger('lesson_id');
+            $table->unsignedInteger('position');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -98,6 +101,7 @@ class CreateTables extends Migration
             $table->unsignedInteger('author_id');
             $table->unsignedInteger('lecture_id');
             $table->unsignedInteger('lesson_id');
+            $table->unsignedInteger('position');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -169,6 +173,14 @@ class CreateTables extends Migration
             $table->unsignedInteger('author_id');
             $table->unsignedInteger('question_id');
             $table->string('title');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('lecture_favorites', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('lecture_id');
+            $table->unsignedInteger('user_id');
             $table->timestamps();
             $table->softDeletes();
         });

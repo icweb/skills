@@ -20,23 +20,27 @@
                         @csrf
                         <div class="form-group">
                             <label for="courseTitle">Course Title <small class="small text-danger">*</small></label>
-                            <input type="text" class="form-control" name="title" id="courseTitle" value="{{ old('title') }}">
+                            <input type="text" class="form-control" name="title" id="courseTitle" value="{{ old('title') }}" required>
                         </div>
                         <div class="form-group">
                             <label for="courseSlug">URL Slug <small class="small text-danger">*</small></label>
-                            <input type="text" class="form-control" name="slug" id="courseSlug" value="{{ old('slug') }}">
+                            <input type="text" class="form-control" name="slug" id="courseSlug" value="{{ old('slug') }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="courseColor">Color <small class="small text-danger">*</small></label>
+                            <input type="text" class="form-control" name="color" id="courseColor" value="{{ old('color') }}" required>
                         </div>
                         <div class="form-group">
                             <label for="courseRecertifyInterval">Recertify Interval (in days) <small class="small text-danger">*</small></label>
-                            <input type="number" class="form-control" name="recertify_interval" id="courseRecertifyInterval" value="{{ old('recertify_interval') }}">
+                            <input type="number" class="form-control" name="recertify_interval" id="courseRecertifyInterval" value="{{ old('recertify_interval') }}" required>
                         </div>
                         <div class="form-group">
                             <label for="courseShortDescription">Short Description <small class="small text-danger">*</small></label>
-                            <textarea type="text" class="form-control" name="short_description" id="courseShortDescription" cols="30" rows="3">{{ old('short_description') }}</textarea>
+                            <textarea type="text" class="form-control" name="short_description" id="courseShortDescription" cols="30" rows="3" required>{{ old('short_description') }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="courseLongDescription">Long Description <small class="small text-danger">*</small></label>
-                            <textarea type="text" class="form-control" name="long_description" id="courseLongDescription" cols="30" rows="10">{{ old('long_description') }}</textarea>
+                            <textarea type="text" class="form-control" name="long_description" id="courseLongDescription" cols="30" rows="10" required>{{ old('long_description') }}</textarea>
                         </div>
                         <div class="text-right">
                             <a href="{{ route('courses.index') }}" class="btn btn-default btn-lg">Cancel</a>

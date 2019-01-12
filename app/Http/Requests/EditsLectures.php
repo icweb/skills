@@ -31,6 +31,7 @@ class EditsLectures extends FormRequest
             'article_body'          => ['required_if:type,Article'],
             'associated_skills_*'   => ['nullable', 'in:on'],
             'show_in_search'        => ['required', 'boolean'],
+            'allow_print'           => ['required', 'boolean'],
         ];
     }
 }

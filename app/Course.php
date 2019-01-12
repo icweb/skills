@@ -17,6 +17,7 @@ class Course extends Model
         'short_description',
         'long_description',
         'recertify_interval',
+        'color',
     ];
 
     protected $dates = [
@@ -37,6 +38,17 @@ class Course extends Model
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    public function first()
+    {
+        $first_lesson = CourseLesson::where(['course_id' => $this->id])->orderBy('position', 'asc')->first();
+        $first_lecture = LectureLesson::where(['lesson_id' => $first_lesson->lesson_id])->orderBy('position', 'asc')->first();
+
+        return (object) [
+            'lesson'    => $first_lesson->lesson,
+            'lecture'   => $first_lecture->lecture,
+        ];
     }
 
     public function isCompleted()
@@ -112,13 +124,13 @@ class Course extends Model
 
     }
 
-    public function skills()
+    public function skills($limit = 10000)
     {
         $lesson_ids = CourseLesson::select('lesson_id')->where('course_id', $this->id)->get()->pluck('lesson_id')->toArray();
         $lecture_ids = LectureLesson::select('lecture_id')->whereIn('lesson_id', $lesson_ids)->get()->pluck('lecture_id')->toArray();
         $skill_ids = LectureSkill::select('skill_id')->whereIn('lecture_id', $lecture_ids)->get()->pluck('skill_id')->toArray();
 
-        return Skill::whereIn('id', $skill_ids)->get();
+        return Skill::whereIn('id', $skill_ids)->limit($limit)->get();
     }
 
     public function author()

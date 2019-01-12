@@ -7,7 +7,7 @@
     <div>
         <table class="table no-mb">
             <tbody>
-            @foreach($lesson->assignedLectures as $lecture)
+            @foreach($lesson->assignedLectures()->orderBy('position', 'asc')->get() as $lecture)
                 <tr>
                     <td style="width:50px;">
                         @if($lecture->lecture->type === 'Quiz')

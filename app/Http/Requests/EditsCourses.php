@@ -25,6 +25,7 @@ class EditsCourses extends FormRequest
     public function rules()
     {
         return [
+            'color'             => ['required', 'string'],
             'title'             => ['required', 'string'],
             'slug'              => ['required', 'unique:courses,slug,' . $this->route('course')->id],
             'recertify_interval'=> ['required', 'integer'],

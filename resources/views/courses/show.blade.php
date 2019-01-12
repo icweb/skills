@@ -1,72 +1,62 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
+    <div class="jumbotron jumbotron-fluid" style="padding: 2rem 4rem 2rem 4rem;margin-bottom:0;background-color: {{ $course->color }};color: #ffffff">
+        <h1 class="display-4" style="font-size:36px;">{{ $course->title }}</h1>
+        <div class="card-completion mb-20" style="color: #ffffff !important;"><em class="fa fa-clock-o"></em> Completion Time: {{ $course->completionTime() }}</div>
+        <a href="{{ route('lectures.show', [$course, $course->first()->lesson, $course->first()->lecture]) }}" class="btn btn-lg text-white" style="border: 1px solid #ffffff"><em class="fa fa-play-circle"></em> Start Course</a>
+    </div>
+<div style="padding: 10px 75px;">
+    <div class="row">
         <div class="col-12">
-            <div class="card manage-course-panel mb-30">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col hide-on-lessons-edit">
-                            <button type="button" class="btn btn-block btn-default text-orange" id="editLessonsButton">
-                                <em class="fa fa-edit fa-2x"></em><br>
-                                <h5 class="mb-0">Edit</h5>
-                            </button>
-                        </div>
-                        <div class="col show-on-lessons-edit">
-                            <button type="button" class="btn btn-block btn-default text-success" id="previewLessonsButton">
-                                <em class="fa fa-eye fa-2x"></em><br>
-                                <h5 class="mb-0">Preview</h5>
-                            </button>
-                        </div>
-                        <div class="col">
-                            <button type="button" class="btn btn-block btn-default text-primary" id="manageCourseButton">
-                                <em class="fa fa-cog fa-2x"></em><br>
-                                <h5 class="mb-0">Manage</h5>
-                            </button>
-                        </div>
-                        <div class="col">
-                            <button type="button" class="btn btn-block btn-default text-danger" id="deleteCourseButton">
-                                <em class="fa fa-trash-o fa-2x"></em><br>
-                                <h5 class="mb-0">Delete</h5>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @if($course->isCompleted() && count($course->assignedLessons) > 0)
-                <div class="card bg-success text-white mb-30 hide-on-lessons-edit hide-on-course-edit">
-                    <div class="card-body">
-                        <h4><em class="fa fa-check"></em> Course Completed</h4>
-                        You completed this course
-                    </div>
-                </div>
-            @endif
-            <div class="row mb-60">
-                <div class="col-md-8">
-                    <div class="card mb-10">
-                        <div class="card-body" style="min-height: 200px">
-                            <a href="{{ route('courses.edit', [$course]) }}" class="btn btn-warning btn-sm pull-right show-on-lessons-edit"><em class="fa fa-pencil"></em> Edit</a>
-                            <h2 style="margin-bottom:10px;">{{ $course->title }}</h2>
-                            <p class="mb-0">{{ $course->long_description }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-10">
-                        <div class="card-body" style="min-height: 200px">
-                            <div style="margin-bottom:10px;" class="small">Time to complete this course:</div>
-                            <div class="card-completion">{{ $course->completionTime() }}</div>
-                            <br>
-                            <div style="margin-bottom:10px;" class="small">Skills you will earn in this course:</div>
-                            @include('partials.section-skills', ['skills' => $course->skills()])
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="mt-40 mb-40">
+                <h4 class="mb-10">Skills you will earn</h4>
+                @include('partials.section-skills', ['skills' => $course->skills()])
+                <hr>
+                <h4>About this course</h4>
+                <p class="mb-30">{{ $course->long_description }}</p>
 
+            </div>
+            {{--<div class="card manage-course-panel mb-30">--}}
+                {{--<div class="card-body">--}}
+                    {{--<div class="row">--}}
+                        {{--<div class="col hide-on-lessons-edit">--}}
+                            {{--<button type="button" class="btn btn-block btn-default text-orange" id="editLessonsButton">--}}
+                                {{--<em class="fa fa-edit fa-2x"></em><br>--}}
+                                {{--<h5 class="mb-0">Edit</h5>--}}
+                            {{--</button>--}}
+                        {{--</div>--}}
+                        {{--<div class="col show-on-lessons-edit">--}}
+                            {{--<button type="button" class="btn btn-block btn-default text-success" id="previewLessonsButton">--}}
+                                {{--<em class="fa fa-eye fa-2x"></em><br>--}}
+                                {{--<h5 class="mb-0">Preview</h5>--}}
+                            {{--</button>--}}
+                        {{--</div>--}}
+                        {{--<div class="col">--}}
+                            {{--<button type="button" class="btn btn-block btn-default text-primary" id="manageCourseButton">--}}
+                                {{--<em class="fa fa-cog fa-2x"></em><br>--}}
+                                {{--<h5 class="mb-0">Manage</h5>--}}
+                            {{--</button>--}}
+                        {{--</div>--}}
+                        {{--<div class="col">--}}
+                            {{--<button type="button" class="btn btn-block btn-default text-danger" id="deleteCourseButton">--}}
+                                {{--<em class="fa fa-trash-o fa-2x"></em><br>--}}
+                                {{--<h5 class="mb-0">Delete</h5>--}}
+                            {{--</button>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+            {{--@if($course->isCompleted() && count($course->assignedLessons) > 0)--}}
+                {{--<div class="card bg-success text-white mb-30 hide-on-lessons-edit hide-on-course-edit">--}}
+                    {{--<div class="card-body">--}}
+                        {{--<h4><em class="fa fa-check"></em> Course Completed</h4>--}}
+                        {{--You completed this course--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+            {{--@endif--}}
         </div>
-        <div class="col-11">
+        <div class="col-12">
             <div class="mb-30 show-on-lessons-edit text-center">
                 <a href="{{ route('lessons.create', [$course]) }}" class="btn btn-success"><em class="fa fa-plus"></em> Add Lesson</a>
             </div>

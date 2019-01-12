@@ -20,6 +20,22 @@ class LibraryController extends Controller
         ]);
     }
 
+    public function show(Lecture $lecture)
+    {
+        $certified_users = $lecture
+            ->assignedUsers()
+            ->selectRaw('user_id, MAX(completed_at) as completed_at, MAX(id) as id')
+            ->orderBy('id', 'desc')
+            ->groupBy('user_id')
+            ->get();
+
+        return view('lectures.show', [
+            'lecture'           => $lecture,
+            'certified_users'   => $certified_users,
+            'lecture_user'      => $lecture->assignedUsers()->mine()->orderBy('id', 'desc')->get()
+        ]);
+    }
+
     public function search(Request $request)
     {
         if(!empty($request->input('title')))
