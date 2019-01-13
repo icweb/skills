@@ -4,8 +4,8 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="card">
-                <div class="card-header bg-warning">Edit Course</div>
+            <div class="card mt-40">
+                <div class="card-header bg-warning">Edit Course Details</div>
                 @if ($errors->any())
                     <div class="alert alert-danger" style="border-radius: 0">
                         <ul>

@@ -29,7 +29,7 @@
                         <div class="form-group">
                             <label for="lectureShowInSearch">Show in Library? <small class="small text-danger">*</small></label>
                             <select name="show_in_search" id="lectureShowInSearch" class="form-control" required>
-                                @if(old('show_in_search', $lecture->show_in_search) === '1')
+                                @if(old('show_in_search', $lecture->show_in_search) == '1')
                                     <option value="1" selected>Yes</option>
                                     <option value="0">No</option>
                                 @else
@@ -41,7 +41,7 @@
                         <div class="form-group">
                             <label for="lectureAllowPrinting">Allow Printing? <small class="small text-danger">*</small></label>
                             <select name="allow_print" id="lectureAllowPrinting" class="form-control" required>
-                                @if(old('allow_print', $lecture->allow_print) === '1')
+                                @if(old('allow_print', $lecture->allow_print) == '1')
                                     <option value="1" selected>Yes</option>
                                     <option value="0">No</option>
                                 @else

@@ -102,6 +102,7 @@ A course is the main shell of Skills tracker.
 | Long Description | Yes | Text | A long description of the course under 5000 characters. |
 
 ## TODO
+- Creating new lessons and lectures doesn't know what to do with position
 - Add ability to grade tests and keep history records of quiz scores, even if questions change
 - Add CRUD for Skills
 - Add front end interface for viewing favorites
@@ -119,4 +120,3 @@ A course is the main shell of Skills tracker.
 - Update screenshots on README
 - Add breadcrumbs to lecture page instead of link at the top
 - Comments & Doc Blocks
-- Add front end validation to forms

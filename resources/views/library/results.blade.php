@@ -1,33 +1,26 @@
 @extends('layouts.app')
 
 @section('content')
+    @if($criteria['skill'])
+        <div class="jumbotron jumbotron-fluid" style="padding: 3rem 4rem;background-color: {{ $skill->color }};color: #ffffff">
+            <h1 class="display-4" style="font-size:48px;"><b><em class="fa fa-{{ $skill->icon }}"></em> {{ $skill->title }}</b></h1>
+            <p class="lead">{!! $skill->description !!}</p>
+        </div>
+    @endif
 <div class="container">
     <div class="row justify-content-center">
         <div class=""></div>
         <div class="col-md-12">
-            <h2 class="mb-30 mt-40">Search Results</h2>
-
             @if(isset($criteria['title']))
+                <h2 class="mb-30 mt-40">Search Results</h2>
                 <div class="card mb-30">
                     <div class="card-body">
                         Showing <b>{{ count($lectures) === 1 ? '1 result ' : count($lectures) . ' results '  }}</b> for <b>{{ $criteria['title'] }}</b><br><br>
                         <a href="{{ route('library.index') }}" class="btn btn-success"><em class="fa fa-search"></em> New Search</a>
                     </div>
                 </div>
-            @elseif($criteria['skill'])
-                <div class="card mb-30" style="background-color: {{ $skill->color }};color: #ffffff">
-                    <div class="card-body">
-                        <h3 class="mb-10"><em class="fa fa-{{ $skill->icon }}"></em> {{ $skill->title }}</h3>
-                        <p class="mb-0">{!! $skill->description !!}</p>
-                    </div>
-                </div>
-                <div class="card mb-30">
-                    <div class="card-body">
-                        Showing <b>{{ count($lectures) === 1 ? '1 result ' : count($lectures) . ' results '  }}</b> assigned to the skill <b>{{ $criteria['skill'] }}</b><br><br>
-                        <a href="{{ route('library.index') }}" class="btn btn-success"><em class="fa fa-search"></em> New Search</a>
-                    </div>
-                </div>
             @elseif($criteria['type'])
+                <h2 class="mb-30 mt-40">Search Results</h2>
                 <div class="card mb-30">
                     <div class="card-body">
                         Showing <b>{{ count($lectures) === 1 ? '1 result ' : count($lectures) . ' results '  }}</b> of the type <b>{{ $criteria['type'] }}</b><br><br>

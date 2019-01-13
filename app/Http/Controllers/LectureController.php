@@ -181,7 +181,7 @@ class LectureController extends Controller
             $lecture->removeFileIfExists();
 
             // Update the body
-            $lecture->update(['body' => $request->input('article_body')]);
+            $lecture->update(['body' => $request->input('article_body'), 'allow_print' => $request->input('allow_print')]);
 
             // Delete questions and answers
             $question_ids = $lecture->questions()->select('id')->get()->pluck('id')->toArray();
@@ -212,7 +212,7 @@ class LectureController extends Controller
             ]);
 
             // Clear out the body
-            $lecture->update(['body' => null]);
+            $lecture->update(['body' => null, 'allow_print' => $request->input('allow_print')]);
 
             // Delete questions and answers
             $question_ids = $lecture->questions()->select('id')->get()->pluck('id')->toArray();
@@ -281,7 +281,7 @@ class LectureController extends Controller
             $lecture->removeFileIfExists();
 
             // Clear out the body
-            $lecture->update(['body' => null]);
+            $lecture->update(['body' => null, 'allow_print' => $request->input('allow_print')]);
         }
 
         return redirect()->away(route('courses.show', $course) . '#editLessons');
