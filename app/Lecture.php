@@ -5,10 +5,11 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Scout\Searchable;
 
 class Lecture extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Searchable;
 
     protected $dateFormat = 'Y-m-d H:i:s';
 
@@ -26,6 +27,22 @@ class Lecture extends Model
     protected $dates = [
         'deleted_at',
     ];
+
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        array_push($array, 'title');
+        array_push($array, 'body');
+        array_push($array, 'slug');
+
+        return $array;
+    }
+
+    public function shouldBeSearchable()
+    {
+        return $this->visible();
+    }
 
     public function __construct(array $attributes = [])
     {

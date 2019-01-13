@@ -51,6 +51,12 @@ Run the migrations and (optionally) seed the database with demo data
 php artisan migrate --seed
 ```
 
+Add the Laravel Tasks Scheduler as a cron job on your local server
+
+```
+* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
+```
+
 Set directory permissions
 ```
 sudo chmod -R 777 bootstrap

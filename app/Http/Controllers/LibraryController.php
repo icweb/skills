@@ -40,10 +40,7 @@ class LibraryController extends Controller
     {
         if(!empty($request->input('title')))
         {
-            $lectures = Lecture::where('title', 'LIKE', '%' . $request->input('title') . '%')
-                ->orWhere('body', 'LIKE', '%' . $request->input('title') . '%')
-                ->visible()
-                ->get();
+            $lectures = Lecture::search($request->input('title'))->get();
 
             $skill = [];
         }
