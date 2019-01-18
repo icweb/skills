@@ -22,6 +22,8 @@ class LectureUser extends Model
     protected $dates = [
         'completed_at',
         'recertify_at',
+        'created_at',
+        'updated_at',
         'deleted_at',
     ];
 

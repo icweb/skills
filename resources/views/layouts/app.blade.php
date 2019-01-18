@@ -253,6 +253,32 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js" integrity="sha256-oSgtFCCmHWRPQ/JmR4OoZ3Xke1Pw4v50uh6pLcu+fIc=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+
+        var App = {
+
+            slugify: function(text)
+            {
+                return text.toString().toLowerCase()
+                    .replace(/&/g, '-and-')         // Replace & with 'and'
+                    .replace(/[\s\W-]+/g, '-')      // Replace spaces, non-word characters and dashes with a single dash (-)
+            },
+
+            created: function(){
+
+                $('[data-toggle="tooltip"]').tooltip();
+
+            }
+
+        };
+
+        $(document).ready(function(){
+
+            App.created();
+
+        });
+
+    </script>
     @yield('footer')
 </body>
 </html>

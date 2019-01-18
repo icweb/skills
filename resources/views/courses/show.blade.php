@@ -53,9 +53,11 @@
     <div class="row">
         <div class="col-12">
             <div class="mt-40 mb-40">
-                <h4 class="mb-10">Skills you will earn</h4>
-                @include('partials.section-skills', ['skills' => $course->skills()])
-                <hr>
+                @if(count($course->skills()))
+                    <h4 class="mb-10">Skills you will earn</h4>
+                    @include('partials.section-skills', ['skills' => $course->skills()])
+                    <hr>
+                @endif
                 <h4>About this course</h4>
                 <p class="mb-30">{{ $course->long_description }}</p>
                 {{--<a href="{{ route('courses.edit', [$course]) }}" class="btn btn-warning btn-lg show-on-lessons-edit"><em class="fa fa-pencil"></em> Edit Description</a>--}}

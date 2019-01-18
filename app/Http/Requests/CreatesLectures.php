@@ -24,15 +24,19 @@ class CreatesLectures extends FormRequest
     public function rules()
     {
         return [
-            'creation_type'         => ['required', 'in:new,existing'],
-            'existing_lecture'      => ['required_if:creation_type,existing'],
-            'title'                 => ['required_if:creation_type,new'],
-            'slug'                  => ['required_if:creation_type,new', 'unique:lectures,slug'],
-            'type'                  => ['required_if:creation_type,new'],
-            'completion_time'       => ['required_if:creation_type,new'],
-            'associated_skills_*'   => ['nullable', 'in:on'],
-            'show_in_search'        => ['required', 'boolean'],
-            'allow_print'           => ['required', 'boolean'],
+            'creation_type'             => ['required', 'in:new,existing'],
+            'existing_lecture'          => ['required_if:creation_type,existing'],
+            'title'                     => ['required_if:creation_type,new'],
+            'slug'                      => ['required_if:creation_type,new', 'unique:lectures,slug'],
+            'type'                      => ['required_if:creation_type,new'],
+            'completion_time'           => ['required_if:creation_type,new'],
+            'associated_skills_*'       => ['nullable', 'in:on'],
+            'show_in_search'            => ['required', 'boolean'],
+            'allow_print'               => ['required', 'boolean'],
+            'show_certified_users'      => ['required', 'boolean'],
+            'show_completion_history'   => ['required', 'boolean'],
+            'quiz_show_answers'         => ['required_if:type,Quiz', 'boolean'],
+            'quiz_show_score'           => ['required_if:type,Quiz', 'boolean'],
         ];
     }
 }

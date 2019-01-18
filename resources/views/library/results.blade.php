@@ -1,34 +1,40 @@
 @extends('layouts.app')
 
 @section('content')
-    @if($criteria['skill'])
-        <div class="jumbotron jumbotron-fluid" style="padding: 3rem 4rem;background-color: {{ $skill->color }};color: #ffffff">
-            <h1 class="display-4" style="font-size:48px;"><b><em class="fa fa-{{ $skill->icon }}"></em> {{ $skill->title }}</b></h1>
-            <p class="lead">{!! $skill->description !!}</p>
-        </div>
-    @endif
-<div class="container">
-    <div class="row justify-content-center">
-        <div class=""></div>
-        <div class="col-md-12">
-            @if(isset($criteria['title']))
-                <h2 class="mb-30 mt-40">Search Results</h2>
-                <div class="card mb-30">
-                    <div class="card-body">
-                        Showing <b>{{ count($lectures) === 1 ? '1 result ' : count($lectures) . ' results '  }}</b> for <b>{{ $criteria['title'] }}</b><br><br>
-                        <a href="{{ route('library.index') }}" class="btn btn-success"><em class="fa fa-search"></em> New Search</a>
-                    </div>
-                </div>
-            @elseif($criteria['type'])
-                <h2 class="mb-30 mt-40">Search Results</h2>
-                <div class="card mb-30">
-                    <div class="card-body">
-                        Showing <b>{{ count($lectures) === 1 ? '1 result ' : count($lectures) . ' results '  }}</b> of the type <b>{{ $criteria['type'] }}</b><br><br>
-                        <a href="{{ route('library.index') }}" class="btn btn-success"><em class="fa fa-search"></em> New Search</a>
-                    </div>
-                </div>
-            @endif
+@if($criteria['skill'])
+    <div class="jumbotron jumbotron-fluid" style="padding: 3rem 4rem;background-color: {{ $skill->color }};color: #ffffff">
+        <h1 class="display-4" style="font-size:48px;"><b><em class="fa fa-{{ $skill->icon }}"></em> {{ $skill->title }}</b></h1>
+        <p class="lead">{!! $skill->description !!}</p>
+    </div>
+@elseif($criteria['type'])
+    <div class="jumbotron jumbotron-fluid" style="padding: 3rem 4rem;">
+        @if($criteria['type'] === 'Quiz')
+            <h1 class="display-4" style="font-size:28px;"><b><em class="fa fa-play-circle"></em> Quiz Lectures</b></h1>
+        @elseif($criteria['type'] === 'Download')
+            <h1 class="display-4" style="font-size:28px;"><b><em class="fa fa-download"></em> Downloads</b></h1>
+        @elseif($criteria['type'] === 'Video')
+            <h1 class="display-4" style="font-size:28px;"><b><em class="fa fa-video-camera"></em> Videos</b></h1>
+        @else
+            <h1 class="display-4" style="font-size:28px;"><b><em class="fa fa-file-o"></em> Articles</b></h1>
+        @endif
 
+        <p class="lead">
+            Showing <b>{{ count($lectures) === 1 ? '1 result ' : count($lectures) . ' results '  }}</b> of the type <b>{{ $criteria['type'] }}</b>
+        </p>
+        <a href="{{ route('library.index') }}" class="btn btn-lg text-black" style="border: 1px solid #000000"><em class="fa fa-search"></em> New Search</a>
+    </div>
+@else
+    <div class="jumbotron jumbotron-fluid" style="padding: 3rem 4rem;">
+        <h1 class="display-4" style="font-size:28px;"><b>Search Results</b></h1>
+        <p class="lead">
+            Showing <b>{{ count($lectures) === 1 ? '1 result ' : count($lectures) . ' results '  }}</b> for <b>{{ $criteria['title'] }}</b>
+        </p>
+        <a href="{{ route('library.index') }}" class="btn btn-lg text-black" style="border: 1px solid #000000"><em class="fa fa-search"></em> New Search</a>
+    </div>
+@endif
+<div  style="padding: 1rem 4rem;">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
             @if(count($lectures))
                 <div class="card">
                     <table class="table no-mb">

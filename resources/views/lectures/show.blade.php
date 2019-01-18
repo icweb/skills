@@ -16,7 +16,13 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 @if(isset($course))
-                    <a href="{{ route('courses.show', [$course]) }}" class="btn btn-default mt-40 d-print-none"><em class="fa fa-angle-left"></em> Return to {{ $course->title }}</a>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb" style="border-top-left-radius: 0!important;border-top-right-radius: 0!important;">
+                            <li class="breadcrumb-item"><a href="{{ route('courses.show', [$course]) }}">{{ $course->title }}</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ $lesson->title }}</li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ $lecture->title }}</li>
+                        </ol>
+                    </nav>
                     @if($lesson->assignedLectures()->orderBy('position', 'asc')->get()->count() > 1)
                         <div class="card mt-10 d-print-none">
                             <div class="card-body">
@@ -64,11 +70,7 @@
                             </div>
                         @endif
                     </div>
-                    @if(isset($course))
-                        <form action="{{ route('lectures.complete', [$course, $lesson, $lecture]) }}" method="post">
-                    @else
-                        <form action="#">
-                    @endif
+                    <form action="{{ isset($course) ? route('lectures.complete', [$course, $lesson, $lecture]) : '#' }}" method="post">
                     <div class="card mb-30">
                         @if($lecture->type === 'Article')
                             <div class="card-body">
@@ -116,10 +118,8 @@
                                 @endforeach
                             </div>
                         @endif
-                    </div>
-                    @if(isset($course))
-                        <div class="card mb-30 d-print-none">
-                            <div class="card-body">
+                        @if(isset($course))
+                            <div class="card-footer">
                                 @csrf
                                 @if($lecture->type === 'Quiz')
                                     <button type="submit" class="btn btn-success btn-lg">Submit Quiz</button>
@@ -129,11 +129,21 @@
                                     <button type="submit" class="btn btn-success btn-lg">Mark as Complete</button>
                                 @endif
                             </div>
-                        </div>
-
-                        @if(count($lecture_user))
-                            <h3 class="mb-10 d-print-none">Completion History</h3>
-                            <div class="card d-print-none mb-40">
+                        @endif
+                    </div>
+                </form>
+                <div class="accordion d-print-none" id="lectureStats">
+                    @if(count($lecture_user) && $lecture->show_completion_history)
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="mb-0">
+                                    <span class="pull-right mt-10" style="font-size:12px;">Click to expand</span>
+                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#completionHistory" aria-expanded="false" aria-controls="completionHistory">
+                                        <em class="fa fa-clock-o"></em> Completion History
+                                    </button>
+                                </h2>
+                            </div>
+                            <div id="completionHistory" class="collapse" data-parent="#lectureStats">
                                 <div class="card-body">
                                     <ul>
                                         @foreach($lecture_user as $record)
@@ -142,31 +152,40 @@
                                     </ul>
                                 </div>
                             </div>
-                        @endif
+                        </div>
                     @endif
-                    </form>
-                    <div class="d-print-none">
-                        <h3 class="mb-10">Certified Users</h3>
-                        @foreach($certified_users as $user)
-                            <div class="card mb-10">
+                    @if(count($certified_users) && $lecture->show_certified_users)
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="mb-0">
+                                    <span class="pull-right mt-10" style="font-size:12px;">Click to expand</span>
+                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#certifiedUsers" aria-expanded="false" aria-controls="certifiedUsers">
+                                        <em class="fa fa-check"></em> Certified Users
+                                    </button>
+                                </h2>
+                            </div>
+                            <div id="certifiedUsers" class="collapse" aria-labelledby="headingThree" data-parent="#lectureStats">
                                 <div class="card-body">
                                     <table style="width: 100%">
-                                        <tr>
-                                            <td style="width:50px;vertical-align: middle">
-                                                <em class="fa fa-user-circle-o fa-2x mb-0"></em>
-                                            </td>
-                                            <td style="vertical-align: middle">
-                                                <h4 class="mb-0">{{ $user->user->name }}</h4>
-                                            </td>
-                                            <td class="text-right text-success" style="width: 150px;vertical-align: middle">
-                                                Certified {{ $user->completed_at->format('m/d/Y') }}
-                                            </td>
-                                        </tr>
+                                        @foreach($certified_users as $user)
+                                            <tr>
+                                                <td style="width:50px;padding: 10px 0;vertical-align: middle">
+                                                    <em class="fa fa-user-circle-o fa-2x mb-0"></em>
+                                                </td>
+                                                <td style="padding: 10px 0;vertical-align: middle">
+                                                    <h4 class="mb-0">{{ $user->user->name }}</h4>
+                                                </td>
+                                                <td class="text-right text-success" style="width: 150px;padding: 10px 0;vertical-align: middle">
+                                                    Certified {{ $user->completed_at->format('m/d/Y') }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </table>
                                 </div>
                             </div>
-                        @endforeach
-                    </div>
+                        </div>
+                    @endif
+                </div>
             </div>
         </div>
     </div>

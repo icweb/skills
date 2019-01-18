@@ -13,7 +13,7 @@
                             <em class="fa fa-search"></em>
                         </span>
                 </div>
-                <input type="text" class="form-control form-control-lg" placeholder="Search..." aria-label="Title" aria-describedby="title-input-group" required name="title" autocomplete="off">
+                <input type="text" class="form-control form-control-lg" placeholder="Search..." aria-label="Title" aria-describedby="title-input-group" required name="title" autocomplete="off" id="searchInput" minlength="3">
                 <button type="submit" class="btn btn-primary btn-lg" role="button" style="border-top-left-radius: 0; border-bottom-left-radius: 0;"><em class="fa fa-search"></em> Search</button>
             </div>
         </form>
@@ -63,7 +63,6 @@
         var Lectures = {
 
             created: function(){
-
 
 
             }

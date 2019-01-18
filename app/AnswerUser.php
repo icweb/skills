@@ -5,15 +5,16 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Answer extends Model
+class AnswerUser extends Model
 {
     use SoftDeletes;
 
     protected $dateFormat = 'Y-m-d H:i:s';
 
     protected $fillable = [
-        'title',
         'question_id',
+        'answer_id',
+        'user_id',
     ];
 
     protected $dates = [
@@ -22,18 +23,7 @@ class Answer extends Model
         'deleted_at',
     ];
 
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-
-        parent::creating(function(Answer $record){
-
-            $record->author_id = auth()->user()->id;
-
-        });
-    }
-
-    public function author()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
@@ -41,5 +31,10 @@ class Answer extends Model
     public function question()
     {
         return $this->belongsTo(Question::class);
+    }
+
+    public function answer()
+    {
+        return $this->belongsTo(Answer::class);
     }
 }

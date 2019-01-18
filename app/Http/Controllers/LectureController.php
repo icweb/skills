@@ -31,11 +31,11 @@ class LectureController extends Controller
         $skills = Skill::orderBy('title', 'asc')->get();
 
         return view('lectures.create', [
-            'skills'            => $skills,
-            'course'            => $course,
-            'lesson'            => $lesson,
-            'lecture_types'     => $lecture_types,
-            'existing_lectures' => $existing_lectures
+            'skills'                => $skills,
+            'course'                => $course,
+            'lesson'                => $lesson,
+            'lecture_types'         => $lecture_types,
+            'existing_lectures'     => $existing_lectures
         ]);
     }
 
@@ -52,11 +52,13 @@ class LectureController extends Controller
         if($request->input('creation_type') === 'new')
         {
             $lecture = Lecture::create([
-                'title'                 => $request->input('title'),
-                'slug'                  => $request->input('slug'),
-                'type'                  => $request->input('type'),
-                'completion_time'       => $request->input('completion_time'),
-                'show_in_search'        => $request->input('show_in_search'),
+                'title'                     => $request->input('title'),
+                'slug'                      => $request->input('slug'),
+                'type'                      => $request->input('type'),
+                'completion_time'           => $request->input('completion_time'),
+                'show_in_search'            => $request->input('show_in_search'),
+                'show_certified_users'      => $request->input('show_certified_users'),
+                'show_completion_history'   => $request->input('show_completion_history'),
             ]);
         }
         else
@@ -156,13 +158,16 @@ class LectureController extends Controller
      */
     public function update(EditsLectures $request, Course $course, Lesson $lesson, Lecture $lecture)
     {
-        $lecture->update([
-            'title'                 => $request->input('title'),
-            'slug'                  => $request->input('slug'),
-            'type'                  => $request->input('type'),
-            'completion_time'       => $request->input('completion_time'),
-            'show_in_search'        => $request->input('show_in_search'),
-        ]);
+        $update_data = [
+            'title'                     => $request->input('title'),
+            'slug'                      => $request->input('slug'),
+            'type'                      => $request->input('type'),
+            'show_in_search'            => $request->input('show_in_search'),
+            'completion_time'           => $request->input('completion_time'),
+            'allow_print'               => $request->input('allow_print'),
+            'show_certified_users'      => $request->input('show_certified_users'),
+            'show_completion_history'   => $request->input('show_completion_history'),
+        ];
 
         $lecture->assignedSkills()->delete();
 
@@ -181,7 +186,7 @@ class LectureController extends Controller
             $lecture->removeFileIfExists();
 
             // Update the body
-            $lecture->update(['body' => $request->input('article_body'), 'allow_print' => $request->input('allow_print')]);
+            $update_data['body'] = $request->input('article_body');
 
             // Delete questions and answers
             $question_ids = $lecture->questions()->select('id')->get()->pluck('id')->toArray();
@@ -212,7 +217,7 @@ class LectureController extends Controller
             ]);
 
             // Clear out the body
-            $lecture->update(['body' => null, 'allow_print' => $request->input('allow_print')]);
+            $update_data['body'] = null;
 
             // Delete questions and answers
             $question_ids = $lecture->questions()->select('id')->get()->pluck('id')->toArray();
@@ -281,8 +286,10 @@ class LectureController extends Controller
             $lecture->removeFileIfExists();
 
             // Clear out the body
-            $lecture->update(['body' => null, 'allow_print' => $request->input('allow_print')]);
+            $update_data['body'] = null;
         }
+
+        $lecture->update($update_data);
 
         return redirect()->away(route('courses.show', $course) . '#editLessons');
     }

@@ -22,9 +22,15 @@ class Lecture extends Model
         'file_id',
         'show_in_search',
         'allow_print',
+        'show_certified_users',
+        'show_completion_history',
+        'quiz_show_answers',
+        'quiz_show_score',
     ];
 
     protected $dates = [
+        'created_at',
+        'updated_at',
         'deleted_at',
     ];
 

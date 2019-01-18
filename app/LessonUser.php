@@ -21,6 +21,8 @@ class LessonUser extends Model
 
     protected $dates = [
         'completed_at',
+        'created_at',
+        'updated_at',
         'deleted_at',
     ];
 

@@ -21,6 +21,8 @@ class Course extends Model
     ];
 
     protected $dates = [
+        'created_at',
+        'updated_at',
         'deleted_at',
     ];
 
@@ -43,11 +45,19 @@ class Course extends Model
     public function first()
     {
         $first_lesson = CourseLesson::where(['course_id' => $this->id])->orderBy('position', 'asc')->first();
-        $first_lecture = LectureLesson::where(['lesson_id' => $first_lesson->lesson_id])->orderBy('position', 'asc')->first();
+
+        if($first_lesson)
+        {
+            $first_lecture = LectureLesson::where(['lesson_id' => $first_lesson->lesson_id])->orderBy('position', 'asc')->first();
+        }
+        else
+        {
+            $first_lecture = null;
+        }
 
         return (object) [
-            'lesson'    => $first_lesson->lesson,
-            'lecture'   => $first_lecture->lecture,
+            'lesson'    => $first_lesson ? $first_lesson->lesson : '',
+            'lecture'   => $first_lecture ? $first_lecture->lecture : '',
         ];
     }
 

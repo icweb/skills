@@ -61,8 +61,12 @@ class CreateTables extends Migration
             $table->increments('id');
             $table->unsignedInteger('author_id');
             $table->unsignedInteger('show_in_search')->default(1);
+            $table->unsignedInteger('show_certified_users')->default(1);
+            $table->unsignedInteger('show_completion_history')->default(1);
             $table->unsignedInteger('allow_print')->default(1);
             $table->unsignedInteger('completion_time')->default(0);
+            $table->unsignedInteger('quiz_show_answers')->default(1);
+            $table->unsignedInteger('quiz_show_score')->default(1);
             $table->enum('type', ['Quiz', 'Article', 'Download', 'Video'])->default('Article');
             $table->string('title');
             $table->string('slug')->unique();
@@ -173,6 +177,26 @@ class CreateTables extends Migration
             $table->unsignedInteger('author_id');
             $table->unsignedInteger('question_id');
             $table->string('title');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('quiz_scores', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('lecture_id');
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('answered');
+            $table->unsignedInteger('correct');
+            $table->unsignedInteger('incorrect');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('answer_user', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('question_id');
+            $table->unsignedInteger('answer_id');
+            $table->unsignedInteger('user_id');
             $table->timestamps();
             $table->softDeletes();
         });

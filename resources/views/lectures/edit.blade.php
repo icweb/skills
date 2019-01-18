@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="card mb-30">
+            <div class="card mb-30 mt-40">
                 <div class="card-header bg-warning">Edit Lecture</div>
                 @if ($errors->any())
                     <div class="alert alert-danger" style="border-radius: 0">
@@ -18,54 +18,89 @@
                 <div class="card-body">
                     <form action="{{ route('lectures.update', [$course, $lesson, $lecture]) }}" method="post" enctype="multipart/form-data">
                         @csrf
-                        <div class="form-group">
-                            <label for="lectureTitle">Lecture Title <small class="small text-danger">*</small></label>
-                            <input type="text" class="form-control" name="title" id="lectureTitle" value="{{ old('title', $lecture->title) }}" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="lectureSlug">URL Slug <small class="small text-danger">*</small></label>
-                            <input type="text" class="form-control" name="slug" id="lectureSlug" value="{{ old('slug', $lecture->slug) }}" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="lectureShowInSearch">Show in Library? <small class="small text-danger">*</small></label>
-                            <select name="show_in_search" id="lectureShowInSearch" class="form-control" required>
-                                @if(old('show_in_search', $lecture->show_in_search) == '1')
-                                    <option value="1" selected>Yes</option>
-                                    <option value="0">No</option>
-                                @else
-                                    <option value="1">Yes</option>
-                                    <option value="0" selected>No</option>
-                                @endif
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="lectureAllowPrinting">Allow Printing? <small class="small text-danger">*</small></label>
-                            <select name="allow_print" id="lectureAllowPrinting" class="form-control" required>
-                                @if(old('allow_print', $lecture->allow_print) == '1')
-                                    <option value="1" selected>Yes</option>
-                                    <option value="0">No</option>
-                                @else
-                                    <option value="1">Yes</option>
-                                    <option value="0" selected>No</option>
-                                @endif
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="lectureCompletionTime">Completion Time <small class="small text-danger">*</small></label>
-                            <input type="number" class="form-control" name="completion_time" id="lectureCompletionTime" value="{{ old('completion_time', $lecture->completion_time) }}" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="lectureType">Type <small class="small text-danger">*</small></label>
-                            <select name="type" id="lectureType" class="form-control" required>
-                                @foreach($lecture_types as $lecture_type)
-                                    @if(old('type', $lecture->type) === $lecture_type)
-                                        <option value="{{ $lecture_type }}" selected>{{ $lecture_type }}</option>
+                        <div class="form-row">
+                            <div class="form-group col-sm-12">
+                                <em class="fa fa-question-circle text-primary" data-toggle="tooltip" data-placement="top" title="The title of this lecture that will appear at the top of the page"></em>
+                                <label for="lectureTitle">Lecture Title <small class="small text-danger">*</small></label>
+                                <input type="text" class="form-control" name="title" id="lectureTitle" value="{{ old('title', $lecture->title) }}" required autocomplete="off">
+                            </div>
+                            <div class="form-group col-sm-6 col-md-4">
+                                <em class="fa fa-question-circle text-primary" data-toggle="tooltip" data-placement="top" title="A unique, url safe string that will be used as the link for this lecture"></em>
+                                <label for="lectureSlug">URL Slug <small class="small text-danger">*</small></label>
+                                <input type="text" class="form-control" name="slug" id="lectureSlug" value="{{ old('slug', $lecture->slug) }}" required autocomplete="off">
+                            </div>
+                            <div class="form-group col-sm-6 col-md-4">
+                                <em class="fa fa-question-circle text-primary" data-toggle="tooltip" data-placement="top" title="The type of lecture that should be created"></em>
+                                <label for="lectureType">Type <small class="small text-danger">*</small></label>
+                                <select name="type" id="lectureType" class="form-control" required>
+                                    @foreach($lecture_types as $lecture_type)
+                                        @if(old('type', $lecture->type) === $lecture_type)
+                                            <option value="{{ $lecture_type }}" selected>{{ $lecture_type }}</option>
+                                        @else
+                                            <option value="{{ $lecture_type }}">{{ $lecture_type }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-12 col-md-4">
+                                <em class="fa fa-question-circle text-primary" data-toggle="tooltip" data-placement="top" title="The amount of time (in seconds) it will take the user to complete this lecture"></em>
+                                <label for="lectureCompletionTime">Completion Time (in seconds) <small class="small text-danger">*</small></label>
+                                <input type="number" class="form-control" name="completion_time" id="lectureCompletionTime" value="{{ old('completion_time', $lecture->completion_time) }}" required>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                                <em class="fa fa-question-circle text-primary" data-toggle="tooltip" data-placement="top" title="Determines if this lecture should be included on the Library page and in search results"></em>
+                                <label for="lectureShowInSearch">Show in Library? <small class="small text-danger">*</small></label>
+                                <select name="show_in_search" id="lectureShowInSearch" class="form-control" required>
+                                    @if(old('show_in_search', $lecture->show_in_search) == '1')
+                                        <option value="1" selected>Yes</option>
+                                        <option value="0">No</option>
                                     @else
-                                        <option value="{{ $lecture_type }}">{{ $lecture_type }}</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0" selected>No</option>
                                     @endif
-                                @endforeach
-                            </select>
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                                <em class="fa fa-question-circle text-primary" data-toggle="tooltip" data-placement="top" title="Determines if the Completion History panel should be displayed on this lecture"></em>
+                                <label for="showCompletionHistory">Show Completion History? <small class="small text-danger">*</small></label>
+                                <select name="show_completion_history" id="showCompletionHistory" class="form-control">
+                                    @if(old('show_completion_history', $lecture->show_completion_history) == '1')
+                                        <option value="1" selected>Yes</option>
+                                        <option value="0">No</option>
+                                    @else
+                                        <option value="1">Yes</option>
+                                        <option value="0" selected>No</option>
+                                    @endif
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                                <em class="fa fa-question-circle text-primary" data-toggle="tooltip" data-placement="top" title="Determines if the Certified Users panel should be displayed on this lecture"></em>
+                                <label for="showCertifiedUsers">Show Certified Users? <small class="small text-danger">*</small></label>
+                                <select name="show_certified_users" id="showCertifiedUsers" class="form-control">
+                                    @if(old('show_certified_users', $lecture->show_certified_users) == '1')
+                                        <option value="1" selected>Yes</option>
+                                        <option value="0">No</option>
+                                    @else
+                                        <option value="1">Yes</option>
+                                        <option value="0" selected>No</option>
+                                    @endif
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                                <em class="fa fa-question-circle text-primary" data-toggle="tooltip" data-placement="top" title="Determines if users should be allowed to print this lecture"></em>
+                                <label for="lectureAllowPrinting">Allow Printing? <small class="small text-danger">*</small></label>
+                                <select name="allow_print" id="lectureAllowPrinting" class="form-control" required>
+                                    @if(old('allow_print', $lecture->allow_print) == '1')
+                                        <option value="1" selected>Yes</option>
+                                        <option value="0">No</option>
+                                    @else
+                                        <option value="1">Yes</option>
+                                        <option value="0" selected>No</option>
+                                    @endif
+                                </select>
+                            </div>
                         </div>
+                        Assosiated Skills
                         <div id="articleGroup" class="type-group" style="display:none">
                             <div class="form-group">
                                 <label for="articleBody">Article Body <small class="small text-danger">*</small></label>
@@ -321,6 +356,23 @@
                 $('.addQuestionButton').on('click', Lecture.addQuizQuestion.bind($(this)));
 
                 Lecture.toggleLectureType();
+
+                $('[name=title]').on('change', function(){
+
+                    if($('[name=slug]').val() === '')
+                    {
+                        $('[name=slug]').val($('[name=title]').val());
+                    }
+
+                });
+
+                $('[name=slug]').on('keyup', function(){
+
+                    var slugify = App.slugify($('[name=slug]').val());
+
+                    $('[name=slug]').val(slugify);
+
+                });
 
             }
 

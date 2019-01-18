@@ -24,14 +24,18 @@ class EditsLectures extends FormRequest
     public function rules()
     {
         return [
-            'title'                 => ['required', 'string'],
-            'slug'                  => ['required', 'unique:lectures,slug,' . $this->route('lecture')->id],
-            'type'                  => ['required', 'string'],
-            'completion_time'       => ['required', 'integer'],
-            'article_body'          => ['required_if:type,Article'],
-            'associated_skills_*'   => ['nullable', 'in:on'],
-            'show_in_search'        => ['required', 'boolean'],
-            'allow_print'           => ['required', 'boolean'],
+            'title'                     => ['required', 'string'],
+            'slug'                      => ['required', 'unique:lectures,slug,' . $this->route('lecture')->id],
+            'type'                      => ['required', 'string'],
+            'completion_time'           => ['required', 'integer'],
+            'article_body'              => ['required_if:type,Article'],
+            'associated_skills_*'       => ['nullable', 'in:on'],
+            'show_in_search'            => ['required', 'boolean'],
+            'allow_print'               => ['required', 'boolean'],
+            'show_certified_users'      => ['required', 'boolean'],
+            'show_completion_history'   => ['required', 'boolean'],
+            'quiz_show_answers'         => ['required_if:type,Quiz', 'boolean'],
+            'quiz_show_score'           => ['required_if:type,Quiz', 'boolean'],
         ];
     }
 }

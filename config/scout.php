@@ -100,9 +100,9 @@ return [
 
     'tntsearch' => [
         'storage'  => storage_path(),
-        'fuzziness' => 'auto',
+        'fuzziness' => true,
         'fuzzy' => [
-            'prefix_length' => 0, //The number of initial characters which will not be “fuzzified”. This helps to reduce the number of terms which must be examined. Defaults to 0.
+            'prefix_length' => 3, //The number of initial characters which will not be “fuzzified”. This helps to reduce the number of terms which must be examined. Defaults to 0.
             'max_expansions' => 50, //The maximum number of terms that the fuzzy query will expand to. Defaults to 50.
             'distance' => 20, // I don't fully get this one, but appears to be the length of characters it extends to, a previous explanation says its the Levenshtein Distance, but it doesn't seem to do that in my case. The fuzziness setting seems to describe the Levenshtein Distance.
         ],
