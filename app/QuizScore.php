@@ -14,9 +14,11 @@ class QuizScore extends Model
     protected $fillable = [
         'lecture_id',
         'user_id',
+        'available',
         'answered',
         'correct',
         'incorrect',
+        'status',
     ];
 
     protected $dates = [
@@ -24,6 +26,21 @@ class QuizScore extends Model
         'updated_at',
         'deleted_at',
     ];
+
+    protected $appends = [
+        'score',
+        'pass',
+    ];
+
+    public function getScoreAttribute()
+    {
+        return round(($this->correct/$this->available) * 100, 2);
+    }
+
+    public function getPassAttribute()
+    {
+        return round(($this->correct/$this->available) * 100, 2) > $this->lecture->quiz_required_score;
+    }
 
     public function user()
     {

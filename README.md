@@ -69,6 +69,11 @@ Username: admin@admin.com
 Password: secret
 ```
 
+Skills uses the TinyMCE WYSIWYG editor. Update the ``` .env ``` file to reflect your TinyMCE API Key
+```
+TINYMCE_API_KEY=abcdefghijklmnopqrstuvwxyz
+```
+
 ## Hierarchy
 This section covers the basic hierarchy of the Skills tracker to provide a better understanding when just starting out.
 
@@ -108,19 +113,22 @@ A course is the main shell of Skills tracker.
 | Long Description | Yes | Text | A long description of the course under 5000 characters. |
 
 ## TODO
-- Creating new lessons and lectures doesn't know what to do with position
-- Add ability to grade tests and keep history records of quiz scores, even if questions change
-- Add CRUD for Skills
-- Add front end interface for viewing favorites
-- Download file button doesn't work when accessing from library
-- Add ability to delete course
-- Add field tooltips describing what should be entered
-- Add WYSIWYG editors
-- Add character limits to UI on body fields
-- Add checkbox field to 'Create Course form' to import sample lessons (Will need to adjust database to mark lessons and lectures and samples)
+- Add task to look at receritify dates and add new course_user assignment if needed
+- Crossed off lessons should not be displayed is course_user completed_at is null
+- Add support for classroom trainings
 - Add ability for user to choose if a lesson should be deemed "completed" when all lectures are completed, or selected lectures (i.e. Quiz)
+- Add CRUD for Skills
+
+## TODO
 - Create foreign keys on database
-- Continue to component-ize blade files
+- Add content to demo data
 - Finish README with all CRUD documentation for Skills, Courses, Lessons, and Lectures
 - Update screenshots on README
 - Comments & Doc Blocks
+- Continue to component-ize blade files
+
+## Bugs
+- Create Lecture slug not calculating correctly
+- Scout shouldBeSearching is being ignoring on App\Lecture
+- Delete question on lecture before lecture save results in an error
+- Completion History accordian not opening

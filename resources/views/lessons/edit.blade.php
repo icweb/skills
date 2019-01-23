@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="card mb-30">
+            <div class="card mb-30 mt-40">
                 <div class="card-header bg-warning">Edit Lesson</div>
                 @if ($errors->any())
                     <div class="alert alert-danger" style="border-radius: 0">
@@ -18,17 +18,35 @@
                 <div class="card-body">
                     <form action="{{ route('lessons.update', [$course, $lesson]) }}" method="post">
                         @csrf
-                        <div class="form-group">
-                            <label for="lessonTitle">Lesson Title <small class="small text-danger">*</small></label>
-                            <input type="text" class="form-control" name="title" id="lessonTitle" value="{{ old('title', $lesson->title) }}" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="lessonSlug">URL Slug <small class="small text-danger">*</small></label>
-                            <input type="text" class="form-control" name="slug" id="lessonSlug" value="{{ old('slug', $lesson->slug) }}" required>
-                        </div>
-                        <div class="text-right">
-                            <a href="{{ route('courses.show', [$course]) }}#editLessons" class="btn btn-default btn-lg">Cancel</a>
-                            <button type="submit" class="btn btn-warning btn-lg"><em class="fa fa-save"></em> Save</button>
+                        <input type="hidden" name="order">
+                        <div class="form-row">
+                            <div class="form-group col-sm-12">
+                                <em class="fa fa-question-circle text-primary" data-toggle="tooltip" data-placement="top" title="The title of this lesson that will appear at the top of the panel"></em>
+                                <label for="lessonTitle">Lesson Title <small class="small text-danger">*</small></label>
+                                <input type="text" class="form-control" name="title" id="lessonTitle" value="{{ old('title', $lesson->title) }}" required autocomplete="off">
+                            </div>
+                            <div class="form-group col-sm-12">
+                                <em class="fa fa-question-circle text-primary" data-toggle="tooltip" data-placement="top" title="A unique, url safe string that will be used as the link for this lesson"></em>
+                                <label for="lessonSlug">URL Slug <small class="small text-danger">*</small></label>
+                                <input type="text" class="form-control" name="slug" id="lessonSlug" value="{{ old('slug', $lesson->slug) }}" required autocomplete="off">
+                            </div>
+                            @if($lesson->assignedLectures()->count() > 1)
+                                <div class="form-group col-sm-12">
+                                    <label for="">
+                                        Lecture Order<br>
+                                        <small>Drag and drop the lectures below to determine the order they will be displayed on the page</small>
+                                    </label>
+                                    <ol class="lectureList">
+                                        @foreach($lesson->assignedLectures()->orderBy('position', 'asc')->get() as $item)
+                                            <li data-id="{{ $item->lecture_id }}" class="select-cursor">{{ $item->lecture->title }}</li>
+                                        @endforeach
+                                    </ol>
+                                </div>
+                            @endif
+                            <div class="text-right col-sm-12">
+                                <a href="{{ route('courses.show', [$course]) }}#editLessons" class="btn btn-default btn-lg">Cancel</a>
+                                <button type="submit" class="btn btn-warning btn-lg"><em class="fa fa-save"></em> Save</button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -58,4 +76,33 @@
         ]
     ]
 ])
+@endsection
+@section('footer')
+    <script type="text/javascript">
+        var EditLesson = {
+
+            created: function(){
+
+                var group = $("ol.lectureList").sortable({
+                    group: 'serialization',
+                    delay: 0,
+                    onDrop: function ($item, container, _super) {
+
+                        var data = group.sortable("serialize").get();
+
+                        $('[name=order]').val(JSON.stringify(data));
+
+                        _super($item, container);
+                    }
+                });
+            }
+
+        };
+
+        $(document).ready(function(){
+
+            EditLesson.created();
+
+        });
+    </script>
 @endsection

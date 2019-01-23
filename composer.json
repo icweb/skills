@@ -14,6 +14,7 @@
         "laravel/nova": "*",
         "laravel/scout": "^6.1",
         "laravel/tinker": "^1.0",
+        "spatie/eloquent-sortable": "^3.4",
         "teamtnt/laravel-scout-tntsearch-driver": "^6.1"
     },
     "require-dev": {

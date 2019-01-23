@@ -44,8 +44,8 @@
                     <div class="card-header bg-danger text-white">
                         Late Recertifications
                     </div>
-                    <div>
-                        <table class="table no-mb">
+                    <div class="card-body">
+                        <table class="table dt-table no-mb">
                             <thead>
                             <tr>
                                 <th>Course</th>
@@ -56,7 +56,7 @@
                             @foreach($late_receritifcations as $late_recertification)
                                 <tr>
                                     <td><a href="{{ route('courses.show', $late_recertification->course) }}">{{ $late_recertification->course->title }}</a></td>
-                                    <td>{{ $late_recertification->recertify_at->format('Y-m-d') }}</td>
+                                    <td>{{ $late_recertification->recertify_at->format('m/d/Y') }}</td>
                                 </tr>
                             @endforeach
                             </tbody>
@@ -66,31 +66,63 @@
             </div>
         @endif
         @if(count($upcoming_receritifcations))
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            Upcoming Recertifications
-                        </div>
-                        <div>
-                            <table class="table no-mb">
-                                <thead>
+            <div class="col-12" style="margin-bottom: 20px">
+                <div class="card">
+                    <div class="card-header">
+                        Upcoming Recertifications
+                    </div>
+                    <div class="card-body">
+                        <table class="table dt-table no-mb">
+                            <thead>
+                            <tr>
+                                <th>Course</th>
+                                <th>Due</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($upcoming_receritifcations as $upcoming_recertification)
                                 <tr>
-                                    <th>Course</th>
-                                    <th>Due</th>
+                                    <td><a href="{{ route('courses.show', $upcoming_recertification->course) }}">{{ $upcoming_recertification->course->title }}</a></td>
+                                    <td>{{ $upcoming_recertification->recertify_at->format('m/d/Y') }}</td>
                                 </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($upcoming_receritifcations as $upcoming_recertification)
-                                    <tr>
-                                        <td><a href="{{ route('courses.show', $upcoming_recertification->course) }}">{{ $upcoming_recertification->course->title }}</a></td>
-                                        <td>{{ $upcoming_recertification->recertify_at->format('Y-m-d') }}</td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                            @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+            </div>
+        @endif
+        @if(count($certificates))
+            <div class="col-12" style="margin-bottom: 20px">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        Course Completion Certificates
+                    </div>
+                    <div class="card-body">
+                        <table class="table dt-table no-mb">
+                            <thead>
+                                <tr>
+                                    <th>Course</th>
+                                    <th>Completed</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($certificates as $certificate)
+                                <tr>
+                                    <td>
+                                        <a href="{{ route('courses.certificate', [$user, $certificate->course]) }}" target="_blank">
+                                            <em class="fa fa-download"></em>
+                                            {{ $certificate->course->title }}
+                                        </a>
+                                    </td>
+                                    <td>{{ $certificate->completed_at->format('m/d/Y') }}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         @endif
     </div>
 </div>
@@ -138,14 +170,12 @@
             });
         }
 
-        (function(){
+        $(document).ready(function(){
 
-           $(document).ready(function(){
+            buildChart();
 
-               buildChart();
+            $('.dt-table').dataTable();
 
-           });
-
-        })();
+        });
     </script>
 @endsection

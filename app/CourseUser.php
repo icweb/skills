@@ -16,13 +16,15 @@ class CourseUser extends Model
     protected $fillable = [
         'course_id',
         'user_id',
+        'due_at',
         'completed_at',
         'recertify_at',
     ];
 
     protected $dates = [
-        'recertify_at',
+        'due_at',
         'completed_at',
+        'recertify_at',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -37,6 +39,27 @@ class CourseUser extends Model
             $record->author_id = auth()->user()->id;
 
         });
+    }
+
+    public function markAsComplete($completed_at = false)
+    {
+        // Mark course complete
+        $completed_at = $completed_at ? $completed_at : date('Y-m-d', time());
+        $recertify_at = strtotime($completed_at . ' + ' . $this->course->recertify_interval . ' Days');
+
+        $this->update([
+            'completed_at'  => $completed_at,
+            'recertify_at'  => $recertify_at
+        ]);
+
+        if($this->course->recertify_interval)
+        {
+            $this->course->assignedUsers()
+                ->create([
+                    'user_id' => $this->assignedUser->id,
+                    'due_at'  => $recertify_at
+                ]);
+        }
     }
 
     public function scopeMine($query)

@@ -99,16 +99,63 @@
                                     @endif
                                 </select>
                             </div>
-                        </div>
-                        Assosiated Skills
-                        <div id="articleGroup" class="type-group" style="display:none">
-                            <div class="form-group">
-                                <label for="articleBody">Article Body <small class="small text-danger">*</small></label>
+                            <div class="form-group quizGroup type-group col-sm-6 col-md-4 col-lg-3" style="display:none">
+                                <em class="fa fa-question-circle text-primary" data-toggle="tooltip" data-placement="top" title="Enable this option to allow users to see their score after completing this quiz"></em>
+                                <label for="quizShowScore">Show Score</label>
+                                <select name="quiz_show_score" id="quizShowScore" class="form-control">
+                                    @if(old('quiz_show_score', $lecture->quiz_show_score) == '1')
+                                        <option value="1" selected>Yes</option>
+                                        <option value="0">No</option>
+                                    @else
+                                        <option value="1">Yes</option>
+                                        <option value="0" selected>No</option>
+                                    @endif
+                                </select>
+                            </div>
+                            <div class="form-group quizGroup type-group col-sm-6 col-md-4 col-lg-3" style="display:none">
+                                <em class="fa fa-question-circle text-primary" data-toggle="tooltip" data-placement="top" title="Enable this option to allow users to see their answers after completing this quiz"></em>
+                                <label for="quizShowAnswers">Show Answers</label>
+                                <select name="quiz_show_answers" id="quizShowAnswers" class="form-control">
+                                    @if(old('quiz_show_answers', $lecture->quiz_show_answers) == '1')
+                                        <option value="1" selected>Yes</option>
+                                        <option value="0">No</option>
+                                    @else
+                                        <option value="1">Yes</option>
+                                        <option value="0" selected>No</option>
+                                    @endif
+                                </select>
+                            </div>
+                            <div class="form-group quizGroup type-group col-sm-6 col-md-4 col-lg-3" style="display:none">
+                                <em class="fa fa-question-circle text-primary" data-toggle="tooltip" data-placement="top" title="Enable this option to require users pass this quiz in order to mark this lecture as completed"></em>
+                                <label for="quizPassToComplete">Require Passing Score</label>
+                                <select name="quiz_pass_to_complete" id="quizPassToComplete" class="form-control">
+                                    @if(old('quiz_pass_to_complete', $lecture->quiz_pass_to_complete) == '1')
+                                        <option value="1" selected>Yes</option>
+                                        <option value="0">No</option>
+                                    @else
+                                        <option value="1">Yes</option>
+                                        <option value="0" selected>No</option>
+                                    @endif
+                                </select>
+                            </div>
+                            <div class="form-group quizGroup type-group col-sm-6 col-md-4 col-lg-3" style="display:none">
+                                <em class="fa fa-question-circle text-primary" data-toggle="tooltip" data-placement="top" title="The minimum percentage, out of 100, a user must score to pass this quiz"></em>
+                                <label for="quizRequiredScore">Passing Score (percentage)</label>
+                                <input type="number" class="form-control" id="quizRequiredScore" name="quiz_required_score" value="{{ old('quiz_required_score', $lecture->quiz_required_score) }}">
+                            </div>
+                            <div class="form-group col-sm-12 newLectureGroup">
+                                <em class="fa fa-question-circle text-primary" data-toggle="tooltip" data-placement="top" title="Select one or multiple skills the user will acquire after completing this course"></em>
+                                <label>Associated Skills</label><br>
+                                @foreach($skills as $skill)
+                                    <input type="checkbox" name="associated_skills_{{ $skill->id }}" {{ old('associated_skills_' . $skill->id, $lecture->hasSkill($skill->id) ? 'on' : '') === 'on' ? 'checked' : '' }}> {{ $skill->title }} <br>
+                                @endforeach
+                            </div>
+                            <div class="form-group col-sm-12">
+                                <em class="fa fa-question-circle text-primary" data-toggle="tooltip" data-placement="top" title="A description of the content, or the main content of this lecture"></em>
+                                <label for="articleBody">Body <small class="small text-danger">*</small></label>
                                 <textarea type="text" class="form-control" name="article_body" id="articleBody" cols="30" rows="10">{{ old('article_body', $lecture->body) }}</textarea>
                             </div>
-                        </div>
-                        <div id="downloadGroup" class="type-group" style="display:none">
-                            <div class="form-group">
+                            <div class="form-group downloadGroup type-group col-sm-12" style="display:none">
                                 <label for="downloadFile">Download File <small class="small text-danger">*</small></label><br>
                                 @if(isset($lecture->file->id))
                                     <div class="alert alert-success">
@@ -117,51 +164,53 @@
                                 @endif
                                 <input type="file" name="download_file" id="downloadFile">
                             </div>
-                        </div>
-                        <div id="quizGroup" class="type-group" style="display:none">
-                            <div class="question-body">
-                                @foreach($lecture->questions as $question)
-                                    <div class="quiz-question-group" data-id="{{ $question->id }}">
-                                        <div class="card bg-light mb-30">
-                                            <div class="card-header">
-                                                <input type="text" class="form-control question-title" name="question-titles[{{ $question->id }}]" value="{{ old('question-titles.' . $question->id, $question->title) }}" data-delete="false" data-id="{{ $question->id }}" autocomplete="off" required>
-                                            </div>
-                                            <div class="card-body answer-body" data-id="{{ $question->id }}">
-                                                @foreach($question->answers as $answer)
-                                                    <div class="form-row quiz-answer-group" data-id="{{ $answer->id }}">
-                                                        <div class="col-md-2">
-                                                            @if(old('correctAnswer.' . $question->id, $question->answer_id) == $answer->id)
-                                                                <input type="radio" name="correctAnswer[{{ $question->id }}]" value="{{ $answer->id }}" class="correctAnswer" data-answer-id="{{ $answer->id }}" checked required> Correct
-                                                            @else
-                                                                <input type="radio" name="correctAnswer[{{ $question->id }}]" value="{{ $answer->id }}" class="correctAnswer" data-answer-id="{{ $answer->id }}" required> Correct
-                                                            @endif
-                                                        </div>
-                                                        <div class="col-md-8">
-                                                            <div class="form-group">
-                                                                <input type="text" class="form-control answer-title" name="answer-titles[{{ $answer->id }}]" value="{{ old('answer-titles.' . $answer->id, $answer->title) }}" data-delete="false" data-id="{{ $answer->id }}" autocomplete="off" required>
+                            <div class="form-group quizGroup type-group col-sm-12" style="display:none">
+                                <em class="fa fa-question-circle text-primary" data-toggle="tooltip" data-placement="top" title="The questions associated with this quiz"></em>
+                                <label for="">Quiz Questions</label><br>
+                                <div class="question-body">
+                                    @foreach($lecture->questions as $question)
+                                        <div class="quiz-question-group" data-id="{{ $question->id }}">
+                                            <div class="card bg-light mb-30">
+                                                <div class="card-header">
+                                                    <input type="text" class="form-control question-title" name="question-titles[{{ $question->id }}]" value="{{ old('question-titles.' . $question->id, $question->title) }}" data-delete="false" data-id="{{ $question->id }}" autocomplete="off" required>
+                                                </div>
+                                                <div class="card-body answer-body" data-id="{{ $question->id }}">
+                                                    @foreach($question->answers as $answer)
+                                                        <div class="form-row quiz-answer-group" data-id="{{ $answer->id }}">
+                                                            <div class="col-md-2">
+                                                                @if(old('correctAnswer.' . $question->id, $question->answer_id) == $answer->id)
+                                                                    <input type="radio" name="correctAnswer[{{ $question->id }}]" value="{{ $answer->id }}" class="correctAnswer" data-answer-id="{{ $answer->id }}" checked required> Correct
+                                                                @else
+                                                                    <input type="radio" name="correctAnswer[{{ $question->id }}]" value="{{ $answer->id }}" class="correctAnswer" data-answer-id="{{ $answer->id }}" required> Correct
+                                                                @endif
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <div class="form-group">
+                                                                    <input type="text" class="form-control answer-title" name="answer-titles[{{ $answer->id }}]" value="{{ old('answer-titles.' . $answer->id, $answer->title) }}" data-delete="false" data-id="{{ $answer->id }}" autocomplete="off" required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-2 text-right">
+                                                                <button type="button" class="btn btn-default btn-sm deleteAnswerButton text-danger" data-id="{{ $answer->id }}" required><em class="fa fa-trash-o"></em> Delete Answer</button>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-2 text-right">
-                                                            <button type="button" class="btn btn-default btn-sm deleteAnswerButton text-danger" data-id="{{ $answer->id }}" required><em class="fa fa-trash-o"></em> Delete Answer</button>
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                            <div class="card-footer">
-                                                <button type="button" class="btn btn-default btn-sm addAnswerButton text-success" data-id="{{ $question->id }}" data-url="{{ route('answers.store', [$course, $lesson, $lecture, $question]) }}"><em class="fa fa-plus"></em> Add Answer</button>
-                                                <button type="button" class="btn btn-default btn-sm deleteQuestionButton text-danger" data-id="{{ $question->id }}"><em class="fa fa-trash-o"></em> Delete Question</button>
+                                                    @endforeach
+                                                </div>
+                                                <div class="card-footer">
+                                                    <button type="button" class="btn btn-default btn-sm addAnswerButton text-success" data-id="{{ $question->id }}" data-url="{{ route('answers.store', [$course, $lesson, $lecture, $question]) }}"><em class="fa fa-plus"></em> Add Answer</button>
+                                                    <button type="button" class="btn btn-default btn-sm deleteQuestionButton text-danger" data-id="{{ $question->id }}"><em class="fa fa-trash-o"></em> Delete Question</button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                @endforeach
+                                    @endforeach
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-success addQuestionButton pull-left btn-lg"><em class="fa fa-plus"></em> Add Question</button>
+                                </div>
                             </div>
-                            <div>
-                                <button type="button" class="btn btn-success addQuestionButton pull-left btn-lg"><em class="fa fa-plus"></em> Add Question</button>
+                            <div class="form-group col-sm-12 text-right">
+                                <a href="{{ route('courses.show', [$course]) }}#editLessons" class="btn btn-default btn-lg">Cancel</a>
+                                <button type="submit" class="btn btn-warning btn-lg"><em class="fa fa-save"></em> Save</button>
                             </div>
-                        </div>
-                        <div class="text-right">
-                            <a href="{{ route('courses.show', [$course]) }}#editLessons" class="btn btn-default btn-lg">Cancel</a>
-                            <button type="submit" class="btn btn-warning btn-lg"><em class="fa fa-save"></em> Save</button>
                         </div>
                     </form>
                 </div>
@@ -205,15 +254,15 @@
 
                 if(type === 'Article')
                 {
-                    $('#articleGroup').show();
+                    $('.articleGroup').show();
                 }
                 else if(type === 'Quiz')
                 {
-                    $('#quizGroup').show();
+                    $('.quizGroup').show();
                 }
                 else if(type === 'Download')
                 {
-                    $('#downloadGroup').show();
+                    $('.downloadGroup').show();
                 }
                 else
                 {
@@ -372,6 +421,13 @@
 
                     $('[name=slug]').val(slugify);
 
+                });
+
+                tinymce.init({
+                    selector: '[name=article_body]',
+                    plugins: 'print preview powerpaste searchreplace autolink directionality advcode visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount tinymcespellchecker a11ychecker imagetools mediaembed  linkchecker contextmenu colorpicker textpattern help',
+                    toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
+                    image_advtab: true,
                 });
 
             }

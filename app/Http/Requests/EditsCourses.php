@@ -25,6 +25,7 @@ class EditsCourses extends FormRequest
     public function rules()
     {
         return [
+            'order'             => ['nullable'],
             'color'             => ['required', 'string'],
             'title'             => ['required', 'string'],
             'slug'              => ['required', 'unique:courses,slug,' . $this->route('course')->id],

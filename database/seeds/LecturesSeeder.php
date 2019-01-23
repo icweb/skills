@@ -27,7 +27,8 @@ class LecturesSeeder extends Seeder
                 'type'  => 'Quiz',
                 'slug'  => 'php-control-structures-quiz',
                 'body' => $faker->text(500),
-                'completion_time' => 300
+                'completion_time' => 300,
+                'quiz_required_score' => 85
             ],
             [
                 'title' => 'HTML Tags',
@@ -41,7 +42,8 @@ class LecturesSeeder extends Seeder
                 'type'  => 'Quiz',
                 'slug'  => 'html-tags-quiz',
                 'body' => $faker->text(500),
-                'completion_time' => 300
+                'completion_time' => 300,
+                'quiz_required_score' => 85
             ],
             [
                 'title' => 'JavaScript Termination Points',
@@ -55,7 +57,8 @@ class LecturesSeeder extends Seeder
                 'type'  => 'Quiz',
                 'slug'  => 'js-termination-points-quiz',
                 'body' => $faker->text(500),
-                'completion_time' => 300
+                'completion_time' => 300,
+                'quiz_required_score' => 85
             ],
             [
                 'title' => 'CSS Selectors',
@@ -69,7 +72,8 @@ class LecturesSeeder extends Seeder
                 'type'  => 'Quiz',
                 'slug'  => 'css-selectors-quiz',
                 'body' => $faker->text(500),
-                'completion_time' => 300
+                'completion_time' => 300,
+                'quiz_required_score' => 85
             ],
             [
                 'title' => 'Prerequisites',

@@ -41,7 +41,6 @@ class LibraryController extends Controller
         if(!empty($request->input('title')))
         {
             $lectures = Lecture::search($request->input('title'))->get();
-
             $skill = [];
         }
         else if(!empty($request->input('skill')))

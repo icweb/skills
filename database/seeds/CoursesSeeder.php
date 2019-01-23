@@ -18,31 +18,31 @@ class CoursesSeeder extends Seeder
             [
                 'title'             => 'Beginners to PHP',
                 'slug'              => 'beginners-to-php',
-                'recertify_interval'=> random_int(1,1),
+                'recertify_interval'=> 365,
                 'color'             => '#304FFE'
             ],
             [
                 'title'             => 'Beginners to HTML',
                 'slug'              => 'beginners-to-html',
-                'recertify_interval'=> random_int(1,1),
+                'recertify_interval'=> 365,
                 'color'             => '#6200EA'
             ],
             [
                 'title'             => 'Beginners to JavaScript',
                 'slug'              => 'beginners-to-javascript',
-                'recertify_interval'=> random_int(1,1),
+                'recertify_interval'=> 365,
                 'color'             => '#00BCD4'
             ],
             [
                 'title'             => 'Beginners to CSS',
                 'slug'              => 'beginners-to-css',
-                'recertify_interval'=> random_int(1,1),
+                'recertify_interval'=> 365,
                 'color'             => '#4CAF50'
             ],
             [
                 'title'             => 'Employee Onboarding',
                 'slug'              => 'employee-onboarding',
-                'recertify_interval'=> random_int(1,1),
+                'recertify_interval'=> 365,
                 'color'             => '#C0CA33'
             ]
         ];

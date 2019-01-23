@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -31,5 +30,20 @@ class User extends Authenticatable
     public function assignedCourses()
     {
         return $this->hasMany(CourseUser::class, 'user_id');
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(LectureFavorite::class, 'user_id', 'id');
+    }
+
+    public function assignedLessons()
+    {
+        return $this->hasMany(LessonUser::class, 'user_id');
+    }
+
+    public function assignedLectures()
+    {
+        return $this->hasMany(LectureUser::class, 'user_id');
     }
 }

@@ -4,10 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\EloquentSortable\Sortable;
+use Spatie\EloquentSortable\SortableTrait;
 
-class CourseLesson extends Model
+class CourseLesson extends Model implements Sortable
 {
-    use SoftDeletes;
+    use SoftDeletes, SortableTrait;
 
     protected $table = 'course_lesson';
 
@@ -23,6 +25,11 @@ class CourseLesson extends Model
         'created_at',
         'updated_at',
         'deleted_at',
+    ];
+
+    public $sortable = [
+        'order_column_name' => 'position',
+        'sort_when_creating' => true,
     ];
 
     public function __construct(array $attributes = [])

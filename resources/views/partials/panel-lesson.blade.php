@@ -6,7 +6,7 @@
     </div>
     <div>
         <table class="table no-mb">
-            <tbody>
+            <tbody class="">
             @foreach($lesson->assignedLectures()->orderBy('position', 'asc')->get() as $lecture)
                 <tr>
                     <td style="width:50px;">

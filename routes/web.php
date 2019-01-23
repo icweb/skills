@@ -34,6 +34,11 @@ Route::get('/courses/create', 'CourseController@create')->name('courses.create')
 Route::get('/courses/{course}', 'CourseController@show')->name('courses.show');
 Route::get('/courses/{course}/edit', 'CourseController@edit')->name('courses.edit');
 Route::post('/courses/{course}/update', 'CourseController@update')->name('courses.update');
+Route::post('/courses/{course}/delete', 'CourseController@destroy')->name('courses.delete');
+Route::get('/courses/{course}/completed', 'CourseController@completed')->name('courses.completed');
+Route::get('/courses/{course}/manage', 'CourseController@manage')->name('courses.manage');
+Route::post('/courses/{course}/assign', 'CourseController@assign')->name('courses.assign');
+Route::post('/courses/{course}/assign/{assign_id}', 'CourseController@assignUpdate')->name('courses.assign.update');
 
 // Lessons CRUD
 Route::get('/courses/{course}/lessons/create', 'LessonController@create')->name('lessons.create');
@@ -44,6 +49,7 @@ Route::get('/courses/{course}/lessons/{lesson}/edit', 'LessonController@edit')->
 Route::post('/courses/{course}/lessons/{lesson}/update', 'LessonController@update')->name('lessons.update');
 
 // Lectures CRUD
+Route::post('/lectures/{lecture}/download', 'LectureController@download')->name('lectures.download');
 Route::get('/courses/{course}/lessons/{lesson}/lectures/create', 'LectureController@create')->name('lectures.create');
 Route::post('/courses/{course}/lessons/{lesson}/lectures/insert', 'LectureController@store')->name('lectures.store');
 Route::get('/courses/{course}/lessons/{lesson}/lectures/{lecture}', 'LectureController@show')->name('lectures.show');
@@ -57,5 +63,9 @@ Route::post('/courses/{course}/lessons/{lesson}/lectures/{lecture}/questions/ins
 Route::post('/courses/{course}/lessons/{lesson}/lectures/{lecture}/questions/{question}/answers/insert', 'AnswerController@store')->name('answers.store');
 
 // Favorites CRUD
+Route::get('/favorites', 'FavoriteController@index')->name('favorites.index');
 Route::post('/courses/{course}/lessons/{lesson}/lectures/{lecture}/favorites', 'FavoriteController@store')->name('favorites.store');
 Route::post('/lectures/{lecture}/favorites', 'FavoriteController@storeWithoutCourse')->name('favorites.store-wo-course');
+
+// Users CRUD
+Route::get('/users/{user}/courses/{course}/certificate', 'CourseController@certificate')->name('courses.certificate');

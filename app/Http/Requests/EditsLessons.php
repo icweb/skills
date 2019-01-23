@@ -24,8 +24,9 @@ class EditsLessons extends FormRequest
     public function rules()
     {
         return [
-            'title'                 => ['required', 'string'],
-            'slug'                  => ['required', 'unique:lessons,slug,' . $this->route('lesson')->id]
+            'order' => ['nullable'],
+            'title' => ['required', 'string'],
+            'slug'  => ['required', 'unique:lessons,slug,' . $this->route('lesson')->id]
         ];
     }
 }

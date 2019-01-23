@@ -23,4 +23,9 @@ class LectureFavorite extends Model
         'updated_at',
         'deleted_at',
     ];
+
+    public function lecture()
+    {
+        return $this->belongsTo(Lecture::class);
+    }
 }

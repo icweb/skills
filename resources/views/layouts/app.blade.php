@@ -10,7 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    {{--<script src="{{ asset('js/app.js') }}" defer></script>--}}
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -19,11 +19,27 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.3/css/bootstrap-select.min.css">
+    <link href="{{ asset('/vendor/colorpicker/css/bootstrap-colorpicker.min.css') }}" rel="stylesheet">
+
+
 
     <style type="text/css">
         ul {
             margin-bottom: 0 !important;
+        }
+
+        .favorites-success-badge {
+            width: 30px;
+            height: 50px;
+            padding: 10px 3px 3px 3px;
+            position: absolute;
+            right: 15px;
+            text-align: center;
+            color: #ffffff;
+            background-color: #FFD600;
         }
 
         .course-success-badge {
@@ -53,6 +69,10 @@
 
         .mt-10 {
             margin-top: 10px;
+        }
+
+        .mt-20 {
+            margin-top: 20px;
         }
 
         .mt-40 {
@@ -101,6 +121,22 @@
             max-height: 270px;
         }
 
+        .favorites-card {
+            margin-bottom: 30px;
+            height: 130px;
+            max-height: 300px;
+        }
+
+        .favorites-card-title {
+            height:50px;
+            padding-right: 20px;
+        }
+
+        .favorites-card-description {
+            height: 30px;
+            overflow: hidden;
+        }
+
         .course-card {
             margin-bottom: 30px;
             height: 300px;
@@ -109,6 +145,7 @@
 
         .course-card-title {
             height:40px;
+            padding-right: 20px;
         }
 
         .course-card-description {
@@ -173,6 +210,13 @@
             color: #F9A825;
         }
 
+        .btn-su
+
+        .btn-yellow {
+            background-color: #FFD600;
+            color: #ffffff;
+        }
+
         .btn-warning {
             background-color: #F9A825;
             color: #ffffff;
@@ -186,6 +230,59 @@
         .text-black
         {
             color: #000000 !important;
+        }
+
+        body.dragging, body.dragging * {
+            cursor: move !important;
+        }
+
+        .dragged {
+            position: absolute;
+            opacity: 0.5;
+            z-index: 2000;
+        }
+
+        ol.sortList li.placeholder {
+            position: relative;
+            /** More li styles **/
+        }
+        ol.sortList li.placeholder:before {
+            position: absolute;
+            /** Define arrowhead **/
+        }
+
+        .sortable {
+            list-style: none;
+        }
+
+        .select-cursor {
+            cursor: move;
+        }
+
+        .articleBodyHtml p{
+            margin-bottom: 0;
+        }
+
+        body
+        {
+            background-color: #ebebeb !important;
+            color: #424c54 !important;
+            font-family:Nunito, sans-serif !important;
+        }
+
+        .card
+        {
+            background-color: #fafafa;
+            border: 0 solid rgba(0,0,0,.125);
+            border-radius: .35rem !important;
+            -webkit-box-shadow: 0 2px 3px rgba(0,0,0,.16);
+            box-shadow: 0 2px 3px rgba(0,0,0,.16);
+            margin-bottom: 20px;
+        }
+
+        .card-header
+        {
+            font-weight: bold;
         }
     </style>
 
@@ -208,6 +305,7 @@
                             <li class="nav-item"><a class="nav-link" href="{{ route('courses.index') }}">Courses</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ route('skills.index', auth()->user()) }}">Skills</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ route('library.index') }}">Library</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('favorites.index') }}">Favorites</a></li>
                         @endauth
                     </ul>
 
@@ -251,8 +349,21 @@
             @yield('content')
         </main>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js" integrity="sha256-oSgtFCCmHWRPQ/JmR4OoZ3Xke1Pw4v50uh6pLcu+fIc=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script src="{{ secure_asset('/vendor/sortable/sortable.js') }}"></script>
+    <script src="{{ secure_asset('/vendor/colorpicker/js/bootstrap-colorpicker.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.3/js/bootstrap-select.min.js"></script>
+
+    <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey={{ env('TINYMCE_API_KEY') }}"></script>
+
+
     <script type="text/javascript">
 
         var App = {
@@ -262,6 +373,22 @@
                 return text.toString().toLowerCase()
                     .replace(/&/g, '-and-')         // Replace & with 'and'
                     .replace(/[\s\W-]+/g, '-')      // Replace spaces, non-word characters and dashes with a single dash (-)
+            },
+
+            charactersLeft: function(field, limit, canvas){
+
+                $(canvas).text(limit + ' characters');
+
+                $(field).keyup(function(){
+                    var value = limit - $(this).val().length;
+                    var label = value === 1 ? '1 character' : (value + ' characters');
+                    $(canvas).text(label);
+                });
+
+                var value2 = limit - $(field).val().length;
+                var label2 = value2 === 1 ? '1 character' : (value2 + ' characters');
+                $(canvas).text(label2);
+
             },
 
             created: function(){

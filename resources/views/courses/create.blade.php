@@ -32,7 +32,7 @@
                             <div class="form-group col-sm-6 col-md-4">
                                 <em class="fa fa-question-circle text-primary" data-toggle="tooltip" data-placement="top" title="The color that will be used as the background and accent color for this course"></em>
                                 <label for="courseColor">Color <small class="small text-danger">*</small></label>
-                                <input type="color" class="form-control" name="color" id="courseColor" value="{{ old('color', '#3991CF') }}" required autocomplete="off">
+                                <input type="text" class="form-control" name="color" id="courseColor" value="{{ old('color', '#3991CF') }}" required autocomplete="off">
                             </div>
                             <div class="form-group col-sm-6 col-md-4">
                                 <em class="fa fa-question-circle text-primary" data-toggle="tooltip" data-placement="top" title="The interval (in days) in which a user is required to complete this course again"></em>
@@ -40,14 +40,20 @@
                                 <input type="number" class="form-control" name="recertify_interval" id="courseRecertifyInterval" value="{{ old('recertify_interval') }}" required autocomplete="off">
                             </div>
                             <div class="form-group col-sm-12">
+                                <span class="pull-right small"><span id="sd-count"></span> left</span>
                                 <em class="fa fa-question-circle text-primary" data-toggle="tooltip" data-placement="top" title="A short description under 250 characters that will be displayed on the course preview"></em>
                                 <label for="courseShortDescription">Short Description <small class="small text-danger">*</small></label>
-                                <textarea type="text" class="form-control" name="short_description" id="courseShortDescription" cols="30" rows="3" required>{{ old('short_description') }}</textarea>
+                                <textarea type="text" class="form-control" name="short_description" id="courseShortDescription" cols="30" maxlength="250" rows="3" required>{{ old('short_description') }}</textarea>
                             </div>
                             <div class="form-group col-sm-12">
                                 <em class="fa fa-question-circle text-primary" data-toggle="tooltip" data-placement="top" title="A long description that will be displayed on under the About This Course section"></em>
                                 <label for="courseLongDescription">Long Description <small class="small text-danger">*</small></label>
-                                <textarea type="text" class="form-control" name="long_description" id="courseLongDescription" cols="30" rows="10" required>{{ old('long_description') }}</textarea>
+                                <textarea type="text" class="form-control" name="long_description" id="courseLongDescription" cols="30" rows="10" required maxlength="5000">{{ old('long_description') }}</textarea>
+                            </div>
+                            <div class="form-group col-sm-12">
+                                <em class="fa fa-question-circle text-primary" data-toggle="tooltip" data-placement="top" title="Check this box to have demo data lessons and lectures added to this course"></em>
+                                <input type="checkbox" name="demo-data" value="true" id="courseCreateDemoData">
+                                <label for="courseCreateDemoData">Create Demo Data?</label>
                             </div>
                             <div class="text-right col-sm-12">
                                 <a href="{{ route('courses.index') }}" class="btn btn-default btn-lg">Cancel</a>
@@ -85,6 +91,21 @@
                     $('[name=slug]').val(slugify);
 
                 });
+
+                tinymce.init({
+                    selector: '[name=long_description]',
+                    menubar: false,
+                    plugins: [
+                        'advlist autolink lists link print preview textcolor',
+                        'searchreplace visualblocks code fullscreen',
+                        'table contextmenu paste code help wordcount'
+                    ],
+                    toolbar: 'undo redo |  formatselect | bold italic  | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link | removeformat',
+                });
+
+                $('[name=color]').colorpicker();
+
+                App.charactersLeft('[name=short_description]', 250, '#sd-count');
 
             }
 

@@ -50,8 +50,8 @@ class LessonController extends Controller
         if($request->input('creation_type') === 'new')
         {
             $lesson = Lesson::create([
-                'title' => $request->input('title'),
-                'slug'  => $request->input('slug'),
+                'title'     => $request->input('title'),
+                'slug'      => $request->input('slug')
             ]);
         }
         else
@@ -59,7 +59,9 @@ class LessonController extends Controller
             $lesson = Lesson::findOrFail($request->input('existing_lesson'));
         }
 
-        $course->assignedLessons()->create(['lesson_id' => $lesson->id]);
+        $course->assignedLessons()->create([
+            'lesson_id' => $lesson->id
+        ]);
 
         return redirect()->away(route('courses.show', $course) . '#editLessons');
     }
@@ -108,6 +110,14 @@ class LessonController extends Controller
             'title' => $request->input('title'),
             'slug'  => $request->input('slug'),
         ]);
+
+        if(!empty($request->input('order')))
+        {
+            foreach(json_decode($request->input('order'))[0] as $key => $val)
+            {
+                $lesson->assignedLectures()->where('lecture_id', $val->id)->update(['position' => $key + 1]);
+            }
+        }
 
         return redirect()->away(route('courses.show', $course) . '#editLessons');
     }

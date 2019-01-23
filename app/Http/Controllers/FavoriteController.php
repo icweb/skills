@@ -10,6 +10,13 @@ use Illuminate\Http\Request;
 
 class FavoriteController extends Controller
 {
+    public function index()
+    {
+        $favorites = auth()->user()->favorites;
+
+        return view('favorites.index', ['favorites' => $favorites]);
+    }
+
     public function store(Request $request, Course $course, Lesson $lesson, Lecture $lecture)
     {
         $existing = LectureFavorite::where([

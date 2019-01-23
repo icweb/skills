@@ -12,6 +12,7 @@ class Lesson extends Model
     protected $dateFormat = 'Y-m-d H:i:s';
 
     protected $fillable = [
+        'demo',
         'title',
         'slug',
     ];
@@ -38,16 +39,16 @@ class Lesson extends Model
         return 'slug';
     }
 
-    public function isCompleted($user)
+    public function isCompleted($user = false)
     {
-        if(!$user) $user = auth()->user()->id;
+        $user = $user ? $user : auth()->user;
 
         $lectures = $this->assignedLectures()->get();
         $final_status = true;
 
         foreach($lectures as $lecture)
         {
-            $is_completed = LectureUser::where(['lecture_id' => $lecture->id, 'user_id' => $user])
+            $is_completed = $user->assignedLectures()->where(['lecture_id' => $lecture->id])
                 ->whereNotNull('completed_at')
                 ->get()
                 ->count();

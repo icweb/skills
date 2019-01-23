@@ -53,4 +53,9 @@ class Question extends Model
     {
         return $this->belongsTo(Lecture::class);
     }
+
+    public function answerUser()
+    {
+        return $this->hasOne(AnswerUser::class, 'question_id', 'id');
+    }
 }

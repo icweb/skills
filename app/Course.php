@@ -61,14 +61,16 @@ class Course extends Model
         ];
     }
 
-    public function isCompleted()
+    public function isCompleted($user = false)
     {
+        $user = $user ? $user : auth()->user();
+
         $lessons = $this->assignedLessons()->get();
         $final_status = true;
 
         foreach($lessons as $lesson)
         {
-            if(!$lesson->lesson->isCompleted(false))
+            if(!$lesson->lesson->isCompleted($user))
             {
                 $final_status = false;
                 break;
@@ -130,8 +132,6 @@ class Course extends Model
         {
             return $total_seconds . ($total_seconds === 1 ? ' second' : ' seconds');
         }
-
-
     }
 
     public function skills($limit = 10000)

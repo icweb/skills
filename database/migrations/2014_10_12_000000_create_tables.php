@@ -50,6 +50,7 @@ class CreateTables extends Migration
 
         Schema::create('lessons', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('demo')->default(0);
             $table->unsignedInteger('author_id');
             $table->string('title');
             $table->string('slug')->unique();
@@ -59,6 +60,7 @@ class CreateTables extends Migration
 
         Schema::create('lectures', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('demo')->default(0);
             $table->unsignedInteger('author_id');
             $table->unsignedInteger('show_in_search')->default(1);
             $table->unsignedInteger('show_certified_users')->default(1);
@@ -67,6 +69,8 @@ class CreateTables extends Migration
             $table->unsignedInteger('completion_time')->default(0);
             $table->unsignedInteger('quiz_show_answers')->default(1);
             $table->unsignedInteger('quiz_show_score')->default(1);
+            $table->unsignedInteger('quiz_pass_to_complete')->default(1);
+            $table->unsignedInteger('quiz_required_score')->nullable();
             $table->enum('type', ['Quiz', 'Article', 'Download', 'Video'])->default('Article');
             $table->string('title');
             $table->string('slug')->unique();
@@ -116,6 +120,7 @@ class CreateTables extends Migration
             $table->unsignedInteger('author_id');
             $table->unsignedInteger('course_id');
             $table->unsignedInteger('user_id');
+            $table->timestamp('due_at')->nullable();
             $table->timestamp('recertify_at')->nullable();
             $table->timestamp('completed_at')->nullable();
             $table->timestamps();
@@ -185,9 +190,11 @@ class CreateTables extends Migration
             $table->increments('id');
             $table->unsignedInteger('lecture_id');
             $table->unsignedInteger('user_id');
+            $table->unsignedInteger('available');
             $table->unsignedInteger('answered');
             $table->unsignedInteger('correct');
             $table->unsignedInteger('incorrect');
+            $table->string('status')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -224,30 +224,30 @@ class AssignItemsSeeder extends Seeder
             \App\LectureSkill::create($record);
         }
 
-        foreach(\App\User::all() as $record)
-        {
-//            for($x = 5; $x < 6; $x++)
+//        foreach(\App\User::all() as $record)
+//        {
+////            for($x = 5; $x < 6; $x++)
+////            {
+////                \App\CourseUser::create([
+////                    'course_id' => $x,
+////                    'user_id' => $record->id
+////                ]);
+////            }
+//
+//            foreach(\App\Course::all() as $course)
 //            {
-//                \App\CourseUser::create([
-//                    'course_id' => $x,
-//                    'user_id' => $record->id
-//                ]);
+//                $course->assignedUsers()->create(['user_id' => $record->id, 'completed_at' => null, 'due_at' => strtotime('+ 30 Days')]);
+//
+////                foreach($course->assignedLessons as $lesson)
+////                {
+////                    $lesson->lesson->assignedUsers()->create(['user_id' => $record->id, 'completed_at' => null]);
+////
+////                    foreach($lesson->lesson->assignedLectures as $lecture)
+////                    {
+////                        $lecture->lecture->assignedUsers()->create(['user_id' => $record->id, 'completed_at' => null]);
+////                    }
+////                }
 //            }
-
-            foreach(\App\Course::all() as $course)
-            {
-                $course->assignedUsers()->create(['user_id' => $record->id, 'completed_at' => time()]);
-
-                foreach($course->assignedLessons as $lesson)
-                {
-                    $lesson->lesson->assignedUsers()->create(['user_id' => $record->id, 'completed_at' => time()]);
-
-                    foreach($lesson->lesson->assignedLectures as $lecture)
-                    {
-                        $lecture->lecture->assignedUsers()->create(['user_id' => $record->id, 'completed_at' => time()]);
-                    }
-                }
-            }
-        }
+//        }
     }
 }

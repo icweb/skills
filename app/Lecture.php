@@ -14,6 +14,7 @@ class Lecture extends Model
     protected $dateFormat = 'Y-m-d H:i:s';
 
     protected $fillable = [
+        'demo',
         'type',
         'title',
         'slug',
@@ -26,6 +27,8 @@ class Lecture extends Model
         'show_completion_history',
         'quiz_show_answers',
         'quiz_show_score',
+        'quiz_pass_to_complete',
+        'quiz_required_score',
     ];
 
     protected $dates = [
@@ -68,7 +71,7 @@ class Lecture extends Model
 
     public function scopeVisible($query)
     {
-        return $query->where('show_in_search', 1);
+        return $query->where(['show_in_search' => 1, 'demo' => 0]);
     }
 
     public function isCompleted()
@@ -121,6 +124,102 @@ class Lecture extends Model
         }
     }
 
+    public function markAsCompleted($course, $user = false, $organic = true)
+    {
+        $user = $user ? $user : auth()->user();
+
+        // Update the database to mark this
+        // lecture as completed
+        $this->assignedUsers()
+            ->create([
+                'completed_at'  => time(),
+                'user_id'       => $user->id
+            ]);
+
+        // Give the user the skills they have earned
+        foreach($this->assignedSkills as $skill)
+        {
+            SkillUser::create([
+                'user_id'       => $user->id,
+                'skill_id'      => $skill->skill->id,
+                'time_earned'   => $this->completion_time
+            ]);
+        }
+
+        // Find out if this will complete the entire course
+        if($course->isCompleted($user) && $organic)
+        {
+            // Find out if the user has completed this course before
+            $existing_record = $course->assignedUsers()
+                ->where(['user_id' => $user->id])
+                ->orderBy('id', 'desc')
+                ->limit(1)
+                ->get();
+
+            if(count($existing_record))
+            {
+                if(isset($existing_record[0]->completed_at))
+                {
+                    // This is a recertification so delete the old record
+                    $existing_record[0]->delete();
+
+                    $course->assignedUsers()
+                        ->create([
+                            'completed_at'  => time(),
+                            'user_id'       => $user->id,
+                            'recertify_at'  => strtotime(' + ' . $course->recertify_interval . ' Days')
+                        ]);
+
+                    if($course->recertify_interval)
+                    {
+                        $course->assignedUsers()
+                            ->create([
+                                'user_id' => $user->id,
+                                'due_at'  => strtotime(' + ' . $course->recertify_interval . ' Days')
+                            ]);
+                    }
+                }
+                else
+                {
+                    // This course was assigned to the user
+                    $existing_record[0]->update([
+                        'completed_at'  => time(),
+                        'recertify_at'  => strtotime(' + ' . $course->recertify_interval . ' Days')
+                    ]);
+
+                    if($course->recertify_interval)
+                    {
+                        $course->assignedUsers()
+                            ->create([
+                                'user_id' => $user->id,
+                                'due_at'  => strtotime(' + ' . $course->recertify_interval . ' Days')
+                            ]);
+                    }
+                }
+            }
+            else
+            {
+                // The user wasn't assigned to this course but
+                // we'll let them complete it
+                $course->assignedUsers()
+                    ->create([
+                        'completed_at'  => time(),
+                        'user_id'       => $user->id,
+                        'recertify_at'  => strtotime(' + ' . $course->recertify_interval . ' Days')
+                    ]);
+
+                if($course->recertify_interval)
+                {
+                    $course->assignedUsers()
+                        ->create([
+                            'user_id' => $user->id,
+                            'due_at'  => strtotime(' + ' . $course->recertify_interval . ' Days')
+                        ]);
+                }
+            }
+        }
+    }
+
     public function hasSkill($skill_id)
     {
         return $this->assignedSkills()->where('skill_id', $skill_id)->get()->count() > 0;
@@ -154,5 +253,10 @@ class Lecture extends Model
     public function assignedSkills()
     {
         return $this->hasMany(LectureSkill::class, 'lecture_id');
+    }
+
+    public function quizScore()
+    {
+        return $this->hasOne(QuizScore::class, 'lecture_id', 'id');
     }
 }

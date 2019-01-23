@@ -37,6 +37,8 @@ class CreatesLectures extends FormRequest
             'show_completion_history'   => ['required', 'boolean'],
             'quiz_show_answers'         => ['required_if:type,Quiz', 'boolean'],
             'quiz_show_score'           => ['required_if:type,Quiz', 'boolean'],
+            'quiz_pass_to_complete'     => ['required_if:type,Quiz', 'boolean'],
+            'quiz_required_score'       => ['required_if:type,Quiz', 'integer'],
         ];
     }
 }

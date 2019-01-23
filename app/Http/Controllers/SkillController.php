@@ -23,6 +23,7 @@ class SkillController extends Controller
         $my_skills = SkillUser::selectRaw('COUNT(user_id) as skill_count, skill_id, SUM(time_earned) as time_earned')
             ->with('skill')
             ->where(['user_id' => auth()->user()->id])
+            ->orderBy('time_earned', 'DESC')
             ->groupBy('skill_id')
             ->get();
 
@@ -40,10 +41,19 @@ class SkillController extends Controller
             ->groupBy('course_id')
             ->get();
 
+        $certificates = $user
+            ->assignedCourses()
+            ->selectRaw('MAX(completed_at) as completed_at, MAX(course_id) as course_id')
+            ->with(['course'])
+            ->whereNotNull('completed_at')
+            ->groupBy('course_id')
+            ->get();
+
         return view('skills.index', [
             'user'                      => $user,
             'skills'                    => $skills,
             'mine'                      => $my_skills,
+            'certificates'              => $certificates,
             'upcoming_receritifcations' => $upcoming_receritifcations,
             'late_receritifcations'     => $late_receritifcations,
         ]);

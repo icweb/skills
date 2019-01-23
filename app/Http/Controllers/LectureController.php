@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Answer;
+use App\AnswerUser;
 use App\Http\Requests\EditsLectures;
 use App\LectureLesson;
 use App\LectureUser;
@@ -10,8 +11,10 @@ use App\Lesson;
 use App\Course;
 use App\Lecture;
 use App\Question;
+use App\QuizScore;
 use App\Skill;
 use App\SkillUser;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreatesLectures;
 
@@ -59,6 +62,7 @@ class LectureController extends Controller
                 'show_in_search'            => $request->input('show_in_search'),
                 'show_certified_users'      => $request->input('show_certified_users'),
                 'show_completion_history'   => $request->input('show_completion_history'),
+                'body'                      => $request->input('type') === 'Download' ? 'Download this file to complete this lecture.' : ''
             ]);
         }
         else
@@ -101,24 +105,21 @@ class LectureController extends Controller
             ->groupBy('user_id')
             ->get();
 
-//        $lesson_lecture = $lesson->assignedLectures()->where(['lecture_id' => $lecture->id])->first();
-//
-//        $next_position = LectureLesson::where('position', '<', $lesson_lecture->position)->max('position');
-//        $previous_position = LectureLesson::where('position', '>', $lesson_lecture->position)->min('position');
-//
-//        $next = LectureLesson::where(['position' => $next_position, 'lesson_id' => $lesson_lecture->lesson_id])->first();
-//        $previous = LectureLesson::where(['position' => $previous_position, 'lesson_id' => $lesson_lecture->lesson_id])->first();
-//
-//        dd([
-//            'next'      => $next_position,
-//            'previous'  => $previous_position,
-//        ]);
+        $lecture_lesson = $lesson->assignedLectures()->orderBy('position', 'asc')->get();
+
+        $show_answers = !empty(session('show_answers'));
+        $answers = session('answers');
+        $next = session('next');
 
         return view('lectures.show', [
             'course'            => $course,
             'lesson'            => $lesson,
             'lecture'           => $lecture,
             'certified_users'   => $certified_users,
+            'lecture_lesson'    => $lecture_lesson,
+            'show_answers'      => $show_answers,
+            'answers'           => $answers,
+            'next'              => $next,
             'lecture_user'      => $lecture->assignedUsers()->mine()->orderBy('id', 'desc')->get()
         ]);
     }
@@ -185,8 +186,6 @@ class LectureController extends Controller
             // See if lecture has existing file that should be deleted first
             $lecture->removeFileIfExists();
 
-            // Update the body
-            $update_data['body'] = $request->input('article_body');
 
             // Delete questions and answers
             $question_ids = $lecture->questions()->select('id')->get()->pluck('id')->toArray();
@@ -216,9 +215,6 @@ class LectureController extends Controller
 
             ]);
 
-            // Clear out the body
-            $update_data['body'] = null;
-
             // Delete questions and answers
             $question_ids = $lecture->questions()->select('id')->get()->pluck('id')->toArray();
             Answer::whereIn('question_id', $question_ids)->delete();
@@ -226,6 +222,11 @@ class LectureController extends Controller
         }
         else if($request->input('type') === 'Quiz')
         {
+            $update_data['quiz_show_answers'] = $request->input('quiz_show_answers');
+            $update_data['quiz_show_score'] = $request->input('quiz_show_score');
+            $update_data['quiz_pass_to_complete'] = $request->input('quiz_pass_to_complete');
+            $update_data['quiz_required_score'] = $request->input('quiz_required_score');
+
             if(!empty($request->input('question-titles')))
             {
                 // Loop through questions
@@ -285,9 +286,9 @@ class LectureController extends Controller
             // See if lecture has existing file that should be deleted first
             $lecture->removeFileIfExists();
 
-            // Clear out the body
-            $update_data['body'] = null;
         }
+
+        $update_data['body'] = $request->input('article_body');
 
         $lecture->update($update_data);
 
@@ -326,79 +327,135 @@ class LectureController extends Controller
     /**
      * Mark item as completed
      *
+     * @param  Request  $request
      * @param  \App\Course  $course
      * @param  \App\Lesson  $lesson
      * @param  \App\Lecture  $lecture
      * @return \Illuminate\Http\Response
      */
-    public function complete(Course $course, Lesson $lesson, Lecture $lecture)
+    public function complete(Request $request, Course $course, Lesson $lesson, Lecture $lecture)
     {
-        $lecture->assignedUsers()
-            ->create([
-                'completed_at'  => time(),
-                'user_id'       => auth()->user()->id
-            ]);
+        $showAnswers = false;
+        $advanceToNext = true;
+        $error = '';
 
-        foreach($lecture->assignedSkills as $skill)
+        if($lecture->type === 'Quiz')
         {
-            SkillUser::create([
-                'user_id'       => auth()->user()->id,
-                'skill_id'      => $skill->skill->id,
-                'time_earned'   => $lecture->completion_time
-            ]);
+            $answersPicked = [];
+            $totalQuestions = $lecture->questions()->count();
+            $correctAnswers = 0;
+            $incorrectAnswers = 0;
+
+            foreach($request->all() as $key => $val)
+            {
+                // See if this input field is a quiz answer
+                if(substr($key, 0, 3) === 'qq_')
+                {
+                    // Get the question ID out of the field name
+                    // and then find the Question
+                    $keyArray = explode('_', $key);
+                    $question = Question::findOrFail($keyArray[1]);
+
+                    // Find the answer they selected
+                    $answer = Answer::findOrFail($val);
+
+                    // Record the answer
+                    $question->answerUser([
+                        'answer_id' => $answer->id,
+                        'user_id'   => auth()->user()->id
+                    ]);
+
+                    // Find out if this was the right answer
+                    if($question->rightAnswer->id === $answer->id)
+                    {
+                        $correctAnswers += 1;
+                    }
+                    else
+                    {
+                        $incorrectAnswers += 1;
+                    }
+
+                    $answersPicked[$question->id] = $answer;
+                }
+            }
+
+            // Find out if the user passed the test
+            // and if they need to pass the test in
+            // order ot mark this lecture as completed
+
+            $requirePass = $lecture->quiz_pass_to_complete;
+            $scoreReceived = round(($correctAnswers/$totalQuestions) * 100, 2);
+
+            if($requirePass && $scoreReceived >= $lecture->quiz_required_score)
+            {
+                // The quiz must be passed in order to mark complete
+                // and the user passed this quiz
+                $lecture->markAsCompleted($course);
+                $scoreStatus = 'Pass';
+                $advanceToNext = !$lecture->quiz_show_answers;
+                $showAnswers = $lecture->quiz_show_answers;
+            }
+            else if($requirePass && $scoreReceived <= $lecture->quiz_required_score)
+            {
+                // The quiz must be passed in order to mark complete
+                // and the user did not passed this quiz
+                $advanceToNext = false;
+                $error = 'You did not pass this quiz.';
+                $scoreStatus = 'Fail';
+            }
+            else if(!$requirePass)
+            {
+                // This quiz does not need to be passed in order
+                // to mark as complete
+                $lecture->markAsCompleted($course);
+                $scoreStatus = 'Pass';
+                $advanceToNext = !$lecture->quiz_show_answers;
+                $showAnswers = $lecture->quiz_show_answers;
+            }
+
+            if(isset($scoreStatus))
+            {
+                // Record the score history
+                $lecture->quizScore()->create([
+                    'available' => $totalQuestions,
+                    'answered'  => $correctAnswers + $incorrectAnswers,
+                    'correct'   => $correctAnswers,
+                    'incorrect' => $incorrectAnswers,
+                    'user_id'   => auth()->user()->id,
+                    'status'    => $scoreStatus
+                ]);
+            }
         }
-
-        if($course->isCompleted())
+        else if($lecture->type === 'Article')
         {
-            // Find out if the user has completed this course before
-            $existing_record = $course->assignedUsers()
-                ->where(['user_id' => auth()->user()->id])
-                ->orderBy('id', 'desc')
-                ->limit(1)
-                ->get();
-
-            if(count($existing_record))
-            {
-                if(isset($existing_record[0]->completed_at))
-                {
-                    // This is a recertification so delete the old record
-                    $existing_record[0]->delete();
-
-                    $course->assignedUsers()
-                        ->create([
-                            'completed_at'  => time(),
-                            'user_id'       => auth()->user()->id,
-                            'recertify_at'  => strtotime(' + ' . $course->recertify_interval . ' Days')
-                        ]);
-                }
-                else
-                {
-                    // This course was assigned to the user
-                    $existing_record[0]->update([
-                        'completed_at'  => time(),
-                        'recertify_at'  => strtotime(' + ' . $course->recertify_interval . ' Days')
-                    ]);
-                }
-            }
-            else
-            {
-                // The user wasn't assigned to this course but
-                // we'll let them complete it
-                $course->assignedUsers()
-                    ->create([
-                        'completed_at'  => time(),
-                        'user_id'       => auth()->user()->id,
-                        'recertify_at'  => strtotime(' + ' . $course->recertify_interval . ' Days')
-                    ]);
-            }
+            $lecture->markAsCompleted($course);
+        }
+        else if($lecture->type === 'Download')
+        {
+            $lecture->markAsCompleted($course);
         }
 
         // Assignment
         $lesson_lecture = $lesson->assignedLectures()->where(['lecture_id' => $lecture->id])->first();
 
-        if(isset($lesson_lecture->next()->next->id))
+        if($course->isCompleted())
+        {
+            return redirect()->route('courses.completed', $course);
+        }
+        if(isset($lesson_lecture->next()->next->id) && $advanceToNext)
         {
             return redirect()->route('lectures.show', [$course, $lesson, $lesson_lecture->next()->next]);
+        }
+        else if(!$advanceToNext)
+        {
+            return redirect()
+                ->route('lectures.show', [$course, $lesson, $lecture])
+                ->withErrors([$error])
+                ->with([
+                    'show_answers' => $showAnswers,
+                    'answers'      => $answersPicked,
+                    'next'         => ''
+                ]);
         }
         else
         {
@@ -413,5 +470,10 @@ class LectureController extends Controller
 //        {
 //            return redirect()->route('courses.show', $course);
 //        }
+    }
+
+    public function download(Request $request, Lecture $lecture)
+    {
+        return response()->download(storage_path('app/' . $lecture->file->path));
     }
 }
